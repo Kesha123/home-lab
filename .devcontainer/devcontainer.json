@@ -1,0 +1,214 @@
+{
+  "name": "home-lab",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".",
+    "args": {
+        "REMOTE_USER": "${localEnv:USER}",
+        "REMOTE_UID": "${localEnv:REMOTE_UID}",
+        "REMOTE_GID": "${localEnv:REMOTE_GID}",
+        "KIND_VERSION": "v0.29.0",
+        "KUBECTL_VERSION": "v1.35",
+        "KUBEVIRT_VERSION": "v1.7.0",
+        "ENV_ARCH": "linux-amd64",
+        "K9S_VERSION": "v0.50.18",
+        "HELM_VERSION": "v4.0.0"
+    }
+  },
+  //
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "postCreateCommand": "bash ./.devcontainer/post-create.sh",
+  //
+  // these two would make working dir path to be same as in local host
+  // this way forming docker mount paths relative to working dir
+  // would be same inside devcontainer and in local host
+  "workspaceFolder": "${localWorkspaceFolder}",
+  "workspaceMount": "source=${localWorkspaceFolder},target=${localWorkspaceFolder},type=bind",
+  //
+  // https://github.com/devcontainers/features
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "username": "${localEnv:USER}",
+      "userUid": "${localEnv:REMOTE_UID}",
+      "userGid": "${localEnv:REMOTE_GID}",
+      "upgradePackages": "false"
+    },
+    "ghcr.io/devcontainers/features/python:1": {},
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+  },
+  //
+  // Configure tool-specific properties.
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      // Set *default* container specific settings.json values on container create.
+      "settings": {
+        "files.watcherExclude": {
+          // do not watch target dir, when qemu is generating files
+          // RAM utilization will crash the pc
+          "**/target/**": true,
+          "**/.git/**": true,
+          "**/*.log": true,
+          "**/node_modules/**": true
+        },
+        "search.exclude": {
+          // similarly do not index target dir
+          "**/target/**": true,
+          "**/.git/**": true
+        },
+        // python related
+        //"python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.defaultInterpreterPath": "${containerWorkspaceFolder}/target/venv/python/bin/python",
+        "python.linting.pylintEnabled": true,
+        "python.linting.enabled": true,
+        "python.linting.pylintArgs": [
+          "--disable=C0114,C0115,C0116"
+        ],
+        "python.testing.pytestEnabled": true,
+        // robotframework related
+        "robotcode.robot.pythonPath": ["${containerWorkspaceFolder}/target/venv/python/bin/python"],
+        "robot.pythonpath": [
+          "${containerWorkspaceFolder}/target/venv/python/lib/python3.11/site-packages"
+        ],
+        // autosaving and formatting
+        "editor.codeActionsOnSave": {
+          //"source.fixAll": "explicit",
+          "source.organizeImports": "explicit"
+        },
+        "editor.formatOnSave": false,
+        "files.autoSave": "afterDelay",
+        // markdown related
+        "markdown.occurrencesHighlight.enabled": true,
+        // yaml related
+        "[yaml]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        // shell related
+        "shellformat.path": "/usr/local/bin/shfmt",
+        // own Bats syntax highlighting
+        "editor.tokenColorCustomizations": {
+          "textMateRules": [
+            {
+              "scope": "keyword.control.bats",
+              "settings": {
+                "foreground": "#9f1fd1",
+                "fontStyle": "italic"
+              }
+            },
+            {
+              "scope": "support.function.bats",
+              "settings": {
+                "foreground": "#d41515",
+                "fontStyle": "italic"
+              }
+            },
+            {
+              "scope": "support.variable.bats",
+              "settings": {
+                "foreground": "#329432",
+                "fontStyle": "italic"
+              }
+            }
+          ]
+        },
+        "terminal.integrated.env.linux": {
+          // various parts of MPP-FE tools need these, just fake them
+          "BUILD_URL": "",
+          "WORKSPACE": "${containerWorkspaceFolder}",
+          "GERRIT_PATCHSET_UPLOADER_EMAIL": "devcontainer@local",
+          "mpp_legal_check_skip_talko_package_creation": "true",
+          "TALKO_USERNAME": "vscode",
+          "TALKO_PASSWORD": "not-relevant",
+          "ARTIFACTORY_FQDN": "repo.cci.nokia.net",
+          "LOCAL_HOST_WORKSPACE": "${localWorkspaceFolder}",
+          "DISPLAY": "${localEnv:DISPLAY:-:0}"
+        }
+      },
+      "extensions": [
+        // Core utilities
+        "streetsidesoftware.code-spell-checker",
+        "emmanuelbeziat.vscode-great-icons",
+        "ryanluker.vscode-coverage-gutters",
+        //
+        // Document editing
+        "gruntfuggly.todo-tree",
+        "meezilla.json",
+        "yzhang.markdown-all-in-one",
+        "shd101wyy.markdown-preview-enhanced",
+        "takumii.markdowntable",
+        "davidanson.vscode-markdownlint",
+        "shardulm94.trailing-spaces",
+        "esbenp.prettier-vscode",
+        //
+        // Git tools
+        "mhutchie.git-graph",
+        "eamodio.gitlens",
+        //
+        // Python - base extension first, then dependencies
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.pylint",
+        "ms-python.autopep8",
+        //
+        // AI assistants
+        "github.copilot",
+        "github.copilot-chat",
+        //
+        // Build and container tools
+        "ms-vscode.makefile-tools",
+        "ms-azuretools.vscode-docker",
+        //
+        // Shell/Bash tools
+        "foxundermoon.shell-format",
+        "timonwong.shellcheck",
+        "jetmartin.bats",
+        "mads-hartmann.bash-ide-vscode",
+        "rogalmic.bash-debug",
+        //
+        // Robot Framework related
+        "d-biehl.robotcode"
+      ]
+    }
+  },
+  //
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [],
+  //
+  "mounts": [
+    // all of these are needed for running KVM from inside
+    "type=bind,source=/etc/resolv.conf,target=/etc/resolv.conf,readonly",
+    // host CA bundle (WSL/Linux) to support corporate TLS interception - uncomment if needed:
+    // "type=bind,source=/etc/ssl/certs/ca-certificates.crt,target=/usr/local/share/ca-certificates/host-ca-certificates.crt,readonly",
+    "type=bind,source=/etc/qemu,target=/etc/qemu,readonly",
+    "type=bind,source=/usr/share/OVMF,target=/usr/share/OVMF,readonly",
+    "type=bind,source=/dev/kvm,target=/dev/kvm",
+    "type=bind,source=/dev/vhost-net,target=/dev/vhost-net",
+    "type=bind,source=/dev/vhost-vsock,target=/dev/vhost-vsock",
+    "type=bind,source=/dev/net/tun,target=/dev/net/tun",
+    "type=bind,source=/run/user/${localEnv:REMOTE_UID}/,target=/run/user/${localEnv:REMOTE_UID}/",
+    "type=bind,source=/var/run/libvirt/libvirt-sock,target=/var/run/libvirt/libvirt-sock",
+    "type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock",
+    // X11 socket for DISPLAY forwarding
+    "type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix"
+  ],
+  "runArgs": [
+    // again because of KVM
+    "--network=host",
+    "--privileged",
+    // force home env
+    "--env",
+    "HOME=${localEnv:HOME}",
+    // DISPLAY for X11 forwarding
+    "--env",
+    "DISPLAY=${localEnv:DISPLAY:-:0}"
+  ],
+  //
+  "remoteEnv": {
+    "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
+    "DISPLAY": "${localEnv:DISPLAY:-:0}"
+  },
+  //
+  // Use root as base image tools are sensitive for that.
+  "remoteUser": "${localEnv:USER}"
+}
