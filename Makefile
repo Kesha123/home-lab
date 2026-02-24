@@ -8,3 +8,4 @@ BUILD_TAG			:= $(BUILD_TAG_MAJOR).$(BUILD_TAG_MINOR).$(BUILD_TAG_PATCH)
 CONTAINER_REGISTRY	:= ghcr.io/kesha123/home-lab
 
 include Makefile-docker.mk
+include Makefile-kind.mk

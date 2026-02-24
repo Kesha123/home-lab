@@ -1,5 +1,7 @@
 FROM python:3.12-alpine AS builder
 
+ARG KIND_VERSION=v0.29.0
+
 WORKDIR /workspace
 
 ENV SSL_CERT_DIR=/etc/ssl/certs
@@ -14,6 +16,7 @@ RUN apk add --no-cache \
       build-base \
       cargo \
       rust \
+      curl \
     && update-ca-certificates --fresh
 
 RUN python -m venv /opt/venv \
@@ -24,6 +27,9 @@ RUN python -m venv /opt/venv \
       -r /tmp/ansible-collections.yaml \
       -p /usr/share/ansible/collections
 
+RUN curl -Lo ./kind https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-linux-amd64 && \
+    mv ./kind /usr/local/bin/kind
+
 FROM python:3.12-alpine
 
 WORKDIR /workspace
@@ -31,7 +37,7 @@ WORKDIR /workspace
 ENV SSL_CERT_DIR=/etc/ssl/certs
 ENV PATH="/opt/venv/bin:${PATH}"
 
-RUN apk add --no-cache ca-certificates libgcc libstdc++ \
+RUN apk add --no-cache ca-certificates libgcc libstdc++ docker \
     && update-ca-certificates --fresh \
     && addgroup -g 1000 -S ansible \
     && adduser -u 1000 -S -G ansible ansible \
@@ -39,6 +45,7 @@ RUN apk add --no-cache ca-certificates libgcc libstdc++ \
 
 COPY --from=builder /opt/venv /opt/venv
 COPY --from=builder /usr/share/ansible/collections /usr/share/ansible/collections
+COPY --from=builder --chown=ansible:ansible --chmod=755 /usr/local/bin/kind /usr/local/bin/kind
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
 RUN chmod +x /usr/local/bin/entrypoint.sh
