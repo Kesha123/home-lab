@@ -1,0 +1,10 @@
+rpi_os:
+  base_url: https://downloads.raspberrypi.com
+  release_date: 2025-12-04
+  variant: lite
+  arch: arm64
+  os_name: raspios
+  os_version: trixie
+  file_extension: img.xz
+  filename: "{{ rpi_os.os_name }}-{{ rpi_os.os_version }}-{{ rpi_os.arch }}-{{ rpi_os.variant }}.{{ rpi_os.file_extension }}"
+  download_url: "{{ rpi_os.base_url }}/{{ rpi_os.os_name }}_{{ rpi_os.variant }}_{{ rpi_os.arch }}/images/{{ rpi_os.os_name }}_{{ rpi_os.variant }}_{{ rpi_os.arch }}-{{ rpi_os.release_date }}/{{ rpi_os.release_date }}-{{ rpi_os.filename }}"

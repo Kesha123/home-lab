@@ -1,0 +1,16 @@
+version: 2
+ethernets:
+  {{ cloud_init.network_interface }}:
+    dhcp4: false
+    addresses:
+{% for address in cloud_init.ip_addresses %}
+      - {{ address }}
+{% endfor %}
+    routes:
+      - to: default
+        via: {{ cloud_init.gateway }}
+    nameservers:
+      addresses:
+{% for nameserver in cloud_init.nameservers %}
+        - {{ nameserver }}
+{% endfor %}

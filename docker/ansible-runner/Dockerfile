@@ -37,11 +37,13 @@ WORKDIR /workspace
 ENV SSL_CERT_DIR=/etc/ssl/certs
 ENV PATH="/opt/venv/bin:${PATH}"
 
-RUN apk add --no-cache ca-certificates libgcc libstdc++ docker \
+RUN apk add --no-cache ca-certificates libgcc libstdc++ docker sudo mtools util-linux \
     && update-ca-certificates --fresh \
     && addgroup -g 1000 -S ansible \
     && adduser -u 1000 -S -G ansible ansible \
-    && chown -R ansible:ansible /workspace
+    && chown -R ansible:ansible /workspace \
+    && echo 'ansible ALL=(ALL) NOPASSWD: /bin/mount, /bin/umount' > /etc/sudoers.d/ansible-mount \
+    && chmod 0440 /etc/sudoers.d/ansible-mount
 
 COPY --from=builder /opt/venv /opt/venv
 COPY --from=builder /usr/share/ansible/collections /usr/share/ansible/collections
