@@ -1,4 +1,4 @@
-DOCKER_BINARY := docker
+DOCKER_BINARY := /tmp/docker
 
 ensure-docker: $(DOCKER_BINARY)
 
