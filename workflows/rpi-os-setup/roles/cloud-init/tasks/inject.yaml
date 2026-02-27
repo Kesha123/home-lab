@@ -1,0 +1,11 @@
+---
+- name: Copy files into the FAT32 boot partition (Partition 1)
+  ansible.builtin.shell: |
+    START_SECTOR=$(sfdisk -l /workspace/{{ rpi_os.image }} | grep "W95 FAT32" | awk '{print $2}')
+    OFFSET_BYTES=$((START_SECTOR * 512))
+    export MTOOLS_SKIP_CHECK=1
+    mcopy -o -i /workspace/{{ rpi_os.image }}@@${OFFSET_BYTES} {{ cloud_init.work_dir }}/user-data ::user-data
+    mcopy -o -i /workspace/{{ rpi_os.image }}@@${OFFSET_BYTES} {{ cloud_init.work_dir }}/meta-data ::meta-data
+    mcopy -o -i /workspace/{{ rpi_os.image }}@@${OFFSET_BYTES} {{ cloud_init.work_dir }}/network-config ::network-config
+  args:
+    executable: /bin/sh

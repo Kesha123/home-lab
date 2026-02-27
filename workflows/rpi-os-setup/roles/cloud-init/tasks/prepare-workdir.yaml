@@ -1,0 +1,6 @@
+---
+- name: Prepare working directory for cloud-init files
+  ansible.builtin.file:
+    path: "{{ cloud_init.work_dir }}"
+    state: directory
+    mode: '0755'

@@ -1,0 +1,26 @@
+---
+- name: Read scripts into variables
+  ansible.builtin.set_fact:
+    disk_setup_content: "{{ lookup('file', '/playbooks/scripts/disk-setup.sh') }}"
+    firewall_setup_content: "{{ lookup('file', '/playbooks/scripts/firewall-setup.sh') }}"
+
+- name: Generate user-data from template
+  ansible.builtin.template:
+    src: /playbooks/templates/user-data.j2
+    dest: "{{ cloud_init.work_dir }}/user-data"
+    mode: '0644'
+  vars:
+    disk_setup_script: "{{ disk_setup_content }}"
+    firewall_setup_script: "{{ firewall_setup_content }}"
+
+- name: Generate meta-data from template
+  ansible.builtin.template:
+    src: /playbooks/templates/meta-data.j2
+    dest: "{{ cloud_init.work_dir }}/meta-data"
+    mode: '0644'
+
+- name: Generate network-config from template
+  ansible.builtin.template:
+    src: /playbooks/templates/network-config.j2
+    dest: "{{ cloud_init.work_dir }}/network-config"
+    mode: '0644'

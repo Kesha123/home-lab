@@ -1,0 +1,12 @@
+---
+- name: Download Raspberry Pi OS image archive
+  ansible.builtin.get_url:
+    url: "{{ rpi_os.download_url }}"
+    dest: "/workspace/{{ rpi_os.image_compressed }}"
+    mode: '0644'
+
+- name: Decompress Raspberry Pi OS image archive
+  ansible.builtin.shell: >
+    unxz -k /workspace/{{ rpi_os.image_compressed }}
+  args:
+    creates: /workspace/{{ rpi_os.image }}

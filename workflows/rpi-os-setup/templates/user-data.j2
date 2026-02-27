@@ -1,11 +1,21 @@
 #cloud-config
 
+growpart:
+  mode: auto
+  devices: ['/']
+  ignore_check: false
+
 preserve_hostname: false
 hostname: {{ cloud_init.hostname }}
 fqdn: {{ cloud_init.hostname }}
 
 package_update: true
 package_upgrade: true
+packages:
+  - curl
+  - ufw
+  - iptables
+  - cloud-guest-utils
 
 users:
   - name: {{ cloud_init.username }}
@@ -19,26 +29,35 @@ users:
 ssh_pwauth: false
 disable_root: true
 
-packages:
-  - curl
-  - ufw
-  - iptables
+disk_setup:
+  /dev/sda:
+    table_type: 'mbr'
+    layout: true
+    overwrite: false
+
+fs_setup:
+  - label: storage
+    filesystem: ext4
+    device: /dev/sda1
+    partition: auto
+
+mounts:
+  - [ /dev/sda1, /mnt/storage, "ext4", "defaults,noatime", "0", "2" ]
+
+write_files:
+  - path: /boot/firmware/config.txt
+    content: |
+      dtparam=pciex1_gen=3
+    append: true
+  - path: /boot/firmware/cmdline.txt
+    content: |
+      cgroup_memory=1 cgroup_enable=memory
+    append: true
 
 runcmd:
-#  - curl -LO "https://github.com/containernetworking/plugins/releases/download/v1.9.0/cni-plugins-linux-arm64-v1.9.0.tgz"
-#  - mkdir -p /opt/cni/bin
-#  - tar -xzf cni-plugins-linux-arm64-v1.9.0.tgz -C /opt/cni/bin
-#  - rm cni-plugins-linux-arm64-v1.9.0.tgz
-#  - curl -LO "https://dl.k8s.io/release/v1.35.1/bin/linux/arm64/kubectl"
-#  - install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-#  - curl -LO "https://github.com/containerd/nerdctl/releases/download/v2.2.1/nerdctl-2.2.1-linux-arm64.tar.gz"
-#  - tar -xzf nerdctl-2.2.1-linux-arm64.tar.gz -C /usr/local/bin
-#  - rm nerdctl-2.2.1-linux-arm64.tar.gz
-#  - curl -L -o https://github.com/kubevirt/kubevirt/releases/download/v1.7.1/virtctl-v1.7.1-linux-arm64
-#  - chmod +x virtctl && \
-#  - install virtctl /usr/local/bin/virtctl
-  - ufw allow 22/tcp
-  - ufw allow 443/tcp
-  - ufw --force enable
+  - |
+{{ disk_setup_script | indent(4, true) }}
+  - |
+{{ firewall_setup_script | indent(4, true) }}
 
 final_message: "The system is finally up, after $UPTIME seconds"

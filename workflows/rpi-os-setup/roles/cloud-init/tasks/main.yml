@@ -1,0 +1,12 @@
+---
+- name: Prepare working directory for cloud-init files
+  ansible.builtin.include_tasks: prepare-workdir.yaml
+
+- name: Generate cloud-init SSH keys
+  ansible.builtin.include_tasks: ssh-keys.yaml
+
+- name: Generate cloud-init configuration files
+  ansible.builtin.include_tasks: config.yaml
+
+- name: Inject cloud-init files into image
+  ansible.builtin.include_tasks: inject.yaml
