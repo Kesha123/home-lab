@@ -26,5 +26,3 @@ rpi_os:
 
 mount:
   mount_point: /workspace/mnt
-
-target_usb_device: /dev/sda
