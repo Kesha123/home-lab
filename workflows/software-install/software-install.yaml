@@ -1,0 +1,5 @@
+---
+- name: Install software on Raspberry Pi 5
+  hosts: rpi-5
+  roles:
+    - rpi-5-install

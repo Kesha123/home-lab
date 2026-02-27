@@ -1,0 +1,16 @@
+---
+- name: Download nerdctl archive
+  ansible.builtin.get_url:
+    url: "https://github.com/containerd/nerdctl/releases/download/v{{ nerdctl_version }}/nerdctl-{{ nerdctl_version }}-linux-arm64.tar.gz"
+    dest: "/tmp/nerdctl-{{ nerdctl_version }}-linux-arm64.tar.gz"
+
+- name: Extract nerdctl archive
+  ansible.builtin.unarchive:
+    src: "/tmp/nerdctl-{{ nerdctl_version }}-linux-arm64.tar.gz"
+    dest: /usr/local/bin
+    remote_src: yes
+
+- name: Remove nerdctl archive
+  ansible.builtin.file:
+    path: "/tmp/nerdctl-{{ nerdctl_version }}-linux-arm64.tar.gz"
+    state: absent

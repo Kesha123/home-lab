@@ -1,0 +1,4 @@
+cni_plugins_version: "v1.9.0"
+kubectl_version: "v1.35.1"
+nerdctl_version: "2.2.1"
+virtctl_version: "v1.7.1"
