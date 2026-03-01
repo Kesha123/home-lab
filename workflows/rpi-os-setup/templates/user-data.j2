@@ -3,7 +3,6 @@
 growpart:
   mode: auto
   devices: ['/']
-  ignore_check: false
 
 preserve_hostname: false
 hostname: {{ cloud_init.hostname }}
@@ -15,14 +14,14 @@ packages:
   - curl
   - ufw
   - iptables
-  - cloud-guest-utils
 
 users:
   - name: {{ cloud_init.username }}
+    passwd: "{{ cloud_init.password_hash }}"
     groups: sudo, base-devel
     shell: /bin/bash
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
-    lock_passwd: true
+    lock_passwd: false
     ssh_authorized_keys:
       - {{ public_ssh_key.content }}
 

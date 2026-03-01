@@ -4,6 +4,7 @@ cloud_init:
   instance_id: raspberry-pi-5
   hostname: "raspberry-pi-5"
   username: admin
+  password_hash: "{{ 'admin' | password_hash('sha512') }}"
   network_interface: eth0
   ip_addresses:
     - 192.168.0.80/24
