@@ -1,5 +1,10 @@
 ---
-- name: Install software on Raspberry Pi 5
+- name: Install CNFC
   hosts: rpi-5
   roles:
-    - rpi-5-install
+    - cnfc
+
+- name: Install CLI tools
+  hosts: rpi-5
+  roles:
+    - cli

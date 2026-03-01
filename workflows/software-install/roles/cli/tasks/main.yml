@@ -1,7 +1,4 @@
 ---
-- name: Install CNI plugins
-  ansible.builtin.include_tasks: cni-plugins.yml
-
 - name: Install kubectl
   ansible.builtin.include_tasks: kubectl.yml
 
