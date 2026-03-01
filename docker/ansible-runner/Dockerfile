@@ -8,15 +8,11 @@ ENV SSL_CERT_DIR=/etc/ssl/certs
 
 COPY ansible-collections.yaml /tmp/
 COPY requirements.in /tmp/
+COPY alpine-packages.yaml /tmp/
 
-RUN apk add --no-cache \
-      ca-certificates \
-      libgcc \
-      libstdc++ \
-      build-base \
-      cargo \
-      rust \
-      curl \
+RUN apk add --no-cache yq
+
+RUN apk add --no-cache $(yq e '.build[]' /tmp/alpine-packages.yaml) \
     && update-ca-certificates --fresh
 
 RUN python -m venv /opt/venv \
@@ -30,14 +26,18 @@ RUN python -m venv /opt/venv \
 RUN curl -Lo ./kind https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-linux-amd64 && \
     mv ./kind /usr/local/bin/kind
 
-FROM python:3.12-alpine
+FROM python:3.12-alpine AS runtime
 
 WORKDIR /workspace
 
 ENV SSL_CERT_DIR=/etc/ssl/certs
 ENV PATH="/opt/venv/bin:${PATH}"
 
-RUN apk add --no-cache ca-certificates libgcc libstdc++ docker sudo mtools util-linux \
+COPY alpine-packages.yaml /tmp/
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY --from=builder /usr/bin/yq /usr/bin/yq
+
+RUN apk add --no-cache $(yq e '.runtime[]' /tmp/alpine-packages.yaml) \
     && update-ca-certificates --fresh \
     && addgroup -g 1000 -S ansible \
     && adduser -u 1000 -S -G ansible ansible \
@@ -48,7 +48,6 @@ RUN apk add --no-cache ca-certificates libgcc libstdc++ docker sudo mtools util-
 COPY --from=builder /opt/venv /opt/venv
 COPY --from=builder /usr/share/ansible/collections /usr/share/ansible/collections
 COPY --from=builder --chown=ansible:ansible --chmod=755 /usr/local/bin/kind /usr/local/bin/kind
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
