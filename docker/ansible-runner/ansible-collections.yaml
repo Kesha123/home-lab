@@ -4,3 +4,6 @@ collections:
     version: 6.3.0
   - name: community.crypto
     version: 3.1.1
+  - name: https://github.com/k3s-io/k3s-ansible.git
+    type: git
+    version: f85bc4d0148e10d109b3d62f4116ebafdde890a7
