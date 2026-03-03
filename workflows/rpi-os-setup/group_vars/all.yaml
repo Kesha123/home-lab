@@ -1,4 +1,10 @@
 ---
+workspace_dir: /workspace
+
+ssh:
+  dir: "{{ workspace_dir }}/ssh"
+  key_name: id_rsa
+
 cloud_init:
   work_dir: /workspace/cloud-init
   instance_id: raspberry-pi-5
