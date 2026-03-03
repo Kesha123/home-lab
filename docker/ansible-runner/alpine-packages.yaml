@@ -6,6 +6,7 @@ build:
   - cargo
   - rust
   - curl
+  - git
 
 runtime:
   - libgcc
