@@ -1,0 +1,5 @@
+site_name: Innokentii Kozlov - Home Lab
+docs_dir: Documentation
+nav:
+  - Home:
+      - index.md

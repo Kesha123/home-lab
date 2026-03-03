@@ -11,8 +11,9 @@ $(DOCKER_BINARY):
 	fi
 
 build-container/%: ensure-docker
-	$(DOCKER_BINARY) build -t $(CONTAINER_REGISTRY)/$*:$(BUILD_TAG) -f $(ROOT_DIR)/docker/$*/Dockerfile $(ROOT_DIR)/docker/$*
+	$(DOCKER_BINARY) buildx build -t $(CONTAINER_REGISTRY)/$*:$(BUILD_TAG) -f $(ROOT_DIR)/docker/$*/Dockerfile $(ROOT_DIR)/docker/$*
 
-.PHONY: build/container/ansible-runner build/container/pulumi-executor
+.PHONY: build/container/ansible-runner build/container/pulumi-executor build/container/mkdocs-host
 build/container/ansible-runner: build-container/ansible-runner
 build/container/pulumi-executor: build-container/pulumi-executor
+build/container/mkdocs-host: build-container/mkdocs-host
