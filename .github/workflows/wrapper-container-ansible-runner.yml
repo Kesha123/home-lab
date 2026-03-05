@@ -1,0 +1,43 @@
+---
+name: Wrapper Container Ansible Runner
+
+on:
+  pull_request:
+    paths:
+      - docker/ansible-runner/**
+      - Makefile
+      - Makefile-docker.mk
+      - .github/workflows/reusable-build-container.yml
+      - .github/workflows/wrapper-container-ansible-runner.yml
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Push image to GHCR
+        required: false
+        type: boolean
+        default: false
+      build_tag:
+        description: Build tag for the container
+        required: false
+        type: string
+        default: ''
+  workflow_call:
+    inputs:
+      publish:
+        description: Push image to GHCR
+        required: false
+        type: boolean
+        default: false
+      build_tag:
+        description: Build tag for the container
+        required: false
+        type: string
+        default: ''
+
+jobs:
+  build-container:
+    uses: ./.github/workflows/reusable-build-container.yml
+    with:
+      container_name: ansible-runner
+      publish: ${{ github.event_name != 'pull_request' && inputs.publish }}
+      build_tag: ${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}

@@ -1,0 +1,44 @@
+---
+name: Wrapper Container Pulumi Executor
+run-name: Pulumi executor container (pending target tolerated)
+
+on:
+  pull_request:
+    paths:
+      - docker/pulumi-executor/**
+      - Makefile
+      - Makefile-docker.mk
+      - .github/workflows/reusable-build-container.yml
+      - .github/workflows/wrapper-container-pulumi-executor.yml
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Push image to GHCR (pending target tolerated)
+        required: false
+        type: boolean
+        default: false
+      build_tag:
+        description: Build tag for the container
+        required: false
+        type: string
+        default: ''
+  workflow_call:
+    inputs:
+      publish:
+        description: Push image to GHCR (pending target tolerated)
+        required: false
+        type: boolean
+        default: false
+      build_tag:
+        description: Build tag for the container
+        required: false
+        type: string
+        default: ''
+
+jobs:
+  build-container:
+    uses: ./.github/workflows/reusable-build-container.yml
+    with:
+      container_name: pulumi-executor
+      publish: ${{ github.event_name != 'pull_request' && inputs.publish }}
+      build_tag: ${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}
