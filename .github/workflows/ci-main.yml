@@ -1,0 +1,125 @@
+---
+name: CI Main
+
+on:
+  workflow_call:
+    inputs:
+      build_tag:
+        description: Build tag passed to wrapper workflows
+        required: false
+        type: string
+        default: ''
+      publish:
+        description: Publish container images when true
+        required: false
+        type: boolean
+        default: false
+  workflow_dispatch:
+    inputs:
+      build_tag:
+        description: Build tag passed to wrapper workflows
+        required: false
+        type: string
+        default: ''
+      publish:
+        description: Publish container images when true
+        required: false
+        type: boolean
+        default: false
+  push:
+    branches:
+      - main
+    paths:
+      - docker/**
+      - docs/**
+      - workflows/**
+      - Makefile
+      - Makefile-*.mk
+      - .ansible-lint
+      - .yamllint.yaml
+      - .github/workflows/**
+
+jobs:
+  resolve-inputs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      build_tag: ${{ steps.resolve.outputs.build_tag }}
+      publish: ${{ steps.resolve.outputs.publish }}
+    steps:
+      - name: Resolve orchestration inputs
+        id: resolve
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          build_tag='${{ github.sha }}'
+          if [[ '${{ github.event_name }}' == 'workflow_dispatch' || '${{ github.event_name }}' == 'workflow_call' ]]; then
+            if [[ -n '${{ inputs.build_tag }}' ]]; then
+              build_tag='${{ inputs.build_tag }}'
+            fi
+          fi
+
+          publish='false'
+          if [[ '${{ github.event_name }}' == 'push' ]]; then
+            publish='true'
+          elif [[ '${{ github.event_name }}' == 'workflow_dispatch' || '${{ github.event_name }}' == 'workflow_call' ]]; then
+            publish='${{ inputs.publish }}'
+          fi
+
+          echo "build_tag=${build_tag}" >> "${GITHUB_OUTPUT}"
+          echo "publish=${publish}" >> "${GITHUB_OUTPUT}"
+
+  container-ansible-runner:
+    needs: resolve-inputs
+    uses: ./.github/workflows/wrapper-container-ansible-runner.yml
+    permissions:
+      contents: read
+      packages: write
+    with:
+      publish: ${{ needs.resolve-inputs.outputs.publish == 'true' }}
+      build_tag: ${{ needs.resolve-inputs.outputs.build_tag }}
+
+  container-mkdocs:
+    needs: resolve-inputs
+    uses: ./.github/workflows/wrapper-container-mkdocs.yml
+    permissions:
+      contents: read
+      packages: write
+    with:
+      publish: ${{ needs.resolve-inputs.outputs.publish == 'true' }}
+      build_tag: ${{ needs.resolve-inputs.outputs.build_tag }}
+
+  docs:
+    needs: resolve-inputs
+    uses: ./.github/workflows/wrapper-docs.yml
+    permissions:
+      contents: read
+    with:
+      build_tag: ${{ needs.resolve-inputs.outputs.build_tag }}
+      publish_pages: false
+
+  workflow-k3s-install:
+    needs: resolve-inputs
+    uses: ./.github/workflows/wrapper-workflow-k3s-install.yml
+    permissions:
+      contents: read
+    with:
+      build_tag: ${{ needs.resolve-inputs.outputs.build_tag }}
+
+  workflow-rpi-os-setup:
+    needs: resolve-inputs
+    uses: ./.github/workflows/wrapper-workflow-rpi-os-setup.yml
+    permissions:
+      contents: read
+    with:
+      build_tag: ${{ needs.resolve-inputs.outputs.build_tag }}
+
+  workflow-software-install:
+    needs: resolve-inputs
+    uses: ./.github/workflows/wrapper-workflow-software-install.yml
+    permissions:
+      contents: read
+    with:
+      build_tag: ${{ needs.resolve-inputs.outputs.build_tag }}

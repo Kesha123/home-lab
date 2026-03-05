@@ -1,0 +1,124 @@
+---
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Release tag in X.Y.Z format
+        required: true
+        type: string
+  push:
+    tags:
+      - '[0-9]*.[0-9]*.[0-9]*'
+
+jobs:
+  resolve-tag:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      release_tag: ${{ steps.resolve.outputs.release_tag }}
+    steps:
+      - name: Resolve release tag
+        id: resolve
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          release_tag=''
+          if [[ '${{ github.event_name }}' == 'workflow_dispatch' ]]; then
+            release_tag='${{ inputs.release_tag }}'
+          else
+            release_tag='${GITHUB_REF_NAME}'
+          fi
+
+          if [[ ! "${release_tag}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error title=Invalid release tag::Expected X.Y.Z, got '${release_tag}'"
+            exit 1
+          fi
+
+          echo "release_tag=${release_tag}" >> "${GITHUB_OUTPUT}"
+
+  container-ansible-runner:
+    needs: resolve-tag
+    uses: ./.github/workflows/wrapper-container-ansible-runner.yml
+    permissions:
+      contents: read
+      packages: write
+    with:
+      publish: true
+      build_tag: ${{ needs.resolve-tag.outputs.release_tag }}
+
+  container-mkdocs:
+    needs: resolve-tag
+    uses: ./.github/workflows/wrapper-container-mkdocs.yml
+    permissions:
+      contents: read
+      packages: write
+    with:
+      publish: true
+      build_tag: ${{ needs.resolve-tag.outputs.release_tag }}
+
+  workflow-k3s-install:
+    needs: resolve-tag
+    uses: ./.github/workflows/wrapper-workflow-k3s-install.yml
+    permissions:
+      contents: read
+    with:
+      build_tag: ${{ needs.resolve-tag.outputs.release_tag }}
+
+  workflow-rpi-os-setup:
+    needs: resolve-tag
+    uses: ./.github/workflows/wrapper-workflow-rpi-os-setup.yml
+    permissions:
+      contents: read
+    with:
+      build_tag: ${{ needs.resolve-tag.outputs.release_tag }}
+
+  workflow-software-install:
+    needs: resolve-tag
+    uses: ./.github/workflows/wrapper-workflow-software-install.yml
+    permissions:
+      contents: read
+    with:
+      build_tag: ${{ needs.resolve-tag.outputs.release_tag }}
+
+  docs:
+    needs: resolve-tag
+    uses: ./.github/workflows/wrapper-docs.yml
+    permissions:
+      contents: read
+    with:
+      build_tag: ${{ needs.resolve-tag.outputs.release_tag }}
+      publish_pages: false
+
+  create-release:
+    needs:
+      - resolve-tag
+      - container-ansible-runner
+      - container-mkdocs
+      - workflow-k3s-install
+      - workflow-rpi-os-setup
+      - workflow-software-install
+      - docs
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download run artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: '*'
+          path: release-artifacts
+
+      - name: Create or update GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ needs.resolve-tag.outputs.release_tag }}
+          name: Release ${{ needs.resolve-tag.outputs.release_tag }}
+          artifacts: release-artifacts/**/*.tar.gz
+          artifactErrorsFailBuild: false
+          allowUpdates: true
+          replacesArtifacts: true
+          generateReleaseNotes: true
