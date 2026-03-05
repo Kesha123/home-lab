@@ -54,7 +54,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          artifact_path="target/workflow/${{ inputs.workflow_name }}"
+          artifact_path="target/workflow/${{ inputs.workflow_name }}/${{ inputs.workflow_name }}.tar.gz"
           if [[ -e "${artifact_path}" ]]; then
             echo "available=true" >> "${GITHUB_OUTPUT}"
             echo "path=${artifact_path}" >> "${GITHUB_OUTPUT}"
