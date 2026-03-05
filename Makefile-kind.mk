@@ -1,6 +1,8 @@
 KIND_BINARY := /tmp/kind
 KIND_VERSION := v0.29.0
+KIND_CLUSTER_NAME ?= kind-cluster-$(BUILD_TAG)
 
+.PHONY: install-kind
 install-kind: $(KIND_BINARY)
 
 $(KIND_BINARY):
@@ -13,19 +15,19 @@ $(KIND_BINARY):
 	fi
 
 .PHONY: kind/start-cluster
-kind/start-cluster: build/container/ansible-runner
-	$(DOCKER_BINARY) run --rm -it \
+kind/start-cluster: build/container/ansible-runner ## Start kind cluster
+	$(DOCKER_BINARY) run --rm \
 		-v $(ROOT_DIR)/kubernetes/kind:/workspace \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		--user 1000:1000 \
 		--group-add $(shell stat -c '%g' /var/run/docker.sock) \
 		-w /workspace \
 		$(CONTAINER_REGISTRY)/ansible-runner:$(BUILD_TAG) \
-		ansible-playbook -i localhost, -c local /workspace/setup.yaml --extra-vars "cluster_name=kind-cluster-$(BUILD_TAG)"
+		ansible-playbook -i localhost, -c local /workspace/setup.yaml --extra-vars "cluster_name=$(KIND_CLUSTER_NAME)"
 
 .PHONY: kind/stop-cluster
-kind/stop-cluster: install-kind
-	$(KIND_BINARY) delete cluster --name kind-cluster-$(BUILD_TAG)
+kind/stop-cluster: install-kind ## Stop kind cluster
+	$(KIND_BINARY) delete cluster --name $(KIND_CLUSTER_NAME)
 	@echo "Force removing remaining kind cluster nodes."
-	-docker ps -a --filter "name=kind-cluster-$(BUILD_TAG)" --format "{{.ID}}" | xargs -r docker rm -f
-	-docker ps -a --filter "name=kind-cluster-$(BUILD_TAG)" --format "{{.ID}}" | xargs -r docker kill
+	-docker ps -a --filter "name=$(KIND_CLUSTER_NAME)" --format "{{.ID}}" | xargs -r docker rm -f
+	-docker ps -a --filter "name=$(KIND_CLUSTER_NAME)" --format "{{.ID}}" | xargs -r docker kill

@@ -1,9 +1,9 @@
 RPI_WOKSPACE_DIR := $(TARGET_DIR)/raspberry-pi
 
 .PHONY: rpi-os/download-files
-rpi-os/download-files: build/container/ansible-runner
-	$(DOCKER_BINARY) run --rm -it \
-		-v $(RPI_WOKSPACE_DIR):/workspace \
+rpi-os/download-files: build/container/ansible-runner ## Download Raspberry Pi OS artifacts
+	$(DOCKER_BINARY) run --rm \
+		-v $(RPI_WORKSPACE_DIR):/workspace \
 		-v $(ROOT_DIR)/workflows/rpi-os-setup:/playbooks \
 		--user 1000:1000 \
 		-w /workspace \
@@ -11,10 +11,10 @@ rpi-os/download-files: build/container/ansible-runner
 		ansible-playbook -i /playbooks/inventory/hosts.yaml /playbooks/rpi-os-download.yaml
 
 .PHONY: rpi-os/build
-rpi-os/build: rpi-os/download-files build/container/ansible-runner
+rpi-os/build: rpi-os/download-files build/container/ansible-runner ## Build Raspberry Pi OS image
 	@rm -rf $(TARGET_DIR)/cloud-init
-	$(DOCKER_BINARY) run --rm -it \
-		-v $(RPI_WOKSPACE_DIR):/workspace \
+	$(DOCKER_BINARY) run --rm \
+		-v $(RPI_WORKSPACE_DIR):/workspace \
 		-v $(ROOT_DIR)/workflows/rpi-os-setup:/playbooks \
 		--user 1000:1000 \
 		-w /workspace \
