@@ -1,4 +1,4 @@
-FROM python:3.12-alpine AS builder
+FROM python:3.14-alpine AS builder
 
 ARG KIND_VERSION=v0.29.0
 
@@ -26,7 +26,7 @@ RUN python -m venv /opt/venv \
 RUN curl -Lo ./kind https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-linux-amd64 && \
     mv ./kind /usr/local/bin/kind
 
-FROM python:3.12-alpine AS runtime
+FROM python:3.14-alpine AS runtime
 
 WORKDIR /workspace
 
