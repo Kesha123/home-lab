@@ -1,0 +1,68 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: {{ .Values.vm.name }}
+  namespace: home-assistant
+spec:
+  running: true
+  template:
+    metadata:
+      labels:
+        kubevirt.io/domain: {{ .Values.vm.name }}
+    spec:
+      domain:
+        devices:
+          disks:
+          {{- range .Values.disks }}
+          - name: {{ .name }}
+            {{- if .bootOrder }}
+            bootOrder: {{ .bootOrder }}
+            {{- end }}
+            disk:
+              bus: {{ .bus }}
+              {{- if .dedicatedIOThread }}
+              dedicatedIOThread: {{ .dedicatedIOThread}}
+              {{- end }}
+          {{- end }}
+          interfaces:
+          - name: br0
+            bridge: {}
+        resources:
+          requests:
+            cpu: {{ .Values.vm.cpu }}
+            memory: {{ .Values.vm.memory }}
+      volumes:
+      {{- range .Values.disks }}
+      - name: {{ .name }}
+        dataVolume:
+          name: {{ .dataVolumeName }}
+      {{- end }}
+      - name: cloudinitdisk
+        cloudInitNoCloud:
+          userData: |
+            #cloud-config
+            disable_root: false
+            ssh_pwauth: true
+            users:
+              - name: root
+                lock_passwd: false
+            timezone: Europe/Helsinki
+            keyboard:
+              layout: fi
+            locale: en_US.UTF-8
+            system_info:
+              network:
+                renderers: ['sysconfig']
+          networkData: |
+            version: 2
+            ethernets:
+              neth0:
+                addresses:
+                  - {{ .Values.network.ipv4 }}/{{ .Values.network.subnet }}
+                dhcp4: false
+                dhcp6: false
+      networks:
+      - name: br0
+        multus:
+          networkName: netact-vm/br0-network
+      terminationGracePeriodSeconds: 5

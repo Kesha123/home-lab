@@ -1,0 +1,16 @@
+vm:
+  name: netact-vm-1
+  cpu: 2
+  memory: 4096M
+
+network:
+  subnet: 24
+  ipv4: 192.168.0.81
+
+disks:
+  - name: rootdisk
+    dataVolumeName: netact-vm-1-root-disk
+    size: 40Gi
+    bus: virtio
+    registry: kind-registry-99:5000
+    image: netact-vm-root-disk:latest

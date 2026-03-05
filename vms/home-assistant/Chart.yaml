@@ -1,0 +1,5 @@
+apiVersion: v2
+name: home-assistant-vm-chart
+description: Home Assistant VM
+version: 0.1.0
+appVersion: "1.0"

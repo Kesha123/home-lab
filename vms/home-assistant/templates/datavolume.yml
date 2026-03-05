@@ -1,0 +1,19 @@
+{{- range .Values.disks }}
+---
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: {{ .dataVolumeName }}
+  namespace: netact-vm
+spec:
+  pvc:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: {{ .size }}
+    volumeMode: Filesystem
+  source:
+    registry:
+      url: docker://{{ coalesce .registry "kind-registry-99:5000" }}/{{ .image }}
+{{ end -}}
