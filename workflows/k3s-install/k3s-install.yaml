@@ -1,0 +1,8 @@
+---
+- name: Import kube cluster playbook
+  ansible.builtin.import_playbook: k3s-ansible/playbooks/site.yml
+
+- name: Export kubeconfig
+  ansible.builtin.fetch:
+    src: "{{ kubeconfig_path }}"
+    dest: "{{ kubeconfig_path }}"
