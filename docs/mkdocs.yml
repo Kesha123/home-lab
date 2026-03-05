@@ -3,3 +3,5 @@ docs_dir: Documentation
 nav:
   - Home:
       - index.md
+# theme:
+#   name: material
