@@ -1,0 +1,95 @@
+name: Reusable Build Docs
+
+on:
+  workflow_call:
+    inputs:
+      build_tag:
+        description: Build tag passed to make
+        required: false
+        type: string
+        default: ''
+      publish_pages:
+        description: Deploy built docs to GitHub Pages
+        required: false
+        type: boolean
+        default: false
+  workflow_dispatch:
+    inputs:
+      build_tag:
+        description: Build tag passed to make
+        required: false
+        type: string
+        default: ''
+      publish_pages:
+        description: Deploy built docs to GitHub Pages
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.publish_pages }}
+  cancel-in-progress: false
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build docs with make
+        shell: bash
+        run: |
+          set -euo pipefail
+          make BUILD_TAG='${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}' mkdocs/build
+
+      - name: Archive docs site
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p target/mkdocs
+          tar -czf "target/site-${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}.tar.gz" -C target/mkdocs .
+
+      - name: Upload docs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}
+          path: |
+            target/mkdocs
+            target/site-${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}.tar.gz
+          if-no-files-found: error
+
+  deploy-pages:
+    if: ${{ inputs.publish_pages }}
+    needs: build-docs
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build docs for Pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          make BUILD_TAG='${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}' mkdocs/build
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: target/mkdocs
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

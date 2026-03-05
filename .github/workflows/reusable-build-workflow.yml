@@ -1,0 +1,71 @@
+name: Reusable Build Workflow
+
+on:
+  workflow_call:
+    inputs:
+      workflow_name:
+        description: Workflow package/lint target suffix
+        required: true
+        type: string
+      build_tag:
+        description: Build tag passed to make
+        required: false
+        type: string
+        default: ''
+  workflow_dispatch:
+    inputs:
+      workflow_name:
+        description: Workflow package/lint target suffix
+        required: true
+        type: string
+      build_tag:
+        description: Build tag passed to make
+        required: false
+        type: string
+        default: ''
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.workflow_name }}
+  cancel-in-progress: false
+
+jobs:
+  build-workflow:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run workflow build target
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="ci/workflow/${{ inputs.workflow_name }}"
+          if make -n "${target}" >/dev/null 2>&1; then
+            make BUILD_TAG='${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}' "${target}"
+          else
+            echo "::error title=Missing make target::Expected target '${target}' is not defined. Add '${target}' to the Makefiles."
+            exit 1
+          fi
+
+      - name: Detect workflow artifact path
+        id: artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          artifact_path="target/workflow/${{ inputs.workflow_name }}"
+          if [[ -e "${artifact_path}" ]]; then
+            echo "available=true" >> "${GITHUB_OUTPUT}"
+            echo "path=${artifact_path}" >> "${GITHUB_OUTPUT}"
+          else
+            echo "available=false" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Upload workflow artifact
+        if: ${{ steps.artifact.outputs.available == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: workflow-${{ inputs.workflow_name }}-${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}
+          path: ${{ steps.artifact.outputs.path }}
+          if-no-files-found: error
