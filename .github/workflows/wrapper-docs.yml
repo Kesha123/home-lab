@@ -2,6 +2,18 @@
 name: Wrapper Docs
 
 on:
+  workflow_call:
+    inputs:
+      build_tag:
+        description: Build tag passed to make
+        required: false
+        type: string
+        default: ''
+      publish_pages:
+        description: Deploy built docs to GitHub Pages
+        required: false
+        type: boolean
+        default: false
   workflow_dispatch:
     inputs:
       build_tag:
@@ -33,9 +45,22 @@ on:
       - .github/workflows/reusable-build-docs.yml
       - .github/workflows/wrapper-docs.yml
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
+
 jobs:
   build-docs:
     uses: ./.github/workflows/reusable-build-docs.yml
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     with:
-      build_tag: ${{ github.event_name == 'workflow_dispatch' && inputs.build_tag != '' && inputs.build_tag || github.sha }}
+      build_tag: ${{ (github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call') && inputs.build_tag != '' && inputs.build_tag || github.sha }}
       publish_pages: ${{ github.event_name == 'pull_request' && false || github.event_name == 'push' && true || inputs.publish_pages }}

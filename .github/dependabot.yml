@@ -1,0 +1,20 @@
+---
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: '/'
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: docker
+    directory: '/docker/ansible-runner'
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: docker
+    directory: '/docker/mkdocs'
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5

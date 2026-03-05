@@ -243,7 +243,15 @@ Workflows are executed from within container. All workflows, molecules as well, 
 Documentation is handled with mkdocs and hosted on github pages.
 
 ## CI
-Github Actions are used as CI provider.
+GitHub Actions are used as CI provider.
+
+- `ci-main.yml` is the single CI orchestrator (no main alias workflow), triggered by `push` to `main`, `workflow_dispatch`, and `workflow_call`.
+- Wrapper workflows provide path-scoped PR/manual/call entrypoints and delegate to reusable workflows.
+- Reusable workflows execute standardized build and packaging logic for containers, workflow bundles, and docs.
+- Release flow is split into `release-promotion.yml` (semver tag creation/push) and `release.yml` (release build + GitHub Release publication).
+- CI execution contract is `make` targets: `build/container/*`, `push/container/*`, `ci/workflow/*`, and `ci/docs`.
+
+Full details: [docs/Development/ci-strategy.md](docs/Development/ci-strategy.md).
 
 ## Development Environment
 - Devcontainer: debian:12.13, privileged/host net, tools pinned (Docker CLI, nerdctl, buildx, kind v0.31.0, kubectl v1.35.1, helm v4.1.1, pulumi 3.222.0).
@@ -262,3 +270,33 @@ containerd is a container runtime for the home lab.
 
 ## Certificates
 cert-manager is used to issue certificates with AWS route53 provider. I have domain name in route53.
+
+## CI builds
+
+Primary build outputs:
+
+- Container images:
+  - `ansible-runner`
+  - `mkdocs`
+- Workflow artifacts:
+  - `k3s-install`
+  - `rpi-os-setup`
+  - `software-install`
+- Documentation artifact/site:
+  - mkdocs static site archive
+
+Workflow architecture summary:
+
+1. `ci-main.yml`
+  - Runs on `main` (path-scoped), `workflow_dispatch`, and `workflow_call`.
+  - Resolves `build_tag` and publish mode, then calls wrappers.
+2. Wrapper workflows (`wrapper-*`)
+  - Provide path-scoped PR validation and manual/call entrypoints.
+  - Delegate execution to reusable workflows.
+3. Reusable workflows (`reusable-build-*.yml`)
+  - Execute standardized `make` targets for container build/push, workflow packaging, and docs.
+  - Produce/upload artifacts.
+4. `release-promotion.yml`
+  - Manual semver bump (`patch`/`minor`/`major`) and tag push.
+5. `release.yml`
+  - Runs on semver tags or manual dispatch, executes release builds, and creates/updates GitHub Release with artifacts.
