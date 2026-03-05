@@ -31,45 +31,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-
-          latest_tag="$(git tag --list '[0-9]*.[0-9]*.[0-9]*' --sort=-version:refname | head -n 1)"
-          if [[ -z "${latest_tag}" ]]; then
-            latest_tag='0.0.0'
-          fi
-
-          if [[ ! "${latest_tag}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "::error title=Invalid latest tag::Latest matching tag '${latest_tag}' is not strict semver X.Y.Z"
-            exit 1
-          fi
-
-          IFS='.' read -r major minor patch <<< "${latest_tag}"
-          case '${{ inputs.bump }}' in
-            major)
-              major=$((major + 1))
-              minor=0
-              patch=0
-              ;;
-            minor)
-              minor=$((minor + 1))
-              patch=0
-              ;;
-            patch)
-              patch=$((patch + 1))
-              ;;
-            *)
-              echo "::error title=Invalid bump input::Unsupported bump '${{ inputs.bump }}'"
-              exit 1
-              ;;
-          esac
-
-          next_tag="${major}.${minor}.${patch}"
-          if git rev-parse --verify --quiet "refs/tags/${next_tag}" >/dev/null; then
-            echo "::error title=Tag already exists::Tag '${next_tag}' already exists"
-            exit 1
-          fi
-
-          echo "latest_tag=${latest_tag}" >> "${GITHUB_OUTPUT}"
-          echo "next_tag=${next_tag}" >> "${GITHUB_OUTPUT}"
+          bash scripts/ci/calculate_next_tag.sh '${{ inputs.bump }}' "${GITHUB_OUTPUT}"
 
       - name: Create annotated tag
         shell: bash

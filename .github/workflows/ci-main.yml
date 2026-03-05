@@ -48,28 +48,20 @@ jobs:
       build_tag: ${{ steps.resolve.outputs.build_tag }}
       publish: ${{ steps.resolve.outputs.publish }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Resolve orchestration inputs
         id: resolve
         shell: bash
         run: |
           set -euo pipefail
-
-          build_tag='${{ github.sha }}'
-          if [[ '${{ github.event_name }}' == 'workflow_dispatch' || '${{ github.event_name }}' == 'workflow_call' ]]; then
-            if [[ -n '${{ inputs.build_tag }}' ]]; then
-              build_tag='${{ inputs.build_tag }}'
-            fi
-          fi
-
-          publish='false'
-          if [[ '${{ github.event_name }}' == 'push' ]]; then
-            publish='true'
-          elif [[ '${{ github.event_name }}' == 'workflow_dispatch' || '${{ github.event_name }}' == 'workflow_call' ]]; then
-            publish='${{ inputs.publish }}'
-          fi
-
-          echo "build_tag=${build_tag}" >> "${GITHUB_OUTPUT}"
-          echo "publish=${publish}" >> "${GITHUB_OUTPUT}"
+          bash scripts/ci/resolve_ci_main_inputs.sh \
+            '${{ github.event_name }}' \
+            '${{ inputs.build_tag }}' \
+            '${{ inputs.publish }}' \
+            '${{ github.sha }}' \
+            "${GITHUB_OUTPUT}"
 
   container-ansible-runner:
     needs: resolve-inputs
