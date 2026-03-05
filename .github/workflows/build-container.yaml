@@ -34,9 +34,19 @@ on:
         type: string
         default: ''
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.entity }}-${{ inputs.publish }}
+  cancel-in-progress: false
+
 jobs:
   build-container:
     uses: ./.github/workflows/reusable-build-container.yml
+    permissions:
+      contents: read
+      packages: write
     with:
       container_name: ${{ inputs.entity }}
       publish: ${{ inputs.publish }}

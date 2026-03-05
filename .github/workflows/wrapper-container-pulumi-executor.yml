@@ -35,9 +35,19 @@ on:
         type: string
         default: ''
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   build-container:
     uses: ./.github/workflows/reusable-build-container.yml
+    permissions:
+      contents: read
+      packages: write
     with:
       container_name: pulumi-executor
       publish: ${{ github.event_name != 'pull_request' && inputs.publish }}

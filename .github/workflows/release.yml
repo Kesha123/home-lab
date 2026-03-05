@@ -12,11 +12,16 @@ on:
     tags:
       - '[0-9]*.[0-9]*.[0-9]*'
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   resolve-tag:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     outputs:
       release_tag: ${{ steps.resolve.outputs.release_tag }}
     steps:
@@ -57,32 +62,24 @@ jobs:
   workflow-k3s-install:
     needs: resolve-tag
     uses: ./.github/workflows/wrapper-workflow-k3s-install.yml
-    permissions:
-      contents: read
     with:
       build_tag: ${{ needs.resolve-tag.outputs.release_tag }}
 
   workflow-rpi-os-setup:
     needs: resolve-tag
     uses: ./.github/workflows/wrapper-workflow-rpi-os-setup.yml
-    permissions:
-      contents: read
     with:
       build_tag: ${{ needs.resolve-tag.outputs.release_tag }}
 
   workflow-software-install:
     needs: resolve-tag
     uses: ./.github/workflows/wrapper-workflow-software-install.yml
-    permissions:
-      contents: read
     with:
       build_tag: ${{ needs.resolve-tag.outputs.release_tag }}
 
   docs:
     needs: resolve-tag
     uses: ./.github/workflows/wrapper-docs.yml
-    permissions:
-      contents: read
     with:
       build_tag: ${{ needs.resolve-tag.outputs.release_tag }}
       publish_pages: false

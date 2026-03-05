@@ -41,7 +41,17 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          target="ci/workflow/${{ inputs.workflow_name }}"
+          workflow_name='${{ inputs.workflow_name }}'
+          case "${workflow_name}" in
+            k3s-install|rpi-os-setup|software-install)
+              ;;
+            *)
+              echo "::error title=Invalid workflow_name::Supported values are k3s-install, rpi-os-setup, software-install"
+              exit 1
+              ;;
+          esac
+
+          target="ci/workflow/${workflow_name}"
           if make -n "${target}" >/dev/null 2>&1; then
             make BUILD_TAG='${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}' "${target}"
           else

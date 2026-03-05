@@ -39,11 +39,16 @@ on:
       - .yamllint.yaml
       - .github/workflows/**
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'push' }}
+
 jobs:
   resolve-inputs:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     outputs:
       build_tag: ${{ steps.resolve.outputs.build_tag }}
       publish: ${{ steps.resolve.outputs.publish }}
@@ -86,8 +91,6 @@ jobs:
   docs:
     needs: resolve-inputs
     uses: ./.github/workflows/wrapper-docs.yml
-    permissions:
-      contents: read
     with:
       build_tag: ${{ needs.resolve-inputs.outputs.build_tag }}
       publish_pages: false
@@ -95,23 +98,17 @@ jobs:
   workflow-k3s-install:
     needs: resolve-inputs
     uses: ./.github/workflows/wrapper-workflow-k3s-install.yml
-    permissions:
-      contents: read
     with:
       build_tag: ${{ needs.resolve-inputs.outputs.build_tag }}
 
   workflow-rpi-os-setup:
     needs: resolve-inputs
     uses: ./.github/workflows/wrapper-workflow-rpi-os-setup.yml
-    permissions:
-      contents: read
     with:
       build_tag: ${{ needs.resolve-inputs.outputs.build_tag }}
 
   workflow-software-install:
     needs: resolve-inputs
     uses: ./.github/workflows/wrapper-workflow-software-install.yml
-    permissions:
-      contents: read
     with:
       build_tag: ${{ needs.resolve-inputs.outputs.build_tag }}
