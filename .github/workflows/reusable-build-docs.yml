@@ -43,22 +43,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          make BUILD_TAG='${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}' mkdocs/build
-
-      - name: Archive docs site
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p target/mkdocs
-          tar -czf "target/site-${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}.tar.gz" -C target/mkdocs .
+          make BUILD_TAG='${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}' ci/docs
 
       - name: Upload docs artifact
         uses: actions/upload-artifact@v4
         with:
-          name: docs-${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}
-          path: |
-            target/mkdocs
-            target/site-${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}.tar.gz
+          name: docs-site
+          path: target/mkdocs/site.tar.gz
           if-no-files-found: error
 
   deploy-pages:
@@ -73,14 +64,19 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Download docs artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docs-site
+          path: target
 
-      - name: Build docs for Pages
+      - name: Restore docs site from archive
         shell: bash
         run: |
           set -euo pipefail
-          make BUILD_TAG='${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}' mkdocs/build
+          rm -rf target/mkdocs
+          mkdir -p target/mkdocs
+          tar -xzf target/site.tar.gz -C target/mkdocs
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

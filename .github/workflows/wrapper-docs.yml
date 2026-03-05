@@ -1,0 +1,41 @@
+---
+name: Wrapper Docs
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_tag:
+        description: Build tag passed to make
+        required: false
+        type: string
+        default: ''
+      publish_pages:
+        description: Deploy built docs to GitHub Pages
+        required: false
+        type: boolean
+        default: true
+  pull_request:
+    paths:
+      - docs/**
+      - docs/mkdocs.yml
+      - Makefile
+      - Makefile-*.mk
+      - .github/workflows/reusable-build-docs.yml
+      - .github/workflows/wrapper-docs.yml
+  push:
+    branches:
+      - main
+    paths:
+      - docs/**
+      - docs/mkdocs.yml
+      - Makefile
+      - Makefile-*.mk
+      - .github/workflows/reusable-build-docs.yml
+      - .github/workflows/wrapper-docs.yml
+
+jobs:
+  build-docs:
+    uses: ./.github/workflows/reusable-build-docs.yml
+    with:
+      build_tag: ${{ github.event_name == 'workflow_dispatch' && inputs.build_tag != '' && inputs.build_tag || github.sha }}
+      publish_pages: ${{ github.event_name == 'pull_request' && false || github.event_name == 'push' && true || inputs.publish_pages }}
