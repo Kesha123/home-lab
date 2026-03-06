@@ -11,10 +11,12 @@ ci/workflow/lint/%: build/container/ansible-runner ## Run yamllint and ansible-l
 	yamllint "$$workflow_dir"; \
 	echo "==> ansible-lint $$workflow_dir"; \
 	$(DOCKER_BINARY) run --rm \
-		-v '$(WORKFLOW_ROOT_DIR)/'"$${workflow_name}":/playbooks \
-		-w /workspace \
+		-e HOME=/tmp \
+		-e ANSIBLE_HOME=/tmp/.ansible \
+		-v "$$workflow_dir":/workspace/workflow:ro \
+		-w /workspace/workflow \
 		$(CONTAINER_REGISTRY)/ansible-runner:$(BUILD_TAG) \
-		ansible-lint /playbooks
+		ansible-lint --project-dir /workspace/workflow /workspace/workflow
 
 ci/workflow/molecule/%: ## Run Molecule scenarios for workflow '%' when present
 	@set -euo pipefail; \
