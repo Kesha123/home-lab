@@ -1,0 +1,16 @@
+---
+- name: Ensure SSH key directory exists
+  ansible.builtin.file:
+    path: "{{ ssh.dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Create SSH key pair
+  community.crypto.openssh_keypair:
+    path: "{{ ssh.dir }}/{{ ssh.key_name }}"
+    size: 4096
+
+- name: Read public SSH key
+  ansible.builtin.slurp:
+    src: "{{ ssh.dir }}/{{ ssh.key_name }}.pub"
+  register: cloud_init_public_ssh_key
