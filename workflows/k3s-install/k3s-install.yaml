@@ -3,6 +3,12 @@
   ansible.builtin.import_playbook: k3s-ansible/playbooks/site.yml
 
 - name: Export kubeconfig
-  ansible.builtin.fetch:
-    src: "{{ kubeconfig_path }}"
-    dest: "{{ kubeconfig_path }}"
+  hosts: server
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Download kubeconfig
+      ansible.builtin.fetch:
+        src: "{{ kubeconfig_path }}"
+        dest: "{{ kubeconfig_path }}"
+        flat: true
