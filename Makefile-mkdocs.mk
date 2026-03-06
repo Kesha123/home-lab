@@ -35,8 +35,7 @@ mkdocs/build: ensure-docker build/container/mkdocs ## Build mkdocs static site
 
 .PHONY: ci/docs
 ci/docs: mkdocs/build ## Build mkdocs artifacts for CI (site dir + deterministic tar.gz)
-	@set -euo pipefail; \
-	if [ -f "$(MKDOCS_ARCHIVE_PATH)" ]; then rm -f "$(MKDOCS_ARCHIVE_PATH)"; fi; \
+	@if [ -f "$(MKDOCS_ARCHIVE_PATH)" ]; then rm -f "$(MKDOCS_ARCHIVE_PATH)"; fi; \
 	tar --sort=name \
 		--mtime='UTC 1970-01-01' \
 		--owner=0 --group=0 --numeric-owner \
