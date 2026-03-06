@@ -21,7 +21,7 @@ cloud_init:
 
 rpi_os:
   base_url: https://downloads.raspberrypi.com
-  release_date: 2025-12-04
+  release_date: '2025-12-04'
   variant: lite
   arch: arm64
   os_name: raspios
