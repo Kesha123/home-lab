@@ -1,8 +1,8 @@
 ---
-- name: Install CNFC
+- name: Install CNCF
   hosts: rpi-5
   roles:
-    - cnfc
+    - cncf
 
 - name: Install CLI tools
   hosts: rpi-5

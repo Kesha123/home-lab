@@ -6,6 +6,7 @@
       cni_plugins_version }}/cni-plugins-linux-arm64-{{
       cni_plugins_version }}.tgz
     dest: "/tmp/cni-plugins-linux-arm64-{{ cni_plugins_version }}.tgz"
+    mode: '0644'
 
 - name: Create CNI bin directory
   ansible.builtin.file:

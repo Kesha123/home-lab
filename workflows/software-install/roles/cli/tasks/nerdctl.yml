@@ -5,6 +5,7 @@
       https://github.com/containerd/nerdctl/releases/download/
       v{{ nerdctl_version }}/nerdctl-{{ nerdctl_version }}-linux-arm64.tar.gz
     dest: "/tmp/nerdctl-{{ nerdctl_version }}-linux-arm64.tar.gz"
+    mode: '0644'
 
 - name: Extract nerdctl archive
   ansible.builtin.unarchive:
