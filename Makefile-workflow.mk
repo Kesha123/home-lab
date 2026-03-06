@@ -3,14 +3,18 @@ WORKFLOW_TARGET_DIR := $(TARGET_DIR)/workflow
 
 
 .PHONY: ci/workflow/lint/% ci/workflow/molecule/% ci/workflow/package/%
-ci/workflow/lint/%: ## Run yamllint and ansible-lint for workflow '%'
+ci/workflow/lint/%: build/container/ansible-runner ## Run yamllint and ansible-lint for workflow '%'
 	@set -euo pipefail; \
 	workflow_name='$*'; \
 	workflow_dir='$(WORKFLOW_ROOT_DIR)/'"$${workflow_name}"; \
 	echo "==> yamllint $$workflow_dir"; \
 	yamllint "$$workflow_dir"; \
 	echo "==> ansible-lint $$workflow_dir"; \
-	ansible-lint "$$workflow_dir"
+	$(DOCKER_BINARY) run --rm \
+		-v '$(WORKFLOW_ROOT_DIR)/'"$${workflow_name}":/playbooks \
+		-w /workspace \
+		$(CONTAINER_REGISTRY)/ansible-runner:$(BUILD_TAG) \
+		ansible-lint /playbooks
 
 ci/workflow/molecule/%: ## Run Molecule scenarios for workflow '%' when present
 	@set -euo pipefail; \

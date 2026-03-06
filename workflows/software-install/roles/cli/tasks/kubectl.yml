@@ -1,7 +1,9 @@
 ---
 - name: Download kubectl
   ansible.builtin.get_url:
-    url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/linux/arm64/kubectl"
+    url: |
+      https://dl.k8s.io/release/{{ kubectl_version }}/
+      bin/linux/arm64/kubectl
     dest: "/tmp/kubectl"
     mode: '0755'
 
@@ -12,7 +14,7 @@
     owner: root
     group: root
     mode: '0755'
-    remote_src: yes
+    remote_src: true
 
 - name: Remove temporary kubectl
   ansible.builtin.file:
