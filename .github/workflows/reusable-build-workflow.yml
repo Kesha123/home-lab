@@ -62,7 +62,7 @@ jobs:
 
       - name: Upload workflow artifact
         if: ${{ steps.artifact.outputs.available == 'true' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: workflow-${{ inputs.workflow_name }}-${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}
           path: ${{ steps.artifact.outputs.path }}
