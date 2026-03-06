@@ -91,6 +91,10 @@ jobs:
   docs:
     needs: resolve-inputs
     uses: ./.github/workflows/wrapper-docs.yml
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     with:
       build_tag: ${{ needs.resolve-inputs.outputs.build_tag }}
       publish_pages: false
