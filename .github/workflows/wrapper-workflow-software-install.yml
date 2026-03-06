@@ -17,12 +17,11 @@ on:
         type: string
         default: ''
 
-permissions:
-  contents: read
-
 jobs:
   build-workflow:
     uses: ./.github/workflows/reusable-build-workflow.yml
+    permissions:
+      contents: read
     with:
       workflow_name: software-install
       build_tag: ${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}

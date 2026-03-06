@@ -14,9 +14,6 @@ on:
           - major
         default: patch
 
-permissions:
-  contents: read
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
