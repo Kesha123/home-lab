@@ -29,15 +29,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - docker/**
-      - docs/**
-      - workflows/**
-      - Makefile
-      - Makefile-*.mk
-      - .ansible-lint
-      - .yamllint.yaml
-      - .github/workflows/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
