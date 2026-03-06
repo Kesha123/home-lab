@@ -11,7 +11,7 @@ This repository uses GitHub Actions with a single orchestration entrypoint and r
    - Container wrappers: `wrapper-container-ansible-runner.yml`, `wrapper-container-mkdocs.yml`, `wrapper-container-pulumi-executor.yml`
    - Workflow wrappers: `wrapper-workflow-k3s-install.yml`, `wrapper-workflow-rpi-os-setup.yml`, `wrapper-workflow-software-install.yml`
    - Docs wrapper: `wrapper-docs.yml`
-   - Wrappers provide path-scoped triggers for PR/manual flows and delegate execution to reusable workflows.
+   - Wrappers are entrypoint adapters for manual runs and orchestration calls; they delegate execution to reusable workflows.
 - Reusable workflows
    - `reusable-build-container.yml`
    - `reusable-build-workflow.yml`
@@ -26,11 +26,20 @@ This repository uses GitHub Actions with a single orchestration entrypoint and r
 | Flow | PR | Push to `main` | Tag `X.Y.Z` | `workflow_dispatch` | `workflow_call` |
 |---|---|---|---|---|---|
 | `ci-main.yml` | No | Yes (path-scoped) | No | Yes | Yes |
-| Container wrappers | Yes (path-scoped) | No | No | Yes | Yes |
-| Workflow wrappers | Yes (path-scoped) | No | No | Yes | Yes |
-| Docs wrapper | Yes (path-scoped) | Yes (path-scoped) | No | Yes | Yes |
+| Container wrappers | No | No | No | Yes | Yes |
+| Workflow wrappers | No | No | No | Yes | Yes |
+| Docs wrapper | No | No | No | Yes | Yes |
 | `release-promotion.yml` | No | No | No | Yes | No |
 | `release.yml` | No | No | Yes | Yes | No |
+
+## Permissions Model
+
+- No top-level `permissions` block is used in wrappers/reusables/orchestrators.
+- Every job declares only required permissions explicitly.
+- Jobs calling container wrappers use `contents: read` and `packages: write`.
+- Jobs calling workflow wrappers use `contents: read`.
+- Jobs calling docs wrapper use `contents: read`, `pages: write`, and `id-token: write`.
+- Release creation job uses `contents: write`.
 
 ## Make Targets Contract
 
@@ -57,12 +66,12 @@ If a target is missing, CI should fail with an actionable error.
    - `make -n ci/workflow/k3s-install`
    - `make -n build/container/ansible-runner`
 2. Verify workflow trigger scope:
-   - Confirm changed paths match wrapper `on.pull_request.paths` or `on.push.paths` filters.
+   - Confirm event type matches the workflow trigger contract (orchestrators handle push/tag flows; wrappers are dispatch/call only).
 3. Verify permissions-sensitive jobs:
    - Container publish needs `packages: write`.
    - GitHub Release job needs `contents: write`.
    - Pages deploy needs `pages: write` and `id-token: write`.
 4. Check concurrency behavior:
-   - PR wrapper reruns cancel in-progress runs for the same workflow/ref.
+   - Concurrency is configured only in top-level orchestrators (`ci-main.yml`, `release.yml`, `release-promotion.yml`).
 5. Validate release tag format:
    - Tag must match `X.Y.Z`.
