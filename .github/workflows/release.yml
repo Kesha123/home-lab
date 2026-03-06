@@ -91,7 +91,7 @@ jobs:
       id-token: write
     with:
       build_tag: ${{ needs.resolve-tag.outputs.release_tag }}
-      publish_pages: false
+      publish_pages: true
 
   create-release:
     needs:
