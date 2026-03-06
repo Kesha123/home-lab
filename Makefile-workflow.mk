@@ -29,9 +29,9 @@ ci/workflow/molecule/%: ## Run Molecule scenarios for workflow '%' when present
 			scenario_name="$$(basename "$$scenario_dir")"; \
 			role_dir="$$(dirname "$$(dirname "$$scenario_dir")")"; \
 			echo "==> molecule test -s $$scenario_name (role: $$role_dir)"; \
-			(
+			( \
 				cd "$$role_dir"; \
-				CI=1 ANSIBLE_FORCE_COLOR=0 PY_COLORS=0 molecule test -s "$$scenario_name"
+				CI=1 ANSIBLE_FORCE_COLOR=0 PY_COLORS=0 molecule test -s "$$scenario_name"; \
 			); \
 		done; \
 	else \
