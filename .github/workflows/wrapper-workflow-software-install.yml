@@ -2,15 +2,6 @@
 name: Wrapper Workflow Software Install
 
 on:
-  pull_request:
-    paths:
-      - workflows/software-install/**
-      - Makefile
-      - Makefile-workflow.mk
-      - .ansible-lint
-      - .yamllint.yaml
-      - .github/workflows/reusable-build-workflow.yml
-      - .github/workflows/wrapper-workflow-software-install.yml
   workflow_dispatch:
     inputs:
       build_tag:
@@ -28,10 +19,6 @@ on:
 
 permissions:
   contents: read
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build-workflow:

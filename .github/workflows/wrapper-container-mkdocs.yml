@@ -2,14 +2,6 @@
 name: Wrapper Container MkDocs
 
 on:
-  pull_request:
-    paths:
-      - docker/mkdocs/**
-      - Makefile
-      - Makefile-docker.mk
-      - Makefile-mkdocs.mk
-      - .github/workflows/reusable-build-container.yml
-      - .github/workflows/wrapper-container-mkdocs.yml
   workflow_dispatch:
     inputs:
       publish:
@@ -38,10 +30,6 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
 jobs:
   build-container:
     uses: ./.github/workflows/reusable-build-container.yml
@@ -50,5 +38,5 @@ jobs:
       packages: write
     with:
       container_name: mkdocs
-      publish: ${{ github.event_name != 'pull_request' && inputs.publish }}
+      publish: ${{ inputs.publish }}
       build_tag: ${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}

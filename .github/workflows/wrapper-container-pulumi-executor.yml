@@ -3,13 +3,6 @@ name: Wrapper Container Pulumi Executor
 run-name: Pulumi executor container (pending target tolerated)
 
 on:
-  pull_request:
-    paths:
-      - docker/pulumi-executor/**
-      - Makefile
-      - Makefile-docker.mk
-      - .github/workflows/reusable-build-container.yml
-      - .github/workflows/wrapper-container-pulumi-executor.yml
   workflow_dispatch:
     inputs:
       publish:
@@ -38,10 +31,6 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
 jobs:
   build-container:
     uses: ./.github/workflows/reusable-build-container.yml
@@ -50,5 +39,5 @@ jobs:
       packages: write
     with:
       container_name: pulumi-executor
-      publish: ${{ github.event_name != 'pull_request' && inputs.publish }}
+      publish: ${{ inputs.publish }}
       build_tag: ${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}

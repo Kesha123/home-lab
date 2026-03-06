@@ -26,28 +26,6 @@ on:
         required: false
         type: boolean
         default: true
-  pull_request:
-    paths:
-      - docs/**
-      - docs/mkdocs.yml
-      - Makefile
-      - Makefile-*.mk
-      - .github/workflows/reusable-build-docs.yml
-      - .github/workflows/wrapper-docs.yml
-  push:
-    branches:
-      - main
-    paths:
-      - docs/**
-      - docs/mkdocs.yml
-      - Makefile
-      - Makefile-*.mk
-      - .github/workflows/reusable-build-docs.yml
-      - .github/workflows/wrapper-docs.yml
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
 
 jobs:
   build-docs:
@@ -57,5 +35,5 @@ jobs:
       pages: write
       id-token: write
     with:
-      build_tag: ${{ (github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call') && inputs.build_tag != '' && inputs.build_tag || github.sha }}
-      publish_pages: ${{ github.event_name == 'pull_request' && false || github.event_name == 'push' && true || inputs.publish_pages }}
+      build_tag: ${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}
+      publish_pages: ${{ inputs.publish_pages }}

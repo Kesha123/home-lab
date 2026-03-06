@@ -12,21 +12,6 @@ on:
         required: false
         type: string
         default: ''
-  workflow_dispatch:
-    inputs:
-      workflow_name:
-        description: Workflow package/lint target suffix
-        required: true
-        type: string
-      build_tag:
-        description: Build tag passed to make
-        required: false
-        type: string
-        default: ''
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.workflow_name }}
-  cancel-in-progress: false
 
 jobs:
   build-workflow:

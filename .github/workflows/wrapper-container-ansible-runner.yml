@@ -2,13 +2,6 @@
 name: Wrapper Container Ansible Runner
 
 on:
-  pull_request:
-    paths:
-      - docker/ansible-runner/**
-      - Makefile
-      - Makefile-docker.mk
-      - .github/workflows/reusable-build-container.yml
-      - .github/workflows/wrapper-container-ansible-runner.yml
   workflow_dispatch:
     inputs:
       publish:
@@ -37,10 +30,6 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
 jobs:
   build-container:
     uses: ./.github/workflows/reusable-build-container.yml
@@ -49,5 +38,5 @@ jobs:
       packages: write
     with:
       container_name: ansible-runner
-      publish: ${{ github.event_name != 'pull_request' && inputs.publish }}
+      publish: ${{ inputs.publish }}
       build_tag: ${{ inputs.build_tag != '' && inputs.build_tag || github.sha }}

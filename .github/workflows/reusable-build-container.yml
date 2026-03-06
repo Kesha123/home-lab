@@ -17,26 +17,6 @@ on:
         required: false
         type: string
         default: ''
-  workflow_dispatch:
-    inputs:
-      container_name:
-        description: Container name used in make target path
-        required: true
-        type: string
-      publish:
-        description: Push container to registry
-        required: false
-        type: boolean
-        default: false
-      build_tag:
-        description: Container tag passed to make
-        required: false
-        type: string
-        default: ''
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.container_name }}-${{ inputs.publish }}
-  cancel-in-progress: false
 
 jobs:
   build:
