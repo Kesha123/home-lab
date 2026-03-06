@@ -16,7 +16,7 @@ ci/workflow/lint/%: build/container/ansible-runner ## Run yamllint and ansible-l
 		-v "$$workflow_dir":/workspace/workflow:ro \
 		-w /workspace/workflow \
 		$(CONTAINER_REGISTRY)/ansible-runner:$(BUILD_TAG) \
-		ansible-lint --project-dir /workspace/workflow /workspace/workflow
+		ansible-lint --project-dir /workspace /workspace/workflow
 
 ci/workflow/molecule/%: ## Run Molecule scenarios for workflow '%' when present
 	@set -euo pipefail; \
