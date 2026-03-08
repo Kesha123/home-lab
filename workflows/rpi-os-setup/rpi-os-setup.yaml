@@ -1,0 +1,18 @@
+---
+- name: Download Raspberry Pi OS image
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - download
+
+- name: Prepare workspace and copy image
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - setup
+
+- name: Generate and inject cloud-init files
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - cloud_init

@@ -1,0 +1,25 @@
+---
+- name: Clean up previous artifacts
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ workspace_dir }}/{{ rpi_os.image | replace(' ', '') }}"
+    - "{{ cloud_init.work_dir }}"
+    - "{{ ssh.dir }}"
+
+- name: Ensure required directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ cloud_init.work_dir }}"
+    - "{{ ssh.dir }}"
+
+- name: Copy Raspberry Pi OS image into workspace
+  ansible.builtin.copy:
+    src: "{{ downloads_dir }}/{{ rpi_os.image | replace(' ', '') }}"
+    dest: "{{ workspace_dir }}/{{ rpi_os.image | replace(' ', '') }}"
+    mode: '0644'
+    remote_src: true

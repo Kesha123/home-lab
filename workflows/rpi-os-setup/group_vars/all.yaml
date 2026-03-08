@@ -1,12 +1,13 @@
 ---
 workspace_dir: /workspace
+downloads_dir: /downloads
 
 ssh:
   dir: "{{ workspace_dir }}/ssh"
   key_name: id_rsa
 
 cloud_init:
-  work_dir: /workspace/cloud-init
+  work_dir: "{{ workspace_dir }}/cloud-init"
   instance_id: raspberry-pi-5
   hostname: "raspberry-pi-5"
   username: admin
@@ -41,3 +42,4 @@ rpi_os:
 
 mount:
   mount_point: /workspace/mnt
+  nvme_usb_mount: /dev/sda
