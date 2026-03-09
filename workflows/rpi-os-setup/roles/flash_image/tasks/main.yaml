@@ -19,3 +19,4 @@
   ansible.builtin.shell: >
     dd if=/workspace/{{ rpi_os.image | replace(' ', '') }} of={{ mount.nvme_usb_mount }} bs=4M conv=fsync
   become: true
+  changed_when: true

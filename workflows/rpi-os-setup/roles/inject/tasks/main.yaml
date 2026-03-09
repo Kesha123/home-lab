@@ -1,22 +1,24 @@
 ---
 - name: Calculate byte offset for FAT32 partition
   ansible.builtin.shell: |
+    set -o pipefail
     START_SECTOR=$(sfdisk -l {{ workspace_dir }}/{{ rpi_os.image | replace(' ', '') }} | \
       grep "{{ rpi_os.bootfs_partition_label }}" | awk '{print $2}')
     echo $((START_SECTOR * {{ rpi_os.sector_size }}))
   args:
     executable: "{{ shell_executable }}"
-  register: fat32_offset
+  register: inject_fat32_offset
+  changed_when: false
 
 - name: Copy cloud-init files into the FAT32 boot partition (Partition 1)
   ansible.builtin.shell: |
     set -o pipefail
     export MTOOLS_SKIP_CHECK=1
-    mcopy -o -i {{ workspace_dir }}/{{ rpi_os.image | replace(' ', '') }}@@{{ fat32_offset.stdout }} \
+    mcopy -o -i {{ workspace_dir }}/{{ rpi_os.image | replace(' ', '') }}@@{{ inject_fat32_offset.stdout }} \
       {{ cloud_init.work_dir }}/user-data ::user-data
-    mcopy -o -i {{ workspace_dir }}/{{ rpi_os.image | replace(' ', '') }}@@{{ fat32_offset.stdout }} \
+    mcopy -o -i {{ workspace_dir }}/{{ rpi_os.image | replace(' ', '') }}@@{{ inject_fat32_offset.stdout }} \
       {{ cloud_init.work_dir }}/meta-data ::meta-data
-    mcopy -o -i {{ workspace_dir }}/{{ rpi_os.image | replace(' ', '') }}@@{{ fat32_offset.stdout }} \
+    mcopy -o -i {{ workspace_dir }}/{{ rpi_os.image | replace(' ', '') }}@@{{ inject_fat32_offset.stdout }} \
       {{ cloud_init.work_dir }}/network-config ::network-config
   args:
     executable: "{{ shell_executable }}"
@@ -26,7 +28,7 @@
   ansible.builtin.shell: |
     set -o pipefail
     export MTOOLS_SKIP_CHECK=1
-    mlabel -i {{ workspace_dir }}/{{ rpi_os.image | replace(' ', '') }}@@{{ fat32_offset.stdout }} ::cidata
+    mlabel -i {{ workspace_dir }}/{{ rpi_os.image | replace(' ', '') }}@@{{ inject_fat32_offset.stdout }} ::cidata
   args:
     executable: "{{ shell_executable }}"
   changed_when: true
