@@ -15,6 +15,9 @@ packages:
   - ufw
   - iptables
 
+locale: fi_FI
+timezone: Europe/Helsinki
+
 users:
   - name: {{ cloud_init.username }}
     passwd: "{{ cloud_init.password_hash }}"
@@ -27,21 +30,6 @@ users:
 
 ssh_pwauth: false
 disable_root: true
-
-disk_setup:
-  /dev/sda:
-    table_type: 'mbr'
-    layout: true
-    overwrite: false
-
-fs_setup:
-  - label: storage
-    filesystem: ext4
-    device: /dev/sda1
-    partition: auto
-
-mounts:
-  - [ /dev/sda1, /mnt/storage, "ext4", "defaults,noatime", "0", "2" ]
 
 write_files:
   - path: /boot/firmware/config.txt

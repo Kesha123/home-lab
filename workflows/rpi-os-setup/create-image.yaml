@@ -1,6 +1,0 @@
----
-- name: Generate and inject cloud-init files
-  hosts: localhost
-  gather_facts: false
-  roles:
-    - cloud_init

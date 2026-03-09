@@ -4,6 +4,3 @@
 
 - name: Generate cloud-init configuration files
   ansible.builtin.include_tasks: config.yaml
-
-- name: Inject cloud-init files into image
-  ansible.builtin.include_tasks: inject.yaml

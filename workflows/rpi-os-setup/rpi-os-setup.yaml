@@ -16,3 +16,9 @@
   gather_facts: false
   roles:
     - cloud_init
+
+- name: Inject files into image
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - inject

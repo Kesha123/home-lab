@@ -1,6 +1,0 @@
----
-- name: Download Raspberry Pi OS image
-  hosts: localhost
-  gather_facts: false
-  roles:
-    - download

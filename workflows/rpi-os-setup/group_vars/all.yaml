@@ -3,6 +3,8 @@ workspace_dir: /workspace
 playbook_root_dir: /playbooks
 downloads_dir: /downloads
 
+shell_executable: /bin/sh
+
 assets:
   scripts_dir: "{{ playbook_root_dir }}/scripts"
   templates_dir: "{{ playbook_root_dir }}/templates"
@@ -44,6 +46,8 @@ rpi_os:
     {{ rpi_os.arch }}/images/{{ rpi_os.os_name }}_{{ rpi_os.variant }}_
     {{ rpi_os.arch }}-{{ rpi_os.release_date }}/
     {{ rpi_os.release_date }}-{{ rpi_os.image_compressed }}
+  bootfs_partition_label: "W95 FAT32"
+  sector_size: 512
 
 mount:
   mount_point: "{{ workspace_dir }}/mnt"
