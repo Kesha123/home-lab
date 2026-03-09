@@ -1,0 +1,21 @@
+---
+- name: Ensure rpi-imager is installed
+  ansible.builtin.package:
+    name: rpi-imager
+    state: present
+
+- name: Unmount NVMe drive if mounted
+  ansible.builtin.shell: >
+    umount {{ mount.nvme_usb_mount }}* || true
+  become: true
+  changed_when: false
+
+# - name: Flash Raspberry Pi OS image to NVMe drive
+#   ansible.builtin.shell: >
+#     rpi-imager --cli /workspace/{{ rpi_os.image | replace(' ', '') }} {{ mount.nvme_usb_mount }}
+#   become: true
+
+- name: Flash Raspberry Pi OS image to NVMe drive using dd
+  ansible.builtin.shell: >
+    dd if=/workspace/{{ rpi_os.image | replace(' ', '') }} of={{ mount.nvme_usb_mount }} bs=4M conv=fsync
+  become: true

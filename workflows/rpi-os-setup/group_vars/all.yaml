@@ -1,6 +1,11 @@
 ---
 workspace_dir: /workspace
+playbook_root_dir: /playbooks
 downloads_dir: /downloads
+
+assets:
+  scripts_dir: "{{ playbook_root_dir }}/scripts"
+  templates_dir: "{{ playbook_root_dir }}/templates"
 
 ssh:
   dir: "{{ workspace_dir }}/ssh"
@@ -41,5 +46,5 @@ rpi_os:
     {{ rpi_os.release_date }}-{{ rpi_os.image_compressed }}
 
 mount:
-  mount_point: /workspace/mnt
+  mount_point: "{{ workspace_dir }}/mnt"
   nvme_usb_mount: /dev/sda

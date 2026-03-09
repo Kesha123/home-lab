@@ -1,7 +1,4 @@
 ---
-- name: Prepare working directory for cloud-init files
-  ansible.builtin.include_tasks: prepare-workdir.yaml
-
 - name: Generate cloud-init SSH keys
   ansible.builtin.include_tasks: ssh-keys.yaml
 
