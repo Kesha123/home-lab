@@ -26,6 +26,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Lint docs Markdown
+        shell: bash
+        run: |
+          set -euo pipefail
+          make mkdocs/lint
+
+      - name: Prose lint docs
+        shell: bash
+        run: |
+          set -euo pipefail
+          make mkdocs/proselint
+
       - name: Build docs with make
         shell: bash
         run: |
