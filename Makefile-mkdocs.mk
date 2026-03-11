@@ -28,10 +28,10 @@ mkdocs/build: ensure-docker build/container/mkdocs ## Build mkdocs static site
 		--rm \
 		-u $(REMOTE_USER) \
 		-v $(ROOT_DIR)/docs:/docs \
-		-v $(MKDOCS_OUTPUT_DIR):/docs/site \
+		-v $(MKDOCS_OUTPUT_DIR):/tmp/site \
 		-w /docs \
 		$(CONTAINER_REGISTRY)/mkdocs:$(BUILD_TAG) \
-		mkdocs build --site-dir /docs/site
+		mkdocs build --site-dir /tmp/site
 
 mkdocs/lint: ensure-docker build/container/mkdocs ## Lint markdown docs with pymarkdown
 	$(DOCKER_BINARY) run \
