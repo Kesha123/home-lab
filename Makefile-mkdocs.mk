@@ -5,7 +5,7 @@ MKDOCS_ARCHIVE_PATH ?= $(MKDOCS_OUTPUT_DIR)/site.tar.gz
 
 REMOTE_USER		:= $(shell id -u)
 
-.PHONY: mkdocs mkdocs/start mkdocs/serve mkdocs/stop
+.PHONY: mkdocs mkdocs/start mkdocs/serve mkdocs/stop mkdocs/lint mkdocs/prose
 mkdocs: mkdocs/build ## Build mkdocs static site (compat alias)
 
 mkdocs/start: mkdocs/serve ## Serve mkdocs locally (compat alias)
@@ -28,10 +28,29 @@ mkdocs/build: ensure-docker build/container/mkdocs ## Build mkdocs static site
 		--rm \
 		-u $(REMOTE_USER) \
 		-v $(ROOT_DIR)/docs:/docs \
-		-v $(MKDOCS_OUTPUT_DIR):/docs/site \
+		-v $(MKDOCS_OUTPUT_DIR):/tmp/site \
 		-w /docs \
 		$(CONTAINER_REGISTRY)/mkdocs:$(BUILD_TAG) \
-		mkdocs build --site-dir /docs/site
+		mkdocs build --site-dir /tmp/site
+
+mkdocs/lint: ensure-docker build/container/mkdocs ## Lint markdown docs with pymarkdown
+	$(DOCKER_BINARY) run \
+		--rm \
+		-u $(REMOTE_USER) \
+		-v $(ROOT_DIR)/docs:/docs \
+		-w /docs \
+		$(CONTAINER_REGISTRY)/mkdocs:$(BUILD_TAG) \
+		pymarkdown scan /docs
+
+mkdocs/prose: ensure-docker build/container/mkdocs ## Run prose lint checks for docs markdown
+	$(DOCKER_BINARY) run \
+		--rm \
+		-u $(REMOTE_USER) \
+		-v $(ROOT_DIR)/docs:/docs \
+		-e HOME=/tmp \
+		-w /docs \
+		$(CONTAINER_REGISTRY)/mkdocs:$(BUILD_TAG) \
+		proselint /docs
 
 .PHONY: ci/docs
 ci/docs: mkdocs/build ## Build mkdocs artifacts for CI (site dir + deterministic tar.gz)

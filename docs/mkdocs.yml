@@ -1,7 +1,15 @@
 site_name: Innokentii Kozlov - Home Lab
+
 docs_dir: Documentation
-nav:
-  - Home:
-      - index.md
-# theme:
-#   name: material
+
+repo_url: https://github.com/Kesha123/home-lab
+
+plugins:
+  - search
+  - awesome-nav
+  - section-index
+  - minify:
+      minify_html: true
+
+theme:
+  name: material
