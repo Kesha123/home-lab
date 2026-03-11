@@ -36,7 +36,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          make mkdocs/proselint
+          make mkdocs/prose
 
       - name: Build docs with make
         shell: bash
