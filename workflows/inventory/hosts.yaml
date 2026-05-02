@@ -1,0 +1,8 @@
+all:
+  hosts:
+    raspberry-pi-5:
+      ansible_host: 192.168.1.50
+    dell-optiplex-3000:
+      ansible_host: 192.168.1.60
+    localhost:
+      ansible_connection: local

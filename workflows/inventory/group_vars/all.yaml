@@ -1,0 +1,5 @@
+---
+workspace: "/workspace"
+scripts: "{{ workspace }}/scripts"
+templates: "{{ workspace }}/templates"
+shell_executable: "/bin/sh"
