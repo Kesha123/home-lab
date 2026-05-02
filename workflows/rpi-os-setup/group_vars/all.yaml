@@ -1,20 +1,12 @@
 ---
-workspace_dir: /workspace
-playbook_root_dir: /playbooks
-downloads_dir: /downloads
-
-shell_executable: /bin/sh
-
-assets:
-  scripts_dir: "{{ playbook_root_dir }}/scripts"
-  templates_dir: "{{ playbook_root_dir }}/templates"
+downloads_dir: "{{ workspace }}/downloads"
 
 ssh:
-  dir: "{{ workspace_dir }}/ssh"
+  dir: "{{ workspace }}/ssh"
   key_name: id_rsa
 
 cloud_init:
-  work_dir: "{{ workspace_dir }}/cloud-init"
+  work_dir: "{{ workspace }}/cloud-init"
   instance_id: raspberry-pi-5
   hostname: "raspberry-pi-5"
   username: admin
@@ -50,5 +42,5 @@ rpi_os:
   sector_size: 512
 
 mount:
-  mount_point: "{{ workspace_dir }}/mnt"
+  mount_point: "{{ workspace }}/mnt"
   nvme_usb_mount: /dev/sda
