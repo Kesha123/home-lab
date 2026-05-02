@@ -1,0 +1,57 @@
+FROM python:3.12-alpine AS builder
+
+ARG KIND_VERSION=v0.29.0
+
+WORKDIR /workspace
+
+ENV SSL_CERT_DIR=/etc/ssl/certs
+
+COPY ansible-collections.yaml /tmp/
+COPY requirements.in /tmp/
+COPY alpine-packages.yaml /tmp/
+
+RUN apk add --no-cache yq
+
+RUN apk add --no-cache $(yq e '.build[]' /tmp/alpine-packages.yaml) \
+    && update-ca-certificates --fresh
+
+RUN python -m venv /opt/venv \
+    && /opt/venv/bin/pip install --no-cache-dir pip-tools==7.4.1 \
+    && /opt/venv/bin/pip-compile /tmp/requirements.in -o /tmp/requirements.txt \
+    && /opt/venv/bin/pip install --no-cache-dir -r /tmp/requirements.txt \
+    && /opt/venv/bin/ansible-galaxy collection install \
+      -r /tmp/ansible-collections.yaml \
+      -p /usr/share/ansible/collections
+
+RUN curl -Lo ./kind https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-linux-amd64 && \
+    mv ./kind /usr/local/bin/kind
+
+FROM python:3.12-alpine AS runtime
+
+WORKDIR /workspace
+
+ENV SSL_CERT_DIR=/etc/ssl/certs
+ENV PATH="/opt/venv/bin:${PATH}"
+
+COPY alpine-packages.yaml /tmp/
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY --from=builder /usr/bin/yq /usr/bin/yq
+
+RUN apk add --no-cache $(yq e '.runtime[]' /tmp/alpine-packages.yaml) \
+    && update-ca-certificates --fresh \
+    && addgroup -g 1000 -S ansible \
+    && adduser -u 1000 -S -G ansible ansible \
+    && chown -R ansible:ansible /workspace \
+    && echo 'ansible ALL=(ALL) NOPASSWD: /bin/mount, /bin/umount' > /etc/sudoers.d/ansible-mount \
+    && chmod 0440 /etc/sudoers.d/ansible-mount
+
+COPY --from=builder /opt/venv /opt/venv
+COPY --from=builder /usr/share/ansible/collections /usr/share/ansible/collections
+COPY --from=builder --chown=ansible:ansible --chmod=755 /usr/local/bin/kind /usr/local/bin/kind
+
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+USER ansible
+
+ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
+CMD []

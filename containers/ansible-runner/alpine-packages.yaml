@@ -1,0 +1,17 @@
+build:
+  - ca-certificates
+  - libgcc
+  - libstdc++
+  - build-base
+  - cargo
+  - rust
+  - curl
+  - git
+
+runtime:
+  - libgcc
+  - libstdc++
+  - docker
+  - sudo
+  - mtools
+  - util-linux
