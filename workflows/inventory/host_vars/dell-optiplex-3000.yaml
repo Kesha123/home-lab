@@ -1,0 +1,2 @@
+---
+fqdn: "dell-optiplex-3000.{{ domain_name }}"

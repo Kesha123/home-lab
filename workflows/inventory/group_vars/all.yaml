@@ -3,3 +3,5 @@ workspace: "/workspace"
 scripts: "{{ workspace }}/scripts"
 templates: "{{ workspace }}/templates"
 shell_executable: "/bin/sh"
+domain_name: innokentii-kozlov.com
+ansible_user: admin
