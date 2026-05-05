@@ -10,7 +10,11 @@ cloud_init:
   instance_id: "{{ hostvars['raspberry-pi-5']['fqdn'] }}"
   hostname: "{{ hostvars['raspberry-pi-5']['fqdn'] }}"
   username: "{{ hostvars['raspberry-pi-5']['ansible_user'] }}"
-  password_hash: "{{ 'admin' | password_hash('sha512') }}"
+  password_hash: >-
+    {{
+      lookup('ansible.builtin.password', workspace ~ '/secret')
+      | password_hash('sha512')
+    }}
   network_interface: eth0
   ip_addresses:
     - "{{ hostvars['raspberry-pi-5']['ansible_host'] }}/24"
