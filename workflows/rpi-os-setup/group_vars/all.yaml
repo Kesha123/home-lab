@@ -1,18 +1,18 @@
 ---
-downloads_dir: "{{ workspace }}/downloads"
+downloads_dir: "{{ target }}/downloads"
 
 ssh:
-  dir: "{{ workspace }}/ssh"
+  dir: "{{ target }}/ssh"
   key_name: id_rsa
 
 cloud_init:
-  work_dir: "{{ workspace }}/cloud-init"
+  work_dir: "{{ target }}/cloud-init"
   instance_id: "{{ hostvars['raspberry-pi-5']['fqdn'] }}"
   hostname: "{{ hostvars['raspberry-pi-5']['fqdn'] }}"
   username: "{{ hostvars['raspberry-pi-5']['ansible_user'] }}"
   password_hash: >-
     {{
-      lookup('ansible.builtin.password', workspace ~ '/secret')
+      lookup('ansible.builtin.password', target ~ '/secret')
       | password_hash('sha512')
     }}
   network_interface: eth0
@@ -44,7 +44,3 @@ rpi_os:
     {{ rpi_os.release_date }}-{{ rpi_os.image_compressed }}
   bootfs_partition_label: "W95 FAT32"
   sector_size: 512
-
-mount:
-  mount_point: "{{ workspace }}/mnt"
-  nvme_usb_mount: /dev/sda

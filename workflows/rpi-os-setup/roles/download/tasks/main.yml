@@ -1,4 +1,10 @@
 ---
+- name: Ensure {{ downloads_dir }}/ exists
+  ansible.builtin.file:
+    path: "{{ downloads_dir }}"
+    state: directory
+    mode: '0755'
+
 - name: Download Raspberry Pi OS image archive
   ansible.builtin.get_url:
     url: "{{ rpi_os.download_url | replace(' ', '') }}"
