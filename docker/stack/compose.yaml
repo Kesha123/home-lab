@@ -1,9 +1,0 @@
-services:
-  traefik:
-  registry:
-  authentik:
-  vault:
-
-volumes:
-
-networks:

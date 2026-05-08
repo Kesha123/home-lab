@@ -1,8 +1,5 @@
 # containers/Makefile
 
-CONTAINER_ENGINE 	:= podman
-CONTAINER_REGISTRY	:= codeberg.org/kesha123/home-lab
-
 .PHONY: containers/build/ansible-runner
 containers/build/ansible-runner:
 	@echo "Building container: ansible-runner"
