@@ -1,0 +1,32 @@
+upstreams:
+  init:
+    strategy: failOnError
+  groups:
+    default:
+      - 8.8.8.8
+      - 1.1.1.1
+
+customDNS:
+  customTTL: 1h
+  filterUnmappedTypes: true
+  mapping:
+    innokentii-kozlov.com: 192.168.0.252
+
+blocking:
+  denylists:
+    ads:
+      - https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt
+      - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+      - http://sysctl.org/cameleon/hosts
+      - https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt
+    special:
+      - https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews/hosts
+
+prometheus:
+  enable: true
+  path: /metrics
+
+ports:
+  dns:
+    - 53
+  http: 4000

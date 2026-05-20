@@ -1,0 +1,5 @@
+*.innokentii-kozlov.com {
+    tls {
+        dns route53
+    }
+}

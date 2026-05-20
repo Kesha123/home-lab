@@ -1,5 +1,3 @@
-# containers/Makefile
-
 .PHONY: containers/build/ansible-runner
 containers/build/ansible-runner:
 	@echo "Building container: ansible-runner"
@@ -16,17 +14,12 @@ containers/build/mkdocs:
 		-f mkdocs/Containerfile \
 		mkdocs
 
-.PHONY: containers/build/pulumi-executor
-containers/build/pulumi-executor:
-	@if [ -f pulumi-executor/Containerfile ]; then \
-		echo "Building container: pulumi-executor"; \
-		$(CONTAINER_ENGINE) build \
-			-t $(CONTAINER_REGISTRY)/pulumi-executor:$(BUILD_TAG) \
-			-f pulumi-executor/Containerfile \
-			pulumi-executor; \
-	else \
-		echo "Skipping containers/build/pulumi-executor (Containerfile not found at pulumi-executor/Containerfile)"; \
-	fi
+.PHONY: containers/build/caddy-route53
+containers/build/caddy-route53:
+	$(CONTAINER_ENGINE) build \
+		-t $(CONTAINER_REGISTRY)/caddy-route53:$(BUILD_TAG) \
+		-f caddy-route53/Containerfile \
+		caddy-route53
 
 .PHONY: containers/build/all
-containers/build/all: containers/build/ansible-runner containers/build/mkdocs
+containers/build/all: containers/build/ansible-runner containers/build/mkdocs containers/build/caddy-route53
