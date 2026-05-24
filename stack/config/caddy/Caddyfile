@@ -1,5 +1,7 @@
-*.innokentii-kozlov.com {
+zot.innokentii-kozlov.com {
     tls {
         dns route53
     }
+
+    reverse_proxy zot:5000
 }

@@ -1,0 +1,50 @@
+distSpecVersion: "1.1.1"
+storage:
+  rootDirectory: "/var/lib/registry"
+http:
+  address: "0.0.0.0"
+  port: "5000"
+  externalURL: "https://zot.innokentii-kozlov.com"
+extensions:
+  ui:
+    enable: true
+  search:
+    enable: true
+  sync:
+    enable: true
+    registries:
+      - urls:
+          - "https://quay.io"
+        content:
+          - prefix: "**"
+            destination: "quay-images"
+        onDemand: true
+        tlsVerify: true
+      - urls:
+          - "https://ghcr.io"
+        content:
+          - prefix: "**"
+            destination: "ghcr-images"
+        onDemand: true
+        tlsVerify: true
+      - urls:
+          - "https://gcr.io"
+        content:
+          - prefix: "**"
+            destination: "gcr-images"
+        onDemand: true
+        tlsVerify: true
+      - urls:
+          - "https://codeberg.org"
+        content:
+          - prefix: "**"
+            destination: "codeberg-images"
+        onDemand: true
+        tlsVerify: true
+      - urls:
+          - "https://registry-1.docker.io"
+        content:
+          - prefix: "**"
+            destination: "docker-images"
+        onDemand: true
+        tlsVerify: true

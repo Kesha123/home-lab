@@ -5,9 +5,9 @@ Description=Blocky
 Image=docker.io/spx01/blocky
 ContainerName=blocky
 HostName=blocky-hostname
-PublishPort=53:53/tcp
-PublishPort=53:53/udp
-Network=podman
+PublishPort=192.168.0.252:53:53/tcp
+PublishPort=192.168.0.252:53:53/udp
+Network=homelab.network
 Environment=TZ=Europe/Helsinki
 Volume=/etc/localtime:/etc/localtime:ro
 Volume=%h/.config/config/blocky/config.yml:/app/config.yml:ro,Z

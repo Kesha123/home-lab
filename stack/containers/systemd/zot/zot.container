@@ -1,0 +1,16 @@
+[Unit]
+Description=Zot Registry
+
+[Container]
+Image=ghcr.io/project-zot/zot:v2.1.17
+ContainerName=zot
+Network=homelab.network
+Volume=%h/.config/config/zot/config.yaml:/etc/zot/config.yaml:ro,z
+Volume=zot_data:/var/lib/registry
+Exec=serve /etc/zot/config.yaml
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

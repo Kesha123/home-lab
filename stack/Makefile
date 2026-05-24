@@ -19,3 +19,6 @@ stack/sync/containers/all:
 
 stack/sync/containers/%:
 	$(call do_rsync,containers/systemd/$*/,containers/systemd/$*/)
+
+stack/sync/registries:
+	rsync $(RSYNC_OPTS) $(CURDIR)/containers/registries.conf $(REMOTE_HOST):$(REMOTE_BASE)/containers/registries.conf

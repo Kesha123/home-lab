@@ -4,9 +4,10 @@ Description=Caddy
 [Container]
 Image=codeberg.org/kesha123/home-lab/caddy-route53:0.0.0
 ContainerName=caddy
+PublishPort=80:80
 PublishPort=443:443
 PublishPort=443:443/udp
-Network=podman
+Network=homelab.network
 Volume=%h/.config/config/caddy/Caddyfile:/etc/caddy/Caddyfile:ro,z
 Volume=caddy_data:/data
 Volume=caddy_config:/config
