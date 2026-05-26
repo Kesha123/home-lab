@@ -5,6 +5,17 @@ http:
   address: "0.0.0.0"
   port: "5000"
   externalURL: "https://zot.innokentii-kozlov.com"
+  auth:
+    openid:
+      providers:
+        oidc:
+          credentialsFile: "/etc/zot/oidc-credentials.json"
+          issuer: https://authentik.innokentii-kozlov.com/application/o/zot/
+          keypath: ""
+          scopes:
+            - openid
+            - profile
+            - email
 extensions:
   ui:
     enable: true

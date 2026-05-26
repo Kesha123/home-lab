@@ -8,7 +8,7 @@ upstreams:
 
 customDNS:
   customTTL: 1h
-  filterUnmappedTypes: true
+  filterUnmappedTypes: false
   mapping:
     innokentii-kozlov.com: 192.168.0.252
 
