@@ -10,6 +10,7 @@ Volume=%h/.config/config/monitoring/grafana/provisioning:/etc/grafana/provisioni
 Volume=%h/.config/config/monitoring/grafana/dashboards:/etc/grafana/dashboards:Z
 Volume=%h/.config/config/monitoring/grafana/grafana.ini:/etc/grafana/grafana.ini:Z
 Volume=grafana_data:/var/lib/grafana:Z
+Environment=GF_INSTALL_PLUGINS=grafana-piechart-panel
 
 [Service]
 Restart=always
