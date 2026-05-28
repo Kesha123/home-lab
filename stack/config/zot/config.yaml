@@ -18,6 +18,7 @@ http:
   port: "5000"
   externalURL: "https://zot.innokentii-kozlov.com"
   auth:
+    apikey: true
     openid:
       providers:
         oidc:

@@ -2,7 +2,9 @@ scrape_configs:
   - job_name: "zot-registry"
     metrics_path: "/metrics"
     scheme: "https"
-
+    basic_auth:
+      username: innokentiikozlov@gmail.com
+      password: 'zak_8b14b4596c0c4a0fa74bdefad7a869d6'
     static_configs:
       - targets: [zot.innokentii-kozlov.com]
 
