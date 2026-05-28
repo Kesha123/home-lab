@@ -17,3 +17,23 @@ authentik.innokentii-kozlov.com {
     }
     reverse_proxy authentik-server:9000
 }
+
+blocky.innokentii-kozlov.com {
+    tls {
+        dns route53 {
+            hosted_zone_id Z07266063B6JW9NSLBQB
+        }
+        resolvers 8.8.8.8 1.1.1.1
+    }
+    reverse_proxy blocky:4000
+}
+
+grafana.innokentii-kozlov.com {
+    tls {
+        dns route53 {
+            hosted_zone_id Z07266063B6JW9NSLBQB
+        }
+        resolvers 8.8.8.8 1.1.1.1
+    }
+    reverse_proxy grafana:3000
+}
