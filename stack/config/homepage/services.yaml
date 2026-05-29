@@ -28,11 +28,3 @@
         href: https://grafana.innokentii-kozlov.com
         description: Monitoring Dashboards
         ping: https://grafana.innokentii-kozlov.com
-    - Prometheus:
-        icon: prometheus
-        href: https://prometheus.innokentii-kozlov.com
-        description: Metrics Collection & Storage
-        ping: https://prometheus.innokentii-kozlov.com
-        widget:
-          type: prometheus
-          url: http://prometheus:9090

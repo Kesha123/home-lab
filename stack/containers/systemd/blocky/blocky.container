@@ -7,10 +7,10 @@ ContainerName=blocky
 HostName=blocky-hostname
 PublishPort=192.168.0.252:53:53/tcp
 PublishPort=192.168.0.252:53:53/udp
-Network=homelab.network
+Network=frontend.network
 Environment=TZ=Europe/Helsinki
 Volume=/etc/localtime:/etc/localtime:ro
-Volume=%h/.config/config/blocky/config.yml:/app/config.yml:ro,Z
+Volume=%h/.config/config/blocky/config.yml:/app/config.yml:ro,z
 
 [Service]
 Restart=unless-stopped

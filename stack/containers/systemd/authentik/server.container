@@ -1,11 +1,12 @@
 [Unit]
 Description=Authentik Server
-After=postgresql.service
+After=backend-network.service authentik-postgresql.service
 
 [Container]
 Image=zot.innokentii-kozlov.com/ghcr-images/goauthentik/server:2026.5.0
 ContainerName=authentik-server
-Network=homelab.network
+Network=frontend.network
+Network=backend.network
 Environment=AUTHENTIK_POSTGRESQL__HOST=authentik-postgresql
 Environment=AUTHENTIK_LISTEN__HTTP=0.0.0.0:9000
 Environment=AUTHENTIK_POSTGRESQL__PORT=5432

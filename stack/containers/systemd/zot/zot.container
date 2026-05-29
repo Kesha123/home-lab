@@ -4,7 +4,7 @@ Description=Zot Registry
 [Container]
 Image=ghcr.io/project-zot/zot:v2.1.17
 ContainerName=zot
-Network=homelab.network
+Network=frontend.network
 Volume=%h/.config/config/zot:/etc/zot:ro,z
 Volume=zot_data:/var/lib/registry
 Exec=serve /etc/zot/config.yaml

@@ -1,15 +1,17 @@
 [Unit]
 Description=Grafana
+After=backend-network.service
 Requires=grafana_data.volume
 
 [Container]
 Image=zot.innokentii-kozlov.com/docker-images/grafana/grafana-oss:13.0.1
 ContainerName=grafana
-Network=homelab.network
-Volume=%h/.config/config/monitoring/grafana/provisioning:/etc/grafana/provisioning:Z
-Volume=%h/.config/config/monitoring/grafana/dashboards:/etc/grafana/dashboards:Z
-Volume=%h/.config/config/monitoring/grafana/grafana.ini:/etc/grafana/grafana.ini:Z
-Volume=grafana_data:/var/lib/grafana:Z
+Network=frontend.network
+Network=backend.network
+Volume=%h/.config/config/monitoring/grafana/provisioning:/etc/grafana/provisioning:z
+Volume=%h/.config/config/monitoring/grafana/dashboards:/etc/grafana/dashboards:z
+Volume=%h/.config/config/monitoring/grafana/grafana.ini:/etc/grafana/grafana.ini:z
+Volume=grafana_data:/var/lib/grafana:z
 Environment=GF_INSTALL_PLUGINS=grafana-piechart-panel
 
 [Service]
