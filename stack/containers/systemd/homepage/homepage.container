@@ -1,0 +1,15 @@
+[Unit]
+Description=Homepage
+
+[Container]
+Image=zot.innokentii-kozlov.com/ghcr-images/gethomepage/homepage:latest
+ContainerName=homepage
+Network=homelab.network
+Volume=%h/.config/config/homepage:/app/config:rw,z
+Environment=HOMEPAGE_ALLOWED_HOSTS=homepage.innokentii-kozlov.com
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

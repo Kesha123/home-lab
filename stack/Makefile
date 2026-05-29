@@ -6,19 +6,22 @@ define do_rsync
 	rsync $(RSYNC_OPTS) $(CURDIR)/$(1) $(REMOTE_HOST):$(REMOTE_BASE)/$(2)
 endef
 
-.PHONY: stack/sync/config/all stack/sync/containers/all
+.PHONY: stack/sync/systemd-unit-config/all stack/sync/systemd-unit/all
 
-stack/sync/config/all:
+stack/sync/systemd-unit-config/all:
 	$(call do_rsync,config/,config/)
 
-stack/sync/config/%:
+stack/sync/systemd-unit-config/%:
 	$(call do_rsync,config/$*/,config/$*/)
 
-stack/sync/containers/all:
+stack/sync/systemd-unit/all:
 	$(call do_rsync,containers/systemd/,containers/systemd/)
 
-stack/sync/containers/%:
+stack/sync/systemd-unit/%:
 	$(call do_rsync,containers/systemd/$*/,containers/systemd/$*/)
 
-stack/sync/registries:
-	rsync $(RSYNC_OPTS) $(CURDIR)/containers/registries.conf $(REMOTE_HOST):$(REMOTE_BASE)/containers/registries.conf
+stack/sync/containers:
+	rsync $(RSYNC_OPTS) \
+		$(CURDIR)/containers/registries.conf \
+		$(CURDIR)/containers/containers.conf \
+		$(REMOTE_HOST):$(REMOTE_BASE)/containers/

@@ -1,0 +1,18 @@
+- Bookmarks:
+    - Development:
+        - GitHub:
+            icon: github
+            href: https://github.com
+        - Docker Hub:
+            icon: docker
+            href: https://hub.docker.com
+        - Zot Registry:
+            icon: mdi-docker
+            href: https://zot.innokentii-kozlov.com
+    - Media & Social:
+        - YouTube:
+            icon: youtube
+            href: https://youtube.com
+        - Reddit:
+            icon: reddit
+            href: https://reddit.com
