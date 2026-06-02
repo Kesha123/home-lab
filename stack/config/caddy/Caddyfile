@@ -47,3 +47,20 @@ homepage.innokentii-kozlov.com {
     }
     reverse_proxy homepage:3000
 }
+
+ezbookkeeping.innokentii-kozlov.com {
+    tls {
+        dns route53 {
+            hosted_zone_id Z07266063B6JW9NSLBQB
+        }
+        resolvers 8.8.8.8 1.1.1.1
+    }
+    reverse_proxy ezbookkeeping:8080 {
+        header_up Host {host}
+        header_up X-Real-IP {remote}
+        header_up X-Real-Port {server_port}
+        header_up X-Forwarded-For {remote}
+        header_up X-Forwarded-Proto {scheme}
+        header_up X-Forwarded-Host {host}
+    }
+}

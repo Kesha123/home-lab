@@ -1,0 +1,17 @@
+[Unit]
+Description=ezBookkeeping
+
+[Container]
+Image=zot.innokentii-kozlov.com/docker-images/mayswind/ezbookkeeping:1.5
+ContainerName=ezbookkeeping
+Network=frontend.network
+Volume=%h/.config/config/ezbookkeeping/ezbookkeeping.ini:/ezbookkeeping/conf/ezbookkeeping.ini:ro,z
+Volume=ezbookkeeping-data:/ezbookkeeping/data:z
+Volume=ezbookkeeping-storage:/ezbookkeeping/storage:z
+Timezone=local
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
