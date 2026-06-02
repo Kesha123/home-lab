@@ -1,7 +1,7 @@
 apiVersion: 1
 
 providers:
-  - name: "Automated Dashboards"
+  - name: "Automated Dashboards - Infrastructure"
     orgId: 1
     folder: "Infrastructure"
     type: file
@@ -9,3 +9,12 @@ providers:
     updateIntervalSeconds: 10
     options:
       path: /etc/grafana/dashboards/infrastructure
+
+  - name: "Automated Dashboards - Hardware"
+    orgId: 1
+    folder: "Hardware"
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    options:
+      path: /etc/grafana/dashboards/hardware
