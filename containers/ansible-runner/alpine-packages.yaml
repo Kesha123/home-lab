@@ -15,3 +15,4 @@ runtime:
   - sudo
   - mtools
   - util-linux
+  - xorriso

@@ -1,7 +1,5 @@
 FROM python:3.12-alpine AS builder
 
-ARG KIND_VERSION=v0.29.0
-
 WORKDIR /workspace
 
 ENV SSL_CERT_DIR=/etc/ssl/certs
@@ -22,9 +20,6 @@ RUN python -m venv /opt/venv \
     && /opt/venv/bin/ansible-galaxy collection install \
       -r /tmp/ansible-collections.yaml \
       -p /usr/share/ansible/collections
-
-RUN curl -Lo ./kind https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-linux-amd64 && \
-    mv ./kind /usr/local/bin/kind
 
 FROM python:3.12-alpine AS runtime
 
@@ -47,7 +42,6 @@ RUN apk add --no-cache $(yq e '.runtime[]' /tmp/alpine-packages.yaml) \
 
 COPY --from=builder /opt/venv /opt/venv
 COPY --from=builder /usr/share/ansible/collections /usr/share/ansible/collections
-COPY --from=builder --chown=ansible:ansible --chmod=755 /usr/local/bin/kind /usr/local/bin/kind
 
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
