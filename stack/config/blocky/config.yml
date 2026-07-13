@@ -10,7 +10,8 @@ customDNS:
   customTTL: 1h
   filterUnmappedTypes: false
   mapping:
-    innokentii-kozlov.com: 192.168.0.252
+    innokentii-kozlov.com: 192.168.40.118
+    git.innokentii-kozlov.com: 192.168.40.174
 
 blocking:
   denylists:
