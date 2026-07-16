@@ -5,12 +5,15 @@ upstreams:
     default:
       - 8.8.8.8
       - 1.1.1.1
+      - 9.9.9.9
 
 customDNS:
   customTTL: 1h
   filterUnmappedTypes: false
   mapping:
     innokentii-kozlov.com: 192.168.40.118
+    dell-optiplex-3000.innokentii-kozlov.com: 192.168.40.118
+    raspberrypi-5.innokentii-kozlov.com: 192.168.40.174
     git.innokentii-kozlov.com: 192.168.40.174
 
 blocking:
