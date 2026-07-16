@@ -1,0 +1,24 @@
+[Unit]
+Description=Forgejo PostgreSQL
+After=backend-network.service
+Requires=forgejo_pg_data.volume
+
+[Container]
+Image=zot.innokentii-kozlov.com/docker-images/library/postgres:16-alpine
+ContainerName=forgejo-postgresql
+Network=backend.network
+Environment=POSTGRES_DB=forgejo
+Secret=forgejo-pg-user,type=env,target=POSTGRES_USER
+Secret=forgejo-pg-pass,type=env,target=POSTGRES_PASSWORD
+Volume=forgejo_pg_data.volume:/var/lib/postgresql/data
+HealthCmd=pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}
+HealthInterval=30s
+HealthTimeout=5s
+HealthStartPeriod=20s
+HealthRetries=5
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

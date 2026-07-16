@@ -1,0 +1,17 @@
+[Unit]
+Description=Caddy
+
+[Container]
+Image=zot.innokentii-kozlov.com/docker-images/library/caddy:2.11.3
+ContainerName=caddy
+PublishPort=80:80
+Network=frontend.network
+Volume=%h/.config/config/caddy/Caddyfile:/etc/caddy/Caddyfile:ro,z
+Volume=caddy_data:/data
+Volume=caddy_config:/config
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
