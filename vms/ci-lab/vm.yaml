@@ -1,0 +1,23 @@
+name: ci-lab
+qemu-uri: qemu:///system
+vcpu: 2
+memory: 4096
+disks:
+  - path: /var/lib/libvirt/images/ci-lab/root-disk.qcow2
+    device: disk
+    bus: virtio
+    format: qcow2
+  - path: /var/lib/libvirt/images/ci-lab/cloud-init.iso
+    device: cdrom
+    bus: sata
+    format: raw
+networks:
+  - network=default,model=virtio,mac=52:54:00:12:34:10
+  - type=direct,source=enp1s0,model=virtio,mac=52:54:00:12:34:11
+graphics: none
+console: pty,target_type=serial
+cmd-args:
+  - --import
+  - --noautoconsole
+  - --os-variant
+  - fedora-unknown

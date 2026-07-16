@@ -1,0 +1,75 @@
+name: ci-lab
+
+services:
+  postgres:
+    image: zot.innokentii-kozlov.com/docker-images/library/postgres:16-alpine
+    environment:
+      POSTGRES_USER: woodpecker
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: woodpecker
+    volumes:
+      - ./certs:/certs:ro,z
+      - postgres-data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    command: >-
+      postgres -c ssl=on
+      -c ssl_cert_file=/certs/server.crt
+      -c ssl_key_file=/certs/server.key
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U woodpecker -d woodpecker"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  woodpecker-server:
+    image: zot.innokentii-kozlov.com/docker-images/woodpeckerci/woodpecker-server:v3
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      WOODPECKER_HOST: ${WOODPECKER_HOST}
+      WOODPECKER_OPEN: "false"
+      WOODPECKER_ADMIN: ${WOODPECKER_ADMIN}
+      WOODPECKER_GITEA: "true"
+      WOODPECKER_GITEA_URL: https://codeberg.org
+      WOODPECKER_GITEA_CLIENT: ${WOODPECKER_GITEA_CLIENT}
+      WOODPECKER_GITEA_SECRET: ${WOODPECKER_GITEA_SECRET}
+      WOODPECKER_DATABASE_DRIVER: postgres
+      WOODPECKER_DATABASE_DATASOURCE: >-
+        postgres://woodpecker:${POSTGRES_PASSWORD}@postgres:5432/woodpecker?sslmode=verify-full&sslrootcert=/certs/ca.crt
+      WOODPECKER_AGENT_SECRET: ${WOODPECKER_AGENT_SECRET}
+      WOODPECKER_PROMETHEUS_AUTH_TOKEN: ${WOODPECKER_PROMETHEUS_AUTH_TOKEN}
+    volumes:
+      - ./certs/ca.crt:/certs/ca.crt:ro
+      - woodpecker-server-data:/var/lib/woodpecker/
+    restart: unless-stopped
+
+  woodpecker-agent:
+    image: zot.innokentii-kozlov.com/docker-images/woodpeckerci/woodpecker-agent:v3
+    depends_on:
+      - woodpecker-server
+    command: agent
+    environment:
+      WOODPECKER_SERVER: woodpecker-server:9000
+      WOODPECKER_AGENT_SECRET: ${WOODPECKER_AGENT_SECRET}
+      WOODPECKER_BACKEND_DOCKER_NETWORK: ci-lab_default
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:z
+      - woodpecker-agent-config:/etc/woodpecker
+    restart: always
+
+  nginx:
+    image: zot.innokentii-kozlov.com/docker-images/library/nginx:stable-alpine
+    depends_on:
+      - woodpecker-server
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  woodpecker-server-data:
+  woodpecker-agent-config:

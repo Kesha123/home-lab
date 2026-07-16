@@ -1,0 +1,20 @@
+version: 2
+ethernets:
+  {{ input_vars.network.interface }}:
+    match:
+      macaddress: "{{ input_vars.network.macaddress }}"
+    dhcp4: {{ input_vars.network.dhcp4 }}
+    addresses:
+      - {{ input_vars.network.address }}
+    routes:
+      - to: default
+        via: {{ input_vars.network.gateway }}
+    nameservers:
+      addresses:
+        - {{ input_vars.dns }}
+  {{ input_vars.network_external.interface }}:
+    match:
+      macaddress: "{{ input_vars.network_external.macaddress }}"
+    dhcp4: {{ input_vars.network_external.dhcp4 }}
+    addresses:
+      - {{ input_vars.network_external.address }}

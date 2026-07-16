@@ -1,0 +1,32 @@
+#cloud-config
+hostname: {{ input_vars.hostname }}
+users:
+  - name: {{ cloud_init_username }}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    lock_passwd: false
+    ssh_authorized_keys:
+      - {{ cloud_init_public_ssh_key.content | b64decode }}
+ssh_pwauth: false
+chpasswd:
+  expire: false
+  users:
+    - name: {{ cloud_init_username }}
+      password: {{ cloud_init_password_hash }}
+      type: hash
+write_files:
+  - path: /etc/ssh/sshd_config.d/99-hardening.conf
+    content: |
+      PermitRootLogin no
+      PasswordAuthentication no
+      PubkeyAuthentication yes
+runcmd:
+  - systemctl reload sshd
+  - systemctl disable --now systemd-resolved
+  - rm -f /etc/resolv.conf
+  - echo "nameserver {{ input_vars.dns }}" > /etc/resolv.conf
+  - echo "192.168.122.1 zot.innokentii-kozlov.com" >> /etc/hosts
+  - dnf config-manager addrepo --from-repofile https://download.docker.com/linux/fedora/docker-ce.repo
+  - dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin openssl podman
+  - systemctl enable --now docker
+  - usermod -aG docker {{ cloud_init_username }}
