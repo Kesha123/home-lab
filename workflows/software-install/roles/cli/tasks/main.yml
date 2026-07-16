@@ -1,9 +1,0 @@
----
-- name: Install kubectl
-  ansible.builtin.include_tasks: kubectl.yml
-
-- name: Install nerdctl
-  ansible.builtin.include_tasks: nerdctl.yml
-
-- name: Install virtctl
-  ansible.builtin.include_tasks: virtctl.yml

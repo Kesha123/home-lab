@@ -1,8 +1,10 @@
 all:
   hosts:
-    raspberry-pi-5:
-      ansible_host: 192.168.0.101
-    dell-optiplex-3000:
-      ansible_host: 192.168.1.102
+    dell-optiplex-3000.innokentii-kozlov.com:
+      ansible_host: 192.168.0.252
+    ci-lab:
+      ansible_host: 192.168.0.253
+      ansible_user: admin
+      ansible_ssh_private_key_file: /ssh-keys/id_rsa
     localhost:
       ansible_connection: local

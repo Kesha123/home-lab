@@ -1,0 +1,25 @@
+---
+- name: Ensure certs directory exists in stack
+  ansible.builtin.file:
+    path: "{{ certs_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Render .env from template
+  ansible.builtin.template:
+    src: env.j2
+    dest: "{{ stack_dir }}/.env"
+    mode: '0600'
+
+- name: Ensure docker config directory exists
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.docker"
+    state: directory
+    mode: '0755'
+
+- name: Generate docker config.json for zot registry
+  ansible.builtin.copy:
+    dest: "/home/{{ ansible_user }}/.docker/config.json"
+    content: >-
+      {{ {'auths': {'zot.innokentii-kozlov.com': {'auth': (secrets.zot_username ~ ':' ~ secrets.zot_api_key) | b64encode}}} | to_nice_json }}
+    mode: '0600'

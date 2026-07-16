@@ -1,0 +1,21 @@
+---
+- name: Generate Woodpecker agent secret
+  ansible.builtin.set_fact:
+    woodpecker_agent_secret: "{{ lookup('ansible.builtin.password', target_generated_secrets_path ~ '.agent', length=64, chars='hexdigits') }}"
+
+- name: Generate Prometheus auth token
+  ansible.builtin.set_fact:
+    woodpecker_prometheus_auth_token: "{{ lookup('ansible.builtin.password', target_generated_secrets_path ~ '.metrics', length=64, chars='hexdigits') }}"
+
+- name: Generate PostgreSQL password
+  ansible.builtin.set_fact:
+    postgres_password: "{{ lookup('ansible.builtin.password', target_generated_secrets_path ~ '.postgres', length=32) }}"
+
+- name: Write generated secrets file
+  ansible.builtin.copy:
+    dest: "{{ target_generated_secrets_path }}"
+    content: |
+      woodpecker_agent_secret: {{ woodpecker_agent_secret }}
+      woodpecker_prometheus_auth_token: {{ woodpecker_prometheus_auth_token }}
+      postgres_password: {{ postgres_password }}
+    mode: '0600'

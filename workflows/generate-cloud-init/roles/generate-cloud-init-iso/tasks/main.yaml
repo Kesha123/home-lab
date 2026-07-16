@@ -1,0 +1,11 @@
+---
+- name: Generate cloud-init.iso
+  ansible.builtin.command:
+    cmd: >-
+      xorriso -as mkisofs
+      -output {{ target_cloud_init_iso_path }}
+      -volid cidata
+      -joliet -rock
+      user-data meta-data network-config
+    chdir: "{{ target_cloud_init_dir }}"
+    creates: "{{ target_cloud_init_iso_path }}"

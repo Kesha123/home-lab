@@ -1,3 +1,0 @@
----
-- name: Install CNI plugins
-  ansible.builtin.include_tasks: cni-plugins.yml

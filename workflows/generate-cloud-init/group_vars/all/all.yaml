@@ -1,0 +1,12 @@
+workspace_dir: "/workspace"
+input_vars_path: "{{ workspace_dir }}/input_vars.yaml"
+cloud_init_template_mount_dir: "{{ workspace_dir }}/cloud-init"
+target_dir: "/target"
+target_cloud_init_dir: "{{ target_dir }}/cloud-init"
+target_cloud_init_iso_path: "{{ target_dir }}/cloud-init.iso"
+target_ssh_keys_dir: "{{ target_dir }}/ssh-keys"
+target_credentials_path: "{{ target_dir }}/credentials"
+
+ssh:
+  key_name: id_rsa
+  size: 4096

@@ -1,0 +1,5 @@
+---
+- name: Load input_vars from input_vars_path into input_vars dictionary
+  ansible.builtin.include_vars:
+    file: "{{ input_vars_path }}"
+    name: input_vars

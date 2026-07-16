@@ -1,6 +1,0 @@
----
-workspace: "/workspace"
-target: "/{{ workspace }}/target"
-shell_executable: "/bin/sh"
-domain_name: innokentii-kozlov.com
-ansible_user: admin

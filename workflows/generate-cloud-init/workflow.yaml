@@ -1,0 +1,35 @@
+---
+- name: Read input vars
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - role: read-input-vars
+
+- name: Generate credentials
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - role: generate-credentials
+
+- name: Generate ssh keys
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - role: generate-ssh-keys
+
+- name: Populate cloud-init
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - role: populate-cloud-init
+
+- name: Generate cloud-init.iso
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - role: generate-cloud-init-iso

@@ -1,2 +1,0 @@
----
-fqdn: "raspberry-pi-5.{{ domain_name }}"

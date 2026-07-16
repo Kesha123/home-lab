@@ -1,0 +1,24 @@
+---
+- name: Ensure target cloud-init directory exists
+  ansible.builtin.file:
+    path: "{{ target_cloud_init_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Generate user-data from template
+  ansible.builtin.template:
+    src: "{{ cloud_init_template_mount_dir }}/user-data.j2"
+    dest: "{{ target_cloud_init_dir }}/user-data"
+    mode: '0644'
+
+- name: Generate meta-data from template
+  ansible.builtin.template:
+    src: "{{ cloud_init_template_mount_dir }}/meta-data.j2"
+    dest: "{{ target_cloud_init_dir }}/meta-data"
+    mode: '0644'
+
+- name: Generate network-config from template
+  ansible.builtin.template:
+    src: "{{ cloud_init_template_mount_dir }}/network-config.j2"
+    dest: "{{ target_cloud_init_dir }}/network-config"
+    mode: '0644'

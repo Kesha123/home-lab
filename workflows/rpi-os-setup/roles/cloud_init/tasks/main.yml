@@ -1,6 +1,0 @@
----
-- name: Generate cloud-init SSH keys
-  ansible.builtin.include_tasks: ssh-keys.yaml
-
-- name: Generate cloud-init configuration files
-  ansible.builtin.include_tasks: config.yaml

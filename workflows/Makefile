@@ -1,5 +1,9 @@
 # workflows/Makefile
 
+BUILD_TAG          ?= 0.0.0
+CONTAINER_ENGINE   ?= podman
+CONTAINER_REGISTRY ?= codeberg.org/kesha123/home-lab
+
 WORKFLOWS := $(patsubst %/workflow.yaml,%,$(wildcard */workflow.yaml))
 
 .PHONY: all

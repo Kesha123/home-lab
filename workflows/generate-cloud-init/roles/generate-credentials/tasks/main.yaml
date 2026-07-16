@@ -1,0 +1,21 @@
+---
+- name: Set username from input_vars (default admin)
+  ansible.builtin.set_fact:
+    cloud_init_username: "{{ (input_vars | default({})).username | default('admin') }}"
+
+- name: Generate password
+  ansible.builtin.set_fact:
+    cloud_init_password: "{{ lookup('ansible.builtin.password', target_credentials_path ~ '.secret', length=24) }}"
+
+- name: Hash password
+  ansible.builtin.set_fact:
+    cloud_init_password_hash: "{{ cloud_init_password | password_hash('sha512') }}"
+
+- name: Write credentials file
+  ansible.builtin.copy:
+    dest: "{{ target_credentials_path }}"
+    content: |
+      username: {{ cloud_init_username }}
+      password: {{ cloud_init_password }}
+      password_hash: {{ cloud_init_password_hash }}
+    mode: '0600'
