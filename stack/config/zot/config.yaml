@@ -68,6 +68,13 @@ extensions:
         onDemand: true
         tlsVerify: true
       - urls:
+          - "https://data.forgejo.org"
+        content:
+          - prefix: "**"
+            destination: "forgejo-images"
+        onDemand: true
+        tlsVerify: true
+      - urls:
           - "https://codeberg.org"
         content:
           - prefix: "**"

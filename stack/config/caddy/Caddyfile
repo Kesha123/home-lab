@@ -50,12 +50,3 @@ forgejo.innokentii-kozlov.com {
     }
 }
 
-ci-lab.innokentii-kozlov.com {
-    tls {
-        dns route53 {
-            hosted_zone_id Z07266063B6JW9NSLBQB
-        }
-        resolvers 8.8.8.8 1.1.1.1
-    }
-    reverse_proxy 192.168.122.10:80
-}
