@@ -29,5 +29,12 @@ containers/build/caddy-route53:
 		-f caddy-route53/Containerfile \
 		caddy-route53
 
+.PHONY: containers/build/clyft-ci
+containers/build/clyft-ci:
+	$(CONTAINER_ENGINE) build \
+		-t $(CONTAINER_REGISTRY)/clyft-ci:$(BUILD_TAG) \
+		-f clyft-ci/Containerfile \
+		clyft-ci
+
 .PHONY: containers/build/all
 containers/build/all: containers/build/ansible-runner containers/build/mkdocs containers/build/caddy-route53
