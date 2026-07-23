@@ -7,13 +7,15 @@ disks:
     device: disk
     bus: virtio
     format: qcow2
+    backing_store: /var/lib/libvirt/images/Fedora-Cloud-Base-Generic-44-1.7.x86_64.qcow2
+    backing_format: qcow2
+    size: 40
   - path: /var/lib/libvirt/images/ci-lab/cloud-init.iso
     device: cdrom
     bus: sata
     format: raw
 networks:
-  - network=default,model=virtio,mac=52:54:00:12:34:10
-  - type=direct,source=enp1s0,model=virtio,mac=52:54:00:12:34:11
+  - bridge=br0,model=virtio,mac=52:54:00:12:34:10
 graphics: none
 console: pty,target_type=serial
 cmd-args:

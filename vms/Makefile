@@ -39,7 +39,7 @@ package/ci-lab:
 	@rm -rf $(TARGET_DIR)/ci-lab/stack.tar.gz
 	@tar -czf $(TARGET_DIR)/ci-lab/stack.tar.gz \
 		-C $(STACK_DIR) \
-		compose.yaml nginx/nginx.conf postgres/init.sql
+		compose.yaml runner-config.yml
 	$(CONTAINER_ENGINE) artifact add --replace \
 		$(ARTIFACT_REF) \
 		$(TARGET_DIR)/ci-lab/stack.tar.gz

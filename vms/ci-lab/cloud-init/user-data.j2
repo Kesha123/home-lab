@@ -25,7 +25,6 @@ runcmd:
   - systemctl disable --now systemd-resolved
   - rm -f /etc/resolv.conf
   - echo "nameserver {{ input_vars.dns }}" > /etc/resolv.conf
-  - echo "192.168.122.1 zot.innokentii-kozlov.com" >> /etc/hosts
   - dnf config-manager addrepo --from-repofile https://download.docker.com/linux/fedora/docker-ce.repo
   - dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin openssl podman
   - systemctl enable --now docker

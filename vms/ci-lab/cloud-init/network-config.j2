@@ -12,9 +12,3 @@ ethernets:
     nameservers:
       addresses:
         - {{ input_vars.dns }}
-  {{ input_vars.network_external.interface }}:
-    match:
-      macaddress: "{{ input_vars.network_external.macaddress }}"
-    dhcp4: {{ input_vars.network_external.dhcp4 }}
-    addresses:
-      - {{ input_vars.network_external.address }}
