@@ -45,8 +45,5 @@ forgejo.innokentii-kozlov.com {
         }
         resolvers 8.8.8.8 1.1.1.1
     }
-    reverse_proxy http://raspberrypi-5.innokentii-kozlov.com {
-        header_up Host forgejo.innokentii-kozlov.com
-    }
+    reverse_proxy forgejo:3000
 }
-

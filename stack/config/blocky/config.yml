@@ -14,7 +14,7 @@ customDNS:
     innokentii-kozlov.com: 192.168.40.118
     dell-optiplex-3000.innokentii-kozlov.com: 192.168.40.118
     raspberrypi-5.innokentii-kozlov.com: 192.168.40.174
-    git.innokentii-kozlov.com: 192.168.40.174
+    git.innokentii-kozlov.com: 192.168.40.118
 
 blocking:
   denylists:
