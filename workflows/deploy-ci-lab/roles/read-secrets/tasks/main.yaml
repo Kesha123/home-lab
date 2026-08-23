@@ -1,5 +1,0 @@
----
-- name: Load secrets from secrets.yaml into secrets dictionary
-  ansible.builtin.include_vars:
-    file: "{{ secrets_path }}"
-    name: secrets

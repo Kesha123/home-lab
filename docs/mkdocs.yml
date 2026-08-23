@@ -2,7 +2,7 @@ site_name: Innokentii Kozlov - Home Lab
 
 docs_dir: Documentation
 
-repo_url: https://github.com/Kesha123/home-lab
+repo_url: https://forgejo.innokentii-kozlov.com/innokentii-kozlov/home-lab
 
 plugins:
   - search
