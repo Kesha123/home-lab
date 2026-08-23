@@ -1,0 +1,22 @@
+container-stack:
+  - name: zot.innokentii-kozlov.com/stack/network
+    version: v0.0.0
+    digest: sha256:a34d00330f2764185b15de6f882b817782e2019bc2bd55f8a229982091287687
+  - name: zot.innokentii-kozlov.com/stack/authentik
+    version: v0.0.0
+    digest: sha256:63f327ad27f4c99d4d449ba270905be992c49edd9cb4561ebcf408be4c814dcb
+  - name: zot.innokentii-kozlov.com/stack/zot
+    version: v0.0.0
+    digest: sha256:4b9f12b86a398800686ea580ca30290d6e121eb37fc328d3e30dd1b5599273e9
+  - name: zot.innokentii-kozlov.com/stack/blocky
+    version: v0.0.0
+    digest: sha256:9985768f85e2f09b93c0d8832ebc98dbe74555b0cae885cc37cf8286d566d1a8
+  - name: zot.innokentii-kozlov.com/stack/caddy
+    version: v0.0.0
+    digest: sha256:a02dfb3e23aea7ed98ab568df77c3513ed204dd23e6ae1e29e0dcad07ce0e664
+  - name: zot.innokentii-kozlov.com/stack/monitoring
+    version: v0.0.0
+    digest: sha256:4a4b1e59bcc651fc007175dfb82cc11c221ee90881a50c29be1e872dd828d1f5
+  - name: zot.innokentii-kozlov.com/stack/forgejo
+    version: v0.0.0
+    digest: sha256:c85cd3ac0d83b9c7c7366564fea0e719548814334f218ce8fbe77eb5a989aea3

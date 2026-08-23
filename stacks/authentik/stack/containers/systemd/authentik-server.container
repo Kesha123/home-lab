@@ -1,0 +1,27 @@
+[Unit]
+Description=Authentik Server
+After=backend-network.service authentik-postgresql.service
+
+[Container]
+Image=zot.innokentii-kozlov.com/ghcr/goauthentik/server:2026.5.0
+ContainerName=authentik-server
+Network=frontend.network
+Network=backend.network
+Environment=AUTHENTIK_POSTGRESQL__HOST=authentik-postgresql
+Environment=AUTHENTIK_LISTEN__HTTP=0.0.0.0:9000
+Environment=AUTHENTIK_POSTGRESQL__PORT=5432
+Secret=authentik-POSTGRES_DB,type=env,target=AUTHENTIK_POSTGRESQL__NAME
+Secret=authentik-POSTGRES_USER,type=env,target=AUTHENTIK_POSTGRESQL__USER
+Secret=authentik-POSTGRES_PASSWORD,type=env,target=AUTHENTIK_POSTGRESQL__PASSWORD
+Secret=authentik-AUTHENTIK_SECRET_KEY,type=env,target=AUTHENTIK_SECRET_KEY
+Secret=authentik-AUTHENTIK_BOOTSTRAP_TOKEN,type=env,target=AUTHENTIK_BOOTSTRAP_TOKEN
+Volume=%h/.local/share/containers/authentik/data:/data
+Volume=%h/.local/share/containers/authentik/templates:/templates
+ShmSize=512m
+Exec=server
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

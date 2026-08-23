@@ -1,3 +1,0 @@
-http://forgejo.innokentii-kozlov.com {
-    reverse_proxy forgejo:3000
-}

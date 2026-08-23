@@ -1,0 +1,21 @@
+scrape_configs:
+  - job_name: "zot-registry"
+    metrics_path: "/metrics"
+    scheme: "https"
+    static_configs:
+      - targets: [zot.innokentii-kozlov.com]
+
+  - job_name: "blocky"
+    metrics_path: "/metrics"
+    scheme: "https"
+
+    static_configs:
+      - targets: [blocky.innokentii-kozlov.com]
+
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  - job_name: 'dell-optiplex-3000'
+    static_configs:
+      - targets: ['monitoring-node-exporter:9100']

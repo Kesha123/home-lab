@@ -1,0 +1,49 @@
+#!/usr/bin/env sh
+set -euo pipefail
+
+usage() {
+  echo "Usage: authentik <subcommand>"
+  echo ""
+  echo "Subcommands:"
+  echo "  create-env    Generate podman secrets required by the authentik stack"
+  exit 1
+}
+
+# create_secret <name> <value>
+# Replaces the secret if it already exists so reruns regenerate fresh values.
+create_secret() {
+  name="$1"
+  value="$2"
+  podman secret rm "$name" 2>/dev/null || true
+  printf '%s' "$value" | podman secret create "$name" -
+  echo "Created podman secret: $name"
+}
+
+cmd_create_secret() {
+  # Leading "u" guarantees a letter first (PostgreSQL rejects identifiers
+  # starting with a digit). Remaining characters are alphanumeric hex.
+  postgres_user="u$(openssl rand -hex 8)"
+  postgres_password="$(openssl rand -hex 32)"
+  postgres_db="authentik"
+  secret_key="$(openssl rand -hex 32)"
+  bootstrap_token="$(openssl rand -hex 32)"
+
+  create_secret "authentik-POSTGRES_USER" "$postgres_user"
+  create_secret "authentik-POSTGRES_PASSWORD" "$postgres_password"
+  create_secret "authentik-POSTGRES_DB" "$postgres_db"
+  create_secret "authentik-AUTHENTIK_SECRET_KEY" "$secret_key"
+  create_secret "authentik-AUTHENTIK_BOOTSTRAP_TOKEN" "$bootstrap_token"
+}
+
+main() {
+  case "${1:-}" in
+    create-env)
+      cmd_create_secret
+      ;;
+    *)
+      usage
+      ;;
+  esac
+}
+
+main "$@"

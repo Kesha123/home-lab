@@ -1,0 +1,17 @@
+[Unit]
+Description=Zot Registry
+
+[Container]
+Image=ghcr.io/project-zot/zot:v2.1.20
+ContainerName=zot
+Network=frontend.network
+Secret=zot-oidc-credentials,type=mount,target=/etc/zot/oidc-credentials.json
+Volume=%h/.config/config/zot:/etc/zot:ro,z
+Volume=zot-data:/var/lib/registry
+Exec=serve /etc/zot/config.yaml
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
