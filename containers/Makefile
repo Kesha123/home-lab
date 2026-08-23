@@ -1,40 +1,16 @@
-BUILD_TAG_MAJOR		:= 0
-BUILD_TAG_MINOR		:= 0
-BUILD_TAG_PATCH		:= 0
-BUILD_TAG			?= v$(BUILD_TAG_MAJOR).$(BUILD_TAG_MINOR).$(BUILD_TAG_PATCH)
+SUBDIRS := \
+	ansible-runner \
+	caddy-route53 \
+	mkdocs
 
-CONTAINER_ENGINE 	:= podman
-CONTAINER_REGISTRY	:= zot.innokentii-kozlov.com
+.PHONY: build build-sub/% publish publish-sub/%
 
-.PHONY: containers/build/ansible-runner
-containers/build/ansible-runner:
-	@echo "Building container: ansible-runner"
-	$(CONTAINER_ENGINE) build \
-		-t $(CONTAINER_REGISTRY)/ansible-runner:$(BUILD_TAG) \
-		-f ansible-runner/Containerfile \
-		ansible-runner
+build: ${SUBDIRS:%=build-sub/%}
 
-.PHONY: containers/build/mkdocs
-containers/build/mkdocs:
-	@echo "Building container: mkdocs"
-	$(CONTAINER_ENGINE) build \
-		-t $(CONTAINER_REGISTRY)/mkdocs:$(BUILD_TAG) \
-		-f mkdocs/Containerfile \
-		mkdocs
+build-sub/%:
+	$(MAKE) -C $* build
 
-.PHONY: containers/build/caddy-route53
-containers/build/caddy-route53:
-	$(CONTAINER_ENGINE) build \
-		-t $(CONTAINER_REGISTRY)/caddy-route53:$(BUILD_TAG) \
-		-f caddy-route53/Containerfile \
-		caddy-route53
+publish: ${SUBDIRS:%=publish-sub/%}
 
-.PHONY: containers/build/clyft-ci
-containers/build/clyft-ci:
-	$(CONTAINER_ENGINE) build \
-		-t $(CONTAINER_REGISTRY)/clyft-ci:$(BUILD_TAG) \
-		-f clyft-ci/Containerfile \
-		clyft-ci
-
-.PHONY: containers/build/all
-containers/build/all: containers/build/ansible-runner containers/build/mkdocs containers/build/caddy-route53
+publish-sub/%:
+	$(MAKE) -C $* publish

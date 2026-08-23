@@ -1,4 +1,0 @@
-FROM zot.innokentii-kozlov.com/docker-images/library/python:3.14-slim
-COPY --from=zot.innokentii-kozlov.com/docker-images/astral/uv:latest /uv /uvx /bin/
-RUN apt update \
-    && apt install build-essential -y
