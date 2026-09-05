@@ -2,9 +2,11 @@ SUBDIRS := \
 	authentik \
 	blocky \
 	caddy \
-	monitoring \
-	networking.dell-optiplex-3000 \
-	networking.raspberrypi-5 \
+	exporters \
+	forgejo \
+	grafana \
+	network \
+	prometheus \
 	zot
 
 .PHONY: build build-sub/% publish publish-sub/%

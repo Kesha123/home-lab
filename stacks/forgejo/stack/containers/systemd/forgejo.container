@@ -21,6 +21,7 @@ Environment=FORGEJO__server__SSH_PORT=2222
 Environment=FORGEJO__server__SSH_LISTEN_PORT=22
 Environment=FORGEJO__security__INSTALL_LOCK=true
 Environment=FORGEJO__webhook__ALLOWED_HOST_LIST=private
+Environment=FORGEJO__metrics__ENABLED=true
 Secret=forgejo-FORGEJO__database__NAME,type=env,target=FORGEJO__database__NAME
 Secret=forgejo-FORGEJO__database__USER,type=env,target=FORGEJO__database__USER
 Secret=forgejo-FORGEJO__database__PASSWD,type=env,target=FORGEJO__database__PASSWD

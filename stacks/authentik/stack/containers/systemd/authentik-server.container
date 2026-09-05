@@ -9,6 +9,7 @@ Network=frontend.network
 Network=backend.network
 Environment=AUTHENTIK_POSTGRESQL__HOST=authentik-postgresql
 Environment=AUTHENTIK_LISTEN__HTTP=0.0.0.0:9000
+Environment=AUTHENTIK_LISTEN__METRICS=0.0.0.0:9300
 Environment=AUTHENTIK_POSTGRESQL__PORT=5432
 Secret=authentik-POSTGRES_DB,type=env,target=AUTHENTIK_POSTGRESQL__NAME
 Secret=authentik-POSTGRES_USER,type=env,target=AUTHENTIK_POSTGRESQL__USER

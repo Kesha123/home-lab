@@ -4,7 +4,7 @@ container-stack:
     digest: sha256:a34d00330f2764185b15de6f882b817782e2019bc2bd55f8a229982091287687
   - name: zot.innokentii-kozlov.com/stack/authentik
     version: v0.0.0
-    digest: sha256:63f327ad27f4c99d4d449ba270905be992c49edd9cb4561ebcf408be4c814dcb
+    digest: sha256:a25490f6ba26e1a656f412fb2cf2582b7c1d24841379ca0e9caaa87ad820e60c
   - name: zot.innokentii-kozlov.com/stack/zot
     version: v0.0.0
     digest: sha256:4b9f12b86a398800686ea580ca30290d6e121eb37fc328d3e30dd1b5599273e9
@@ -13,10 +13,16 @@ container-stack:
     digest: sha256:9985768f85e2f09b93c0d8832ebc98dbe74555b0cae885cc37cf8286d566d1a8
   - name: zot.innokentii-kozlov.com/stack/caddy
     version: v0.0.0
-    digest: sha256:a02dfb3e23aea7ed98ab568df77c3513ed204dd23e6ae1e29e0dcad07ce0e664
-  - name: zot.innokentii-kozlov.com/stack/monitoring
+    digest: sha256:897af313a8d80c04b946819fda60150b753ab403ca70c2969d30f00db829fcac
+  - name: zot.innokentii-kozlov.com/stack/grafana
     version: v0.0.0
-    digest: sha256:4a4b1e59bcc651fc007175dfb82cc11c221ee90881a50c29be1e872dd828d1f5
+    digest: sha256:d9ad895b7103278f56ed7df1120151c3726d7de083de2b142972c9e0e6e17ead
+  - name: zot.innokentii-kozlov.com/stack/prometheus
+    version: v0.0.0
+    digest: sha256:5d6873e7965087c1df3e6d5f7db3655e20605d329580dfb4df57b36e0b5f9740
+  - name: zot.innokentii-kozlov.com/stack/exporters
+    version: v0.0.0
+    digest: sha256:9da903eac72fdb5127e73bc3530de9caaa6cebb443aa6980209d5ee9f0039e55
   - name: zot.innokentii-kozlov.com/stack/forgejo
     version: v0.0.0
-    digest: sha256:c85cd3ac0d83b9c7c7366564fea0e719548814334f218ce8fbe77eb5a989aea3
+    digest: sha256:11df18fa93aa9da882c98b1a37ae4c375e47f0cce096be7c22f2105336c11ec7

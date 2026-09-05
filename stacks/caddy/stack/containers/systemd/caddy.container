@@ -8,6 +8,7 @@ PublishPort=80:80
 PublishPort=443:443
 PublishPort=443:443/udp
 Network=frontend.network
+Network=backend.network
 Volume=%h/.config/config/caddy/Caddyfile:/etc/caddy/Caddyfile:ro,z
 Volume=caddy-data:/data
 Volume=caddy-config:/config
