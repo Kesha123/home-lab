@@ -1,6 +1,5 @@
 SUBDIRS := \
 	ansible-runner \
-	caddy-route53 \
 	mkdocs
 
 .PHONY: build build-sub/% publish publish-sub/%

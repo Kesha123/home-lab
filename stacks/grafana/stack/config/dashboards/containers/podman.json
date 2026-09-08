@@ -128,7 +128,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "count(podman_container_state)",
+          "expr": "count(podman_container_state{job=~\"$podman_exporter\"})",
           "refId": "A",
           "range": true
         }
@@ -189,7 +189,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "count(podman_container_state == 2)",
+          "expr": "count(podman_container_state{job=~\"$podman_exporter\"} == 2)",
           "refId": "A",
           "range": true
         }
@@ -250,7 +250,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "count(podman_container_state == 5)",
+          "expr": "count(podman_container_state{job=~\"$podman_exporter\"} == 5)",
           "refId": "A",
           "range": true
         }
@@ -315,7 +315,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "count(podman_container_health == 1)",
+          "expr": "count(podman_container_health{job=~\"$podman_exporter\"} == 1)",
           "refId": "A",
           "range": true
         }
@@ -376,7 +376,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "count(podman_image_info)",
+          "expr": "count(podman_image_info{job=~\"$podman_exporter\"})",
           "refId": "A",
           "range": true
         }
@@ -437,7 +437,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "count(podman_volume_info)",
+          "expr": "count(podman_volume_info{job=~\"$podman_exporter\"})",
           "refId": "A",
           "range": true
         }
@@ -498,7 +498,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "count(podman_network_info)",
+          "expr": "count(podman_network_info{job=~\"$podman_exporter\"})",
           "refId": "A",
           "range": true
         }
@@ -559,7 +559,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "count(podman_pod_state)",
+          "expr": "count(podman_pod_state{job=~\"$podman_exporter\"})",
           "refId": "A",
           "range": true
         }
@@ -620,7 +620,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "sum(podman_container_pids)",
+          "expr": "sum(podman_container_pids{job=~\"$podman_exporter\"})",
           "refId": "A",
           "range": true
         }
@@ -682,7 +682,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "sum(podman_image_size)",
+          "expr": "sum(podman_image_size{job=~\"$podman_exporter\"})",
           "refId": "A",
           "range": true
         }
@@ -744,7 +744,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "sum(podman_container_rw_size_bytes)",
+          "expr": "sum(podman_container_rw_size_bytes{job=~\"$podman_exporter\"})",
           "refId": "A",
           "range": true
         }
@@ -805,7 +805,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "podman_system_api_version",
+          "expr": "podman_system_api_version{job=~\"$podman_exporter\"}",
           "refId": "A",
           "legendFormat": "{{version}}",
           "range": true
@@ -944,7 +944,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "podman_container_info * on(id) group_left() podman_container_state",
+          "expr": "podman_container_info{job=~\"$podman_exporter\"} * on(id) group_left() podman_container_state{job=~\"$podman_exporter\"}",
           "refId": "A",
           "instant": true,
           "format": "table"
@@ -1053,7 +1053,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "sum by (name) (rate(podman_container_cpu_seconds_total[$__rate_interval]))",
+          "expr": "sum by (name) (rate(podman_container_cpu_seconds_total{job=~\"$podman_exporter\"}[$__rate_interval]))",
           "refId": "A",
           "legendFormat": "{{name}}",
           "range": true
@@ -1144,7 +1144,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "sum by (name) (podman_container_mem_usage_bytes)",
+          "expr": "sum by (name) (podman_container_mem_usage_bytes{job=~\"$podman_exporter\"})",
           "refId": "A",
           "legendFormat": "{{name}}",
           "range": true
@@ -1235,7 +1235,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "sum by (name) (podman_container_mem_usage_bytes) / sum by (name) (podman_container_mem_limit_bytes) * 100",
+          "expr": "sum by (name) (podman_container_mem_usage_bytes{job=~\"$podman_exporter\"}) / sum by (name) (podman_container_mem_limit_bytes{job=~\"$podman_exporter\"}) * 100",
           "refId": "A",
           "legendFormat": "{{name}}",
           "range": true
@@ -1326,7 +1326,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "sum by (name) (rate(podman_container_net_input_total[$__rate_interval]))",
+          "expr": "sum by (name) (rate(podman_container_net_input_total{job=~\"$podman_exporter\"}[$__rate_interval]))",
           "refId": "A",
           "legendFormat": "{{name}} RX",
           "range": true
@@ -1337,7 +1337,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "sum by (name) (rate(podman_container_net_output_total[$__rate_interval]))",
+          "expr": "sum by (name) (rate(podman_container_net_output_total{job=~\"$podman_exporter\"}[$__rate_interval]))",
           "refId": "B",
           "legendFormat": "{{name}} TX",
           "range": true
@@ -1428,7 +1428,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "sum by (name) (rate(podman_container_block_input_total[$__rate_interval]))",
+          "expr": "sum by (name) (rate(podman_container_block_input_total{job=~\"$podman_exporter\"}[$__rate_interval]))",
           "refId": "A",
           "legendFormat": "{{name}} read",
           "range": true
@@ -1439,7 +1439,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "sum by (name) (rate(podman_container_block_output_total[$__rate_interval]))",
+          "expr": "sum by (name) (rate(podman_container_block_output_total{job=~\"$podman_exporter\"}[$__rate_interval]))",
           "refId": "B",
           "legendFormat": "{{name}} write",
           "range": true
@@ -1529,7 +1529,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "sum by (name) (podman_container_pids)",
+          "expr": "sum by (name) (podman_container_pids{job=~\"$podman_exporter\"})",
           "refId": "A",
           "legendFormat": "{{name}}",
           "range": true
@@ -1613,7 +1613,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "podman_volume_info",
+          "expr": "podman_volume_info{job=~\"$podman_exporter\"}",
           "refId": "A",
           "instant": true,
           "format": "table"
@@ -1714,7 +1714,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "podman_image_size",
+          "expr": "podman_image_size{job=~\"$podman_exporter\"}",
           "refId": "A",
           "instant": true,
           "format": "table"
@@ -1815,7 +1815,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "podman_network_info",
+          "expr": "podman_network_info{job=~\"$podman_exporter\"}",
           "refId": "A",
           "instant": true,
           "format": "table"
@@ -1955,7 +1955,7 @@
             "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
-          "expr": "podman_pod_info * on(id) group_left() podman_pod_state",
+          "expr": "podman_pod_info{job=~\"$podman_exporter\"} * on(id) group_left() podman_pod_state{job=~\"$podman_exporter\"}",
           "refId": "A",
           "instant": true,
           "format": "table"
@@ -2006,6 +2006,35 @@
         "regex": "",
         "skipUrlSync": false,
         "type": "datasource"
+      },
+      {
+        "allValue": ".*",
+        "current": {
+          "selected": false,
+          "text": "podman-exporter.dell-optiplex-3000",
+          "value": "podman-exporter.dell-optiplex-3000"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$DS_PROMETHEUS"
+        },
+        "definition": "label_values(podman_container_state, job)",
+        "description": "Podman exporter to display",
+        "hide": 0,
+        "includeAll": true,
+        "label": "exporter",
+        "multi": false,
+        "name": "podman_exporter",
+        "options": [],
+        "query": {
+          "query": "label_values(podman_container_state, job)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "^podman-exporter\\..*",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
       }
     ]
   },

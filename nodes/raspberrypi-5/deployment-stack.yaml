@@ -1,0 +1,11 @@
+node: raspberrypi-5
+container-stack:
+  - name: zot.innokentii-kozlov.com/stack/network
+    version: v0.0.0
+    digest: sha256:a34d00330f2764185b15de6f882b817782e2019bc2bd55f8a229982091287687
+  - name: zot.innokentii-kozlov.com/stack/exporters
+    version: v0.0.0
+    digest: sha256:9da903eac72fdb5127e73bc3530de9caaa6cebb443aa6980209d5ee9f0039e55
+  - name: zot.innokentii-kozlov.com/raspberrypi-5/stack/caddy
+    version: v0.0.0
+    digest: sha256:d9a251f1ba66a9cdee1e49a8bb39c67054df6656bff73ec4568d1902ece0cedb

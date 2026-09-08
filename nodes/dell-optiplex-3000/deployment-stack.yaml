@@ -16,10 +16,10 @@ container-stack:
     digest: sha256:897af313a8d80c04b946819fda60150b753ab403ca70c2969d30f00db829fcac
   - name: zot.innokentii-kozlov.com/stack/grafana
     version: v0.0.0
-    digest: sha256:d9ad895b7103278f56ed7df1120151c3726d7de083de2b142972c9e0e6e17ead
+    digest: sha256:c5aece532cca5e58c126b229cfdc68cd54d08dbd684139a32345ec87fc807612
   - name: zot.innokentii-kozlov.com/stack/prometheus
     version: v0.0.0
-    digest: sha256:5d6873e7965087c1df3e6d5f7db3655e20605d329580dfb4df57b36e0b5f9740
+    digest: sha256:021d4b9bb032e1040196eab7aad1e49d3a85ec2c1f5486013a9e107872896002
   - name: zot.innokentii-kozlov.com/stack/exporters
     version: v0.0.0
     digest: sha256:9da903eac72fdb5127e73bc3530de9caaa6cebb443aa6980209d5ee9f0039e55

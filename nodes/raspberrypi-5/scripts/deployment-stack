@@ -1,0 +1,63 @@
+#!/usr/bin/env sh
+set -euo pipefail
+
+usage() {
+  echo "Usage: deployment-stack <subcommand> [args]"
+  echo ""
+  echo "Subcommands:"
+  echo "  sync-container-stack <name> <version> <digest>  Pull, verify, and install a podman quadlet stack artifact"
+  exit 1
+}
+
+cmd_sync_container_stack() {
+  if [ $# -ne 3 ]; then
+    echo "Usage: deployment-stack sync-container-stack <name> <version> <digest>" >&2
+    exit 1
+  fi
+
+  name="$1"
+  version="$2"
+  digest="$3"
+  ref="${name}:${version}"
+
+  podman artifact pull "$ref"
+
+  actual="$(podman artifact inspect -f '{{.Digest}}' "$ref")"
+  if [ "$actual" != "$digest" ]; then
+    echo "ERROR: digest mismatch for $ref: expected $digest, got $actual" >&2
+    exit 1
+  fi
+
+  tmp="$(mktemp -d)"
+  trap 'rm -rf "$tmp"' EXIT
+  podman artifact extract "$ref" "$tmp"
+  tar -xzf "$tmp"/*.tar.gz --no-same-owner -C "$tmp"
+
+  stack_name="$(sed -n 's/^name:[[:space:]]*//p' "$tmp/metadata")"
+  if [ -z "$stack_name" ]; then
+    echo "ERROR: name not found in stack metadata" >&2
+    exit 1
+  fi
+
+  quadlet_dir="/home/admin/.config/containers/systemd/${stack_name}"
+  config_dir="/home/admin/.config/config/${stack_name}"
+  mkdir -p "$quadlet_dir" "$config_dir"
+  cp -r "$tmp"/containers/systemd/. "$quadlet_dir"/
+  cp -r "$tmp"/config/. "$config_dir"/
+
+  podman artifact rm "$ref"
+}
+
+main() {
+  case "${1:-}" in
+    sync-container-stack)
+      shift
+      cmd_sync_container_stack "$@"
+      ;;
+    *)
+      usage
+      ;;
+  esac
+}
+
+main "$@"
