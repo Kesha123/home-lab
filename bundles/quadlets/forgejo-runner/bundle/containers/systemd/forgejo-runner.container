@@ -1,0 +1,22 @@
+[Unit]
+Description=Forgejo Actions Runner
+After=backend-network.service forgejo.service
+Requires=forgejo-runner-data.volume
+
+[Container]
+Image=zot.innokentii-kozlov.com/forgejo/forgejo/runner:13.1.0
+ContainerName=forgejo-runner
+Network=backend.network
+UserNS=keep-id:uid=1000,gid=1000
+SecurityLabelType=container_runtime_t
+Volume=forgejo-runner-data.volume:/data
+Volume=%h/.config/config/forgejo-runner:/etc/forgejo-runner:ro,z
+Volume=%t/podman/podman.sock:%t/podman/podman.sock
+Secret=forgejo-runner-connection-token,type=mount,target=/run/secrets/forgejo-runner-connection-token
+Exec=forgejo-runner daemon --config /etc/forgejo-runner/config.yml
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,35 @@
+log:
+  level: info
+  job_level: info
+
+runner:
+  capacity: 1
+  timeout: 3h
+  fetch_interval: 2s
+  labels:
+    - docker:docker://zot.innokentii-kozlov.com/ghcr/catthehacker/ubuntu:act-latest
+    - arm64:docker://zot.innokentii-kozlov.com/ghcr/catthehacker/ubuntu:act-latest
+  envs:
+    DOCKER_HOST: unix:///var/run/docker.sock
+    CONTAINER_HOST: unix:///var/run/docker.sock
+
+cache:
+  enabled: true
+  dir: /data/.cache
+
+container:
+  network: backend.network
+  docker_host: unix:///run/user/1000/podman/podman.sock
+  options: --userns=keep-id:uid=0,gid=0 --security-opt label=type:container_runtime_t
+  valid_volumes: []
+  force_pull: false
+
+host:
+  workdir_parent: /data/.cache/act
+
+server:
+  connections:
+    forgejo:
+      url: https://forgejo.innokentii-kozlov.com/
+      uuid: 38393234-6162-6566-3062-643033316536
+      token_url: file:/run/secrets/forgejo-runner-connection-token

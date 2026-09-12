@@ -21,3 +21,12 @@ stacks:
       - name: zot.innokentii-kozlov.com/bundles/configs/caddy/raspberrypi-5
         version: v0.0.0
         digest: sha256:9f3a2a8b2662650c6935588462dfe4ed52118621b2e08f8822454d9c20f1b695
+  - name: forgejo-runner
+    description: Forgejo Actions runner
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/forgejo-runner
+        version: v0.0.0
+        digest: sha256:c9955f572576cd90908acb5cc82d7790fcfc10233033bd2098061623fc05aae0
+      - name: zot.innokentii-kozlov.com/bundles/configs/forgejo-runner/raspberrypi-5
+        version: v0.0.0
+        digest: sha256:be7480329dde93c151a790b2a00a6c294bb66d676ec9a93d3bb8ef328e6397c5

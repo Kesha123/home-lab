@@ -69,3 +69,12 @@ stacks:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/forgejo
         version: v0.0.0
         digest: sha256:7c6b5dfc250c8ff31d6c71f2094d6b53f7be94c2dd45f41da990233a192cc174
+  - name: forgejo-runner
+    description: Forgejo Actions runner
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/forgejo-runner
+        version: v0.0.0
+        digest: sha256:c9955f572576cd90908acb5cc82d7790fcfc10233033bd2098061623fc05aae0
+      - name: zot.innokentii-kozlov.com/bundles/configs/forgejo-runner/dell-optiplex-3000
+        version: v0.0.0
+        digest: sha256:17c78cd854dbae19e7d9f0a3753f87f84b697e88af38dc42c6aaa4a9f12a45c6
