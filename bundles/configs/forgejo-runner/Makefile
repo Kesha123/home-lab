@@ -1,14 +1,6 @@
 SUBDIRS := \
-	authentik \
-	blocky \
-	caddy \
-	exporters \
-	forgejo \
-	forgejo-runner \
-	grafana \
-	network \
-	prometheus \
-	zot
+	dell-optiplex-3000 \
+	raspberrypi-5
 
 .PHONY: build build-sub/% publish publish-sub/%
 
