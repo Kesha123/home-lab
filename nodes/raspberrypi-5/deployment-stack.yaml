@@ -1,11 +1,23 @@
 node: raspberrypi-5
-container-stack:
-  - name: zot.innokentii-kozlov.com/stack/network
-    version: v0.0.0
-    digest: sha256:a34d00330f2764185b15de6f882b817782e2019bc2bd55f8a229982091287687
-  - name: zot.innokentii-kozlov.com/stack/exporters
-    version: v0.0.0
-    digest: sha256:9da903eac72fdb5127e73bc3530de9caaa6cebb443aa6980209d5ee9f0039e55
-  - name: zot.innokentii-kozlov.com/raspberrypi-5/stack/caddy
-    version: v0.0.0
-    digest: sha256:d9a251f1ba66a9cdee1e49a8bb39c67054df6656bff73ec4568d1902ece0cedb
+stacks:
+  - name: network
+    description: Podman networks
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/network
+        version: v0.0.0
+        digest: sha256:3d1f36c3ae6fb7ed62316a7b2857d294a7a39d211cf55bb873b819f25b4d3110
+  - name: exporters
+    description: Node and podman exporters
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/exporters
+        version: v0.0.0
+        digest: sha256:938550899b11a124553b2bb49bb4f52d41e76d3a30463ee63391ed28b9faffae
+  - name: caddy
+    description: Caddy reverse proxy
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/caddy
+        version: v0.0.0
+        digest: sha256:51a14aa450b1c702a9fd7f4ae4225f6ecf2bc87041a10f5f19dedcdeed208fe8
+      - name: zot.innokentii-kozlov.com/bundles/configs/caddy/raspberrypi-5
+        version: v0.0.0
+        digest: sha256:9f3a2a8b2662650c6935588462dfe4ed52118621b2e08f8822454d9c20f1b695
