@@ -5,20 +5,21 @@ usage() {
   echo "Usage: deployment-stack <subcommand> [args]"
   echo ""
   echo "Subcommands:"
-  echo "  sync-container-stack <name> <version> <digest>  Pull, verify, and install a podman quadlet stack artifact"
+  echo "  sync-container-stack <stack> <bundle> <version> <digest>  Pull, verify, and install a bundle into the stack's config dirs"
   exit 1
 }
 
 cmd_sync_container_stack() {
-  if [ $# -ne 3 ]; then
-    echo "Usage: deployment-stack sync-container-stack <name> <version> <digest>" >&2
+  if [ $# -ne 4 ]; then
+    echo "Usage: deployment-stack sync-container-stack <stack> <bundle> <version> <digest>" >&2
     exit 1
   fi
 
-  name="$1"
-  version="$2"
-  digest="$3"
-  ref="${name}:${version}"
+  stack="$1"
+  bundle="$2"
+  version="$3"
+  digest="$4"
+  ref="${bundle}:${version}"
 
   podman artifact pull "$ref"
 
@@ -33,17 +34,15 @@ cmd_sync_container_stack() {
   podman artifact extract "$ref" "$tmp"
   tar -xzf "$tmp"/*.tar.gz --no-same-owner -C "$tmp"
 
-  stack_name="$(sed -n 's/^name:[[:space:]]*//p' "$tmp/metadata")"
-  if [ -z "$stack_name" ]; then
-    echo "ERROR: name not found in stack metadata" >&2
-    exit 1
-  fi
-
-  quadlet_dir="/home/admin/.config/containers/systemd/${stack_name}"
-  config_dir="/home/admin/.config/config/${stack_name}"
+  quadlet_dir="/home/admin/.config/containers/systemd/${stack}"
+  config_dir="/home/admin/.config/config/${stack}"
   mkdir -p "$quadlet_dir" "$config_dir"
-  cp -r "$tmp"/containers/systemd/. "$quadlet_dir"/
-  cp -r "$tmp"/config/. "$config_dir"/
+  if [ -d "$tmp/containers/systemd" ]; then
+    cp -r "$tmp"/containers/systemd/. "$quadlet_dir"/
+  fi
+  if [ -d "$tmp/config" ]; then
+    cp -r "$tmp"/config/. "$config_dir"/
+  fi
 
   podman artifact rm "$ref"
 }

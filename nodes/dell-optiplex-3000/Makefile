@@ -10,5 +10,5 @@ STACK_FILE := $(CURDIR)/deployment-stack.yaml
 
 .PHONY: sync-container-stack
 sync-container-stack:
-	yq '.container-stack[] | [.name, .version, .digest] | join("\t")' $(STACK_FILE) | \
-	ssh $(SERVER) 'set -e; while read -r name version digest; do $(REMOTE_BIN)/deployment-stack sync-container-stack "$$name" "$$version" "$$digest"; done'
+	yq -r '.stacks[] | .name as $$s | .bundles[] | [$$s, .name, .version, .digest] | join("\t")' $(STACK_FILE) | \
+	ssh $(SERVER) 'set -e; while read -r stack name version digest; do $(REMOTE_BIN)/deployment-stack sync-container-stack "$$stack" "$$name" "$$version" "$$digest"; done'
