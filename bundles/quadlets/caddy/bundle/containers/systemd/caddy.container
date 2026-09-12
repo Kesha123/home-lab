@@ -2,7 +2,7 @@
 Description=Caddy
 
 [Container]
-Image=zot.innokentii-kozlov.com/caddy-route53:v0.0.0
+Image=zot.innokentii-kozlov.com/ghcr/kesha123/caddy-route53:2.11.4
 ContainerName=caddy
 PublishPort=80:80
 PublishPort=443:443
