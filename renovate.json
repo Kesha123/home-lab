@@ -11,78 +11,71 @@
     {
       "customType": "regex",
       "description": "docker.io images pulled through the zot mirror",
-      "fileMatch": ["^bundles/quadlets/[^/]+/bundle/containers/systemd/[^/]+\\.container$"],
-      "matchString": "Image=zot\\.innokentii-kozlov\\.com/docker/(?<depName>[^:@\\s]+):(?<currentValue>[^@\\s]+)",
+      "managerFilePatterns": ["^bundles/quadlets/[^/]+/bundle/containers/systemd/[^/]+\\.container$"],
+      "matchStrings": ["Image=zot\\.innokentii-kozlov\\.com/docker/(?<depName>[^:@\\s]+):(?<currentValue>[^@\\s]+)"],
       "datasourceTemplate": "docker",
       "registryUrlTemplate": "https://index.docker.io",
-      "depNameTemplate": "{{{depName}}}",
-      "allowedVersions": "/^v?\\d+(\\.\\d+){0,2}(-[A-Za-z0-9.]+)?$/"
+      "depNameTemplate": "{{{depName}}}"
     },
     {
       "customType": "regex",
       "description": "ghcr.io images pulled through the zot mirror",
-      "fileMatch": ["^bundles/quadlets/[^/]+/bundle/containers/systemd/[^/]+\\.container$"],
-      "matchString": "Image=zot\\.innokentii-kozlov\\.com/ghcr/(?<depName>[^:@\\s]+):(?<currentValue>[^@\\s]+)",
+      "managerFilePatterns": ["^bundles/quadlets/[^/]+/bundle/containers/systemd/[^/]+\\.container$"],
+      "matchStrings": ["Image=zot\\.innokentii-kozlov\\.com/ghcr/(?<depName>[^:@\\s]+):(?<currentValue>[^@\\s]+)"],
       "datasourceTemplate": "docker",
       "registryUrlTemplate": "https://ghcr.io",
-      "depNameTemplate": "{{{depName}}}",
-      "allowedVersions": "/^v?\\d+(\\.\\d+){0,2}(-[A-Za-z0-9.]+)?$/"
+      "depNameTemplate": "{{{depName}}}"
     },
     {
       "customType": "regex",
       "description": "quay.io images pulled through the zot mirror",
-      "fileMatch": ["^bundles/quadlets/[^/]+/bundle/containers/systemd/[^/]+\\.container$"],
-      "matchString": "Image=zot\\.innokentii-kozlov\\.com/quay/(?<depName>[^:@\\s]+):(?<currentValue>[^@\\s]+)",
+      "managerFilePatterns": ["^bundles/quadlets/[^/]+/bundle/containers/systemd/[^/]+\\.container$"],
+      "matchStrings": ["Image=zot\\.innokentii-kozlov\\.com/quay/(?<depName>[^:@\\s]+):(?<currentValue>[^@\\s]+)"],
       "datasourceTemplate": "docker",
       "registryUrlTemplate": "https://quay.io",
-      "depNameTemplate": "{{{depName}}}",
-      "allowedVersions": "/^v?\\d+(\\.\\d+){0,2}(-[A-Za-z0-9.]+)?$/"
+      "depNameTemplate": "{{{depName}}}"
     },
     {
       "customType": "regex",
       "description": "gcr.io images pulled through the zot mirror",
-      "fileMatch": ["^bundles/quadlets/[^/]+/bundle/containers/systemd/[^/]+\\.container$"],
-      "matchString": "Image=zot\\.innokentii-kozlov\\.com/gcr/(?<depName>[^:@\\s]+):(?<currentValue>[^@\\s]+)",
+      "managerFilePatterns": ["^bundles/quadlets/[^/]+/bundle/containers/systemd/[^/]+\\.container$"],
+      "matchStrings": ["Image=zot\\.innokentii-kozlov\\.com/gcr/(?<depName>[^:@\\s]+):(?<currentValue>[^@\\s]+)"],
       "datasourceTemplate": "docker",
       "registryUrlTemplate": "https://gcr.io",
-      "depNameTemplate": "{{{depName}}}",
-      "allowedVersions": "/^v?\\d+(\\.\\d+){0,2}(-[A-Za-z0-9.]+)?$/"
+      "depNameTemplate": "{{{depName}}}"
     },
     {
       "customType": "regex",
       "description": "data.forgejo.org images pulled through the zot mirror",
-      "fileMatch": ["^bundles/quadlets/[^/]+/bundle/containers/systemd/[^/]+\\.container$"],
-      "matchString": "Image=zot\\.innokentii-kozlov\\.com/forgejo/(?<depName>[^:@\\s]+):(?<currentValue>[^@\\s]+)",
+      "managerFilePatterns": ["^bundles/quadlets/[^/]+/bundle/containers/systemd/[^/]+\\.container$"],
+      "matchStrings": ["Image=zot\\.innokentii-kozlov\\.com/forgejo/(?<depName>[^:@\\s]+):(?<currentValue>[^@\\s]+)"],
       "datasourceTemplate": "docker",
       "registryUrlTemplate": "https://data.forgejo.org",
-      "depNameTemplate": "{{{depName}}}",
-      "allowedVersions": "/^v?\\d+(\\.\\d+){0,2}(-[A-Za-z0-9.]+)?$/"
+      "depNameTemplate": "{{{depName}}}"
     },
     {
       "customType": "regex",
       "description": "codeberg.org images pulled through the zot mirror",
-      "fileMatch": ["^bundles/quadlets/[^/]+/bundle/containers/systemd/[^/]+\\.container$"],
-      "matchString": "Image=zot\\.innokentii-kozlov\\.com/codeberg/(?<depName>[^:@\\s]+):(?<currentValue>[^@\\s]+)",
+      "managerFilePatterns": ["^bundles/quadlets/[^/]+/bundle/containers/systemd/[^/]+\\.container$"],
+      "matchStrings": ["Image=zot\\.innokentii-kozlov\\.com/codeberg/(?<depName>[^:@\\s]+):(?<currentValue>[^@\\s]+)"],
       "datasourceTemplate": "docker",
       "registryUrlTemplate": "https://codeberg.org",
-      "depNameTemplate": "{{{depName}}}",
-      "allowedVersions": "/^v?\\d+(\\.\\d+){0,2}(-[A-Za-z0-9.]+)?$/"
+      "depNameTemplate": "{{{depName}}}"
     },
     {
       "customType": "regex",
       "description": "direct ghcr.io references (not mirrored in the Image line)",
-      "fileMatch": ["^bundles/quadlets/[^/]+/bundle/containers/systemd/[^/]+\\.container$"],
-      "matchString": "Image=ghcr\\.io/(?<depName>[^:@\\s]+):(?<currentValue>[^@\\s]+)",
+      "managerFilePatterns": ["^bundles/quadlets/[^/]+/bundle/containers/systemd/[^/]+\\.container$"],
+      "matchStrings": ["Image=ghcr\\.io/(?<depName>[^:@\\s]+):(?<currentValue>[^@\\s]+)"],
       "datasourceTemplate": "docker",
       "registryUrlTemplate": "https://ghcr.io",
-      "depNameTemplate": "{{{depName}}}",
-      "allowedVersions": "/^v?\\d+(\\.\\d+){0,2}(-[A-Za-z0-9.]+)?$/"
+      "depNameTemplate": "{{{depName}}}"
     },
     {
       "customType": "regex",
       "description": "self-update of the Renovate job image used by the scheduled workflow",
-      "fileMatch": ["^\\.forgejo/workflows/renovate\\.yml$"],
-      "matchString": "image: zot\\.innokentii-kozlov\\.com/ghcr/renovatebot/renovate:(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+      "managerFilePatterns": ["^\\.forgejo/workflows/renovate\\.yml$"],
+      "matchStrings": ["image: zot\\.innokentii-kozlov\\.com/ghcr/renovatebot/renovate:(?<currentValue>\\d+\\.\\d+\\.\\d+)"],
       "datasourceTemplate": "docker",
       "registryUrlTemplate": "https://ghcr.io",
       "depNameTemplate": "renovatebot/renovate"
@@ -92,6 +85,7 @@
     {
       "description": "Group every container image update into a single PR so bundle releases and deployment-stack.yaml edits never conflict",
       "matchDatasources": ["docker"],
+      "allowedVersions": "/^v?\\d+(\\.\\d+){0,2}(-[A-Za-z0-9.]+)?$/",
       "groupName": "container images",
       "groupSlug": "container-images",
       "commitMessageTopic": "container images"
