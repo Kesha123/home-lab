@@ -19,8 +19,8 @@ env:
   RENOVATE_REQUIRE_CONFIG: required
   RENOVATE_AUTODISCOVER: 'false'
   RENOVATE_PR_CONCURRENT_LIMIT: '1'
-  RENOVATE_GIT_AUTHOR: Renovate Bot
-  RENOVATE_GIT_EMAIL: renovate@innokentii-kozlov.com
+  RENOVATE_GIT_AUTHOR: 'Renovate Bot <renovate@innokentii-kozlov.com>'
+  RENOVATE_HOST_RULES: '[{"matchHost":"forgejo.innokentii-kozlov.com","hostType":"forgejo","allowInternal":true}]'
   LOG_LEVEL: info
 
 jobs:
