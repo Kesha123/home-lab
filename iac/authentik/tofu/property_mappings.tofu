@@ -18,3 +18,18 @@ if "gitrestricted" in entitlement_names:
 return forgejo_claims
 EOF
 }
+
+# zot resolves group names from the OIDC 'groups' claim (defaultGroupsClaim)
+# and matches them against accessControl policies (e.g. groups: ["zot-ci"]).
+resource "authentik_property_mapping_provider_scope" "zot_groups" {
+  name        = "authentik zot OAuth Mapping: OpenID 'groups'"
+  scope_name  = "groups"
+  description = "Group memberships for zot accessControl policies"
+  expression  = <<EOF
+groups = [
+    group.name
+    for group in request.user.groups.all()
+]
+return {"groups": groups}
+EOF
+}

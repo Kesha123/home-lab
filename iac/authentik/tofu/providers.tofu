@@ -91,5 +91,7 @@ resource "authentik_provider_oauth2" "zot" {
     }
   ]
 
-  property_mappings = local.base_scopes
+  property_mappings = concat(local.base_scopes, [
+    authentik_property_mapping_provider_scope.zot_groups.id,
+  ])
 }

@@ -24,3 +24,15 @@ output "zot_client_secret" {
   value     = authentik_provider_oauth2.zot.client_secret
   sensitive = true
 }
+
+# Robot bootstrap passwords: needed once for interactive logins (zot UI to mint
+# an API key as svc-zot-ci, Forgejo to link svc-renovate and mint a PAT).
+output "svc_zot_ci_password" {
+  value     = random_password.svc_zot_ci.result
+  sensitive = true
+}
+
+output "svc_renovate_password" {
+  value     = random_password.svc_renovate.result
+  sensitive = true
+}

@@ -30,12 +30,17 @@ http:
             - openid
             - profile
             - email
+            - groups
   accessControl:
     metrics:
       anonymousPolicy: ["read"]
     repositories:
+      "bundles/**":
+        policies:
+          - groups: ["zot-ci"]
+            actions: ["read", "create", "update"]
       "**":
-        defaultPolicy: ["read", "create", "update", "delete"]
+        anonymousPolicy: ["read"]
     adminPolicy:
       users: ["innokentiikozlov@gmail.com"]
       actions: ["read", "create", "update", "delete"]

@@ -20,12 +20,12 @@ cache:
 container:
   network: backend.network
   docker_host: unix:///run/user/1000/podman/podman.sock
-  options: --userns=keep-id:uid=0,gid=0 --security-opt label=type:container_runtime_t
+  options: --security-opt label=type:container_runtime_t
   valid_volumes: []
   force_pull: false
 
 host:
-  workdir_parent: /data/.cache/act
+  workdir_parent: /var/tmp/act
 
 server:
   connections:

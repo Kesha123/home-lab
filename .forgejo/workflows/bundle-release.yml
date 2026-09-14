@@ -1,0 +1,40 @@
+---
+name: bundle-release
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: bundle-release-${{ forgejo.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    runs-on: docker
+    timeout-minutes: 30
+    steps:
+      - name: Checkout PR head branch
+        uses: https://data.forgejo.org/actions/checkout@v7
+        with:
+          ref: ${{ forgejo.event.pull_request.head.ref }}
+
+      - name: Install oras
+        run: |
+          case "$(uname -m)" in
+            x86_64) arch=amd64 ;;
+            aarch64) arch=arm64 ;;
+            *) echo "unsupported architecture: $(uname -m)" >&2; exit 1 ;;
+          esac
+          curl -sSfL "https://github.com/oras-project/oras/releases/download/v1.3.0/oras_1.3.0_linux_${arch}.tar.gz" \
+            | tar -xz -C /usr/local/bin oras
+          oras version
+
+      - name: Log in to zot
+        env:
+          ZOT_USERNAME: ${{ secrets.ZOT_USERNAME }}
+          ZOT_PASSWORD: ${{ secrets.ZOT_PASSWORD }}
+        run: printf '%s' "$ZOT_PASSWORD" | oras login zot.innokentii-kozlov.com --username "$ZOT_USERNAME" --password-stdin
+
+      - name: Build and publish bundles
+        run: make -C bundles build publish

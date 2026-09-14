@@ -1,0 +1,36 @@
+---
+name: renovate
+
+on:
+  schedule:
+    - cron: '0 0 * * 6'
+      timezone: Europe/Helsinki
+  workflow_dispatch: {}
+
+concurrency:
+  group: renovate
+  cancel-in-progress: true
+
+env:
+  RENOVATE_PLATFORM: forgejo
+  RENOVATE_ENDPOINT: https://forgejo.innokentii-kozlov.com
+  RENOVATE_REPOSITORIES: '["innokentii-kozlov/home-lab"]'
+  RENOVATE_ONBOARDING: 'false'
+  RENOVATE_REQUIRE_CONFIG: required
+  RENOVATE_AUTODISCOVER: 'false'
+  RENOVATE_PR_CONCURRENT_LIMIT: '1'
+  RENOVATE_GIT_AUTHOR: Renovate Bot
+  RENOVATE_GIT_EMAIL: renovate@innokentii-kozlov.com
+  LOG_LEVEL: info
+
+jobs:
+  renovate:
+    runs-on: docker
+    container:
+      image: zot.innokentii-kozlov.com/ghcr/renovatebot/renovate:44.85.0
+    steps:
+      - name: Run Renovate
+        env:
+          RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
+          GITHUB_COM_TOKEN: ${{ secrets.GITHUB_COM_TOKEN }}
+        run: renovate

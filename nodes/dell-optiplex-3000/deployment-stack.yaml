@@ -20,7 +20,7 @@ stacks:
         digest: sha256:431cce2e1c95df0605d21d2a42741e437f776c127784fa78b8fe55c7c26684f7
       - name: zot.innokentii-kozlov.com/bundles/configs/zot
         version: 0.0.0
-        digest: sha256:73341c37c3f462c2ae376629e2efdb6f5672d7012b20c5704171042dc761c04c
+        digest: sha256:d47ed155a92f4da6fe2a22e72912e0543e3d43a9dabb4ed78e80c99e819e628b
   - name: blocky
     description: DNS
     bundles:
@@ -77,4 +77,4 @@ stacks:
         digest: sha256:ab4b64e4f6901bdb2e04a5857db4e5750e9b873dd4fac2eabe13cc53b9e1123e
       - name: zot.innokentii-kozlov.com/bundles/configs/forgejo-runner/dell-optiplex-3000
         version: 0.0.0
-        digest: sha256:f5380bb1b822d847e86e264b2130635fc08b4b0758686b026b7ad7f3372e9d31
+        digest: sha256:abd5b720b3ebcfc6e255317a4696009d9675fb7522e953663b57cf9749ca926e

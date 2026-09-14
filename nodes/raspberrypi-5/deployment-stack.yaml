@@ -29,4 +29,4 @@ stacks:
         digest: sha256:ab4b64e4f6901bdb2e04a5857db4e5750e9b873dd4fac2eabe13cc53b9e1123e
       - name: zot.innokentii-kozlov.com/bundles/configs/forgejo-runner/raspberrypi-5
         version: 0.0.0
-        digest: sha256:99d9b0961fe230efea53f719725b80b80c00737efed04be5f7bd552bd7b20344
+        digest: sha256:c475923e8eccb67039626e650ce16b4f7e91f9a7da1242811c73ec826552855d
