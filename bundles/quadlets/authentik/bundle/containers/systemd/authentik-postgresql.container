@@ -4,7 +4,7 @@ After=backend-network.service
 Requires=authentik-postgresql-data.volume
 
 [Container]
-Image=zot.innokentii-kozlov.com/docker/library/postgres:16-alpine
+Image=zot.innokentii-kozlov.com/docker/library/postgres:16-alpine3.24
 ContainerName=authentik-postgresql
 Network=backend.network
 Environment=POSTGRES_DB=authentik
