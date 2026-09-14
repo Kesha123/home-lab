@@ -3,7 +3,7 @@ Description=Node Exporter
 After=backend-network.service
 
 [Container]
-Image=zot.innokentii-kozlov.com/docker/prom/node-exporter:latest
+Image=zot.innokentii-kozlov.com/docker/prom/node-exporter:v1.12.1
 ContainerName=node-exporter
 Network=backend.network
 Volume=/proc:/host/proc:ro

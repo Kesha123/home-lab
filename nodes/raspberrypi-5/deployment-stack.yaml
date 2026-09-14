@@ -4,29 +4,29 @@ stacks:
     description: Podman networks
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/network
-        version: v0.0.0
-        digest: sha256:3d1f36c3ae6fb7ed62316a7b2857d294a7a39d211cf55bb873b819f25b4d3110
+        version: 0.0.0
+        digest: sha256:6a7cdaccfeca77525d463daa683011112a31cb29a0257ad7bec5a2fbae62d73e
   - name: exporters
     description: Node and podman exporters
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/exporters
-        version: v0.0.0
-        digest: sha256:938550899b11a124553b2bb49bb4f52d41e76d3a30463ee63391ed28b9faffae
+        version: 0.0.0
+        digest: sha256:753f0f67f9f914d3493b96acfc7dc79ea6608e258bcdccea2b94198b8cb7cec2
   - name: caddy
     description: Caddy reverse proxy
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/caddy
-        version: v0.0.0
-        digest: sha256:51a14aa450b1c702a9fd7f4ae4225f6ecf2bc87041a10f5f19dedcdeed208fe8
+        version: 0.0.0
+        digest: sha256:8513dd12dfeecda815134472ce53614715114445a688b0b1471cec00f3103059
       - name: zot.innokentii-kozlov.com/bundles/configs/caddy/raspberrypi-5
-        version: v0.0.0
-        digest: sha256:9f3a2a8b2662650c6935588462dfe4ed52118621b2e08f8822454d9c20f1b695
+        version: 0.0.0
+        digest: sha256:f986ed233b77d0cce4ed8201182f5cd9e25fb4917e36fd034a7b643f8964f374
   - name: forgejo-runner
     description: Forgejo Actions runner
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/forgejo-runner
-        version: v0.0.0
-        digest: sha256:c9955f572576cd90908acb5cc82d7790fcfc10233033bd2098061623fc05aae0
+        version: 0.0.0
+        digest: sha256:ab4b64e4f6901bdb2e04a5857db4e5750e9b873dd4fac2eabe13cc53b9e1123e
       - name: zot.innokentii-kozlov.com/bundles/configs/forgejo-runner/raspberrypi-5
-        version: v0.0.0
-        digest: sha256:be7480329dde93c151a790b2a00a6c294bb66d676ec9a93d3bb8ef328e6397c5
+        version: 0.0.0
+        digest: sha256:99d9b0961fe230efea53f719725b80b80c00737efed04be5f7bd552bd7b20344

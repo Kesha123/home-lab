@@ -2,7 +2,7 @@
 Description=Blocky
 
 [Container]
-Image=zot.innokentii-kozlov.com/docker/spx01/blocky
+Image=zot.innokentii-kozlov.com/docker/spx01/blocky:v0.35.0
 ContainerName=blocky
 HostName=blocky-hostname
 PublishPort=192.168.40.118:53:53/tcp
