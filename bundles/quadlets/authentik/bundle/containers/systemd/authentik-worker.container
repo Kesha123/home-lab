@@ -3,7 +3,7 @@ Description=Authentik Worker
 After=backend-network.service authentik-postgresql.service
 
 [Container]
-Image=zot.innokentii-kozlov.com/ghcr/goauthentik/server:2026.5.0
+Image=zot.innokentii-kozlov.com/ghcr/goauthentik/server:2026.8.2
 ContainerName=authentik-worker
 Network=backend.network
 Environment=AUTHENTIK_POSTGRESQL__HOST=authentik-postgresql

@@ -1,4 +1,4 @@
-FROM python:3.12-alpine AS builder
+FROM python:3.14-alpine AS builder
 
 ENV SSL_CERT_DIR=/etc/ssl/certs
 
@@ -9,7 +9,7 @@ RUN python -m venv /opt/venv \
     && /opt/venv/bin/pip-compile /tmp/requirements.in -o /tmp/requirements.txt \
     && /opt/venv/bin/pip install --no-cache-dir -r /tmp/requirements.txt
 
-FROM python:3.12-alpine AS runtime
+FROM python:3.14-alpine AS runtime
 
 ENV SSL_CERT_DIR=/etc/ssl/certs
 ENV PATH="/opt/venv/bin:${PATH}"

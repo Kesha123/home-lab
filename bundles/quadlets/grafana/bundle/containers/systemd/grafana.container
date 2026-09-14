@@ -4,7 +4,7 @@ After=backend-network.service
 Requires=grafana-data.volume
 
 [Container]
-Image=zot.innokentii-kozlov.com/docker/grafana/grafana-oss:13.0.1
+Image=zot.innokentii-kozlov.com/docker/grafana/grafana-oss:13.0.2
 ContainerName=grafana
 Network=frontend.network
 Network=backend.network

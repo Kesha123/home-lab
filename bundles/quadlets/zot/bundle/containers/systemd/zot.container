@@ -2,7 +2,7 @@
 Description=Zot Registry
 
 [Container]
-Image=ghcr.io/project-zot/zot:v2.1.20
+Image=ghcr.io/project-zot/zot:v2.1.21
 ContainerName=zot
 Network=frontend.network
 Secret=zot-oidc-credentials,type=mount,target=/etc/zot/oidc-credentials.json
