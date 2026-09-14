@@ -32,5 +32,5 @@ jobs:
       - name: Run Renovate
         env:
           RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
-          GITHUB_COM_TOKEN: ${{ secrets.GITHUB_COM_TOKEN }}
+          GITHUB_COM_TOKEN: ${{ secrets.PAT_GITHUB }}
         run: renovate
