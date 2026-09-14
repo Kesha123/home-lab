@@ -1,4 +1,4 @@
-FROM python:3.12-alpine AS builder
+FROM python:3.14-alpine AS builder
 
 WORKDIR /workspace
 
@@ -21,7 +21,7 @@ RUN python -m venv /opt/venv \
       -r /tmp/ansible-collections.yaml \
       -p /usr/share/ansible/collections
 
-FROM python:3.12-alpine AS runtime
+FROM python:3.14-alpine AS runtime
 
 WORKDIR /workspace
 
