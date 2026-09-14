@@ -1,5 +1,4 @@
 SUBDIRS := \
-	ansible-runner \
 	mkdocs
 
 .PHONY: build build-sub/% publish publish-sub/%
