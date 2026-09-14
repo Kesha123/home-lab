@@ -1,40 +1,31 @@
 # AGENTS.md
 
-Homelab infra repo: OpenTofu IaC (Authentik IAM) + Podman Quadlet container stacks, packaged as OCI artifacts and deployed to nodes over SSH. No tests, lint, or CI — verification is `make validate` under `iac/authentik/`.
+## Repo shape
 
-## Layout
+- Infra-as-code home lab (no app code): podman quadlet bundles + node configs, opentofu. No tests, linters, or typecheck — verification is `make build` in the relevant subdirectory.
+- Root `Makefile` has no build targets — always run `make` inside a subdirectory.
+- Nodes: `dell-optiplex-3000` (x86_64) and `raspberrypi-5` (aarch64), SSH user `admin`, key at `~/.ssh/<node>`.
 
-The root `Makefile` defines no targets — all actions run via subdirectory Makefiles:
+## Commands
 
-- `iac/authentik/` — OpenTofu for Authentik. Targets: `init plan apply destroy fmt validate`. Requires env: `AUTHENTIK_TOKEN` (use the `AUTHENTIK_BOOTSTRAP_TOKEN` value), `TF_VAR_admin_password`, `TF_VAR_innokentii_password`. State is local and gitignored.
-- `bundles/quadlets/<name>/` — quadlet bundles: `bundle/containers/systemd/*.container|*.volume|*.network` plus a `bundle/metadata` template whose `__NAME__`/`__VERSION__` placeholders are sed-replaced at build time.
-- `bundles/configs/<name>/` — config bundles: `bundle/config/` plus `bundle/metadata`. Node-specific configs live in `bundles/configs/<name>/<node>/` (e.g. `configs/caddy/raspberrypi-5/`); their metadata still renders `name: <name>` (e.g. `caddy`), only the registry path carries the node.
-- `nodes/<node>/` — `deployment-stack.yaml` (per-node `stacks:` list; each stack has a name and an ordered `bundles:` list of name/version/digest) plus helper scripts rsynced to the node (`make install` in `scripts/`).
+- Bundles: from `bundles/`, `make build` / `make publish` (all) or `build-sub/<quadlets|configs>` (one group). Single bundle: `make -C bundles/quadlets/caddy build|publish`. Output goes to `target/` (gitignored).
+- Node deploy: `make -C nodes/<node> sync-container-stack` — SSHes to the node and installs bundles from `deployment-stack.yaml`. Requires `yq` and the remote helper (`make -C nodes/<node>/scripts install` pushes it to `~/.local/bin/`).
+- IaC: `make -C iac/authentik plan|apply` (opentofu; needs `AUTHENTIK_TOKEN`, `TF_VAR_admin_password`, `TF_VAR_innokentii_password`).
 
-## Bundles: build & publish
+## Bundles
 
-From `bundles/`: `make build`, `make publish`; or run `make build`/`make publish` inside a bundle dir (e.g. `bundles/quadlets/caddy/`, `bundles/configs/caddy/raspberrypi-5/`). Group-level targets exist too: `make build-sub/<quadlets|configs>`.
+- OCI artifacts pushed with `oras` to `zot.innokentii-kozlov.com/bundles/{quadlets,configs}/<name>`. Node-specific configs are separate bundles: `bundles/configs/<name>/<node>/`.
+- Versions are manual: bump `BUILD_TAG_MAJOR/MINOR/PATCH` in the bundle's own `Makefile` (everything is `0.0.0` right now).
+- `bundle/metadata` is a template; `__NAME__`/`__VERSION__` are sed-replaced at build time.
+- The tar is built reproducibly (fixed mtime/owner, pax timestamps stripped). Keep those tar flags intact or digests churn for every bundle.
 
-- Quadlets publish to `zot.innokentii-kozlov.com/bundles/quadlets/<name>`; configs to `zot.innokentii-kozlov.com/bundles/configs/<name>`; node-specific configs to `zot.innokentii-kozlov.com/bundles/configs/<name>/<node>`.
-- The bundle `metadata` `name:` is informational; install dirs on the node come from `stacks[].name` in `nodes/<node>/deployment-stack.yaml` (`~/.config/containers/systemd/<stack>/` and `~/.config/config/<stack>/`).
-- Versions are manual: bump `BUILD_TAG_MAJOR/MINOR/PATCH` in the bundle's Makefile.
-- All `target/` dirs are gitignored build output.
+## Zot mirror convention (critical)
 
-## Deploying to nodes
+- Container images in quadlet files must reference the zot mirror, not upstream: `Image=zot.innokentii-kozlov.com/<docker|ghcr|quay|gcr|forgejo|codeberg>/<path>:<tag>`.
+- Renovate uses regex managers mapping these paths back to upstream registries; a direct upstream reference (except explicit `ghcr.io`) will silently get no update PRs. Renovate groups all image updates into one PR, limit 1 concurrent.
 
-Flow for any bundle change:
+## Release flow
 
-1. Bump `BUILD_TAG_*`, then `make build` and `make publish` in the bundle dir.
-2. Update `nodes/<node>/deployment-stack.yaml` (`stacks[].bundles[]`): set `version` to the new tag and `digest` to the published artifact digest, under the stack(s) that consume the bundle.
-3. From `nodes/<node>/`: `make sync-container-stack` — reads `deployment-stack.yaml`, flattens it to `stack bundle version digest` rows, SSHes to `admin@<node>.innokentii-kozlov.com`, and the remote `deployment-stack sync-container-stack <stack> <bundle> <version> <digest>` pulls the bundle, verifies the digest (fails on mismatch), and installs its files into dirs named after the stack (quadlet units into `~/.config/containers/systemd/<stack>/`, configs into `~/.config/config/<stack>/`, whichever trees the bundle contains). Bundles within a stack are applied in list order, so later bundles can add/overwrite files from earlier ones.
-4. After script changes under `nodes/<node>/scripts/`: `make install` there to rsync them to the node.
-
-Requires SSH access to the node and `yq` locally.
-
-## Helpers
-
-- `scripts/zot-setup generate-oidc-credentials` — renders Authentik tofu outputs to `scripts/target/oidc-credentials.json`; requires applied tofu state (`make apply` in `iac/authentik/` first).
-
-## Conventions
-
-- Container credentials never live in the repo: Quadlet files reference Podman secrets (`Secret=...`), and Authentik users/groups/apps are managed only via tofu under `iac/authentik/`.
+- CI is Forgejo Actions (`.forgejo/workflows/`), not GitHub Actions.
+- `bundle-release` runs on every PR: `make -C bundles build publish` republishes **all** bundles to zot. Builds are reproducible, so unaffected bundles keep their digest.
+- `nodes/<node>/deployment-stack.yaml` pins each bundle by `version` + `digest`. These are **not** updated by CI — after merging, manually update the digest of changed bundles, then run `sync-container-stack` on the affected nodes.
