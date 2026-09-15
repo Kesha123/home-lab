@@ -27,7 +27,7 @@ jobs:
   renovate:
     runs-on: docker
     container:
-      image: zot.innokentii-kozlov.com/ghcr/renovatebot/renovate:44.88.0
+      image: zot.innokentii-kozlov.com/ghcr/renovatebot/renovate:44.92.0
     steps:
       - name: Run Renovate
         env:
