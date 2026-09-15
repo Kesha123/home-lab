@@ -4,7 +4,7 @@ After=backend-network.service podman.socket
 Requires=podman.socket
 
 [Container]
-Image=zot.innokentii-kozlov.com/quay/navidys/prometheus-podman-exporter:v1.21.2
+Image=zot.innokentii-kozlov.com/quay/navidys/prometheus-podman-exporter:v2.0.0
 ContainerName=podman-exporter
 Network=backend.network
 UserNS=keep-id:uid=65534

@@ -4,7 +4,7 @@ After=backend-network.service forgejo-postgresql.service
 Requires=forgejo-data.volume
 
 [Container]
-Image=zot.innokentii-kozlov.com/codeberg/forgejo/forgejo:15.0.8
+Image=zot.innokentii-kozlov.com/codeberg/forgejo/forgejo:16.0.4
 ContainerName=forgejo
 Network=backend.network
 Network=frontend.network
