@@ -4,7 +4,7 @@ After=backend-network.service
 Requires=forgejo-postgresql-data.volume
 
 [Container]
-Image=zot.innokentii-kozlov.com/docker/library/postgres:16-alpine3.24
+Image=zot.innokentii-kozlov.com/docker/library/postgres:18-alpine3.24
 ContainerName=forgejo-postgresql
 Network=backend.network
 Environment=POSTGRES_DB=forgejo
