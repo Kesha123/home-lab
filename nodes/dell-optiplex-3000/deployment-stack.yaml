@@ -11,7 +11,7 @@ stacks:
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/authentik
         version: 0.0.0
-        digest: sha256:caadcbb0f22f6d40ddcf2e46cd3e81b622997749b67c7483cc4e9eba304fb1e7
+        digest: sha256:6b337ac62ed50c97c61af60fad5b6888c0d2f7100a99b4f3c0d3b920fdb1e980
   - name: zot
     description: OCI registry
     bundles:
@@ -68,7 +68,7 @@ stacks:
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/forgejo
         version: 0.0.0
-        digest: sha256:5d5a6586c5dcce2526690b594551b2966f23280543e0eb8d4b38eef94d2b5428
+        digest: sha256:c369e17095617d6ec72125b773239bb1e0f3c3f97bff7124c450468de98fc624
   - name: forgejo-runner
     description: Forgejo Actions runner
     bundles:
