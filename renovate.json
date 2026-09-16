@@ -85,6 +85,12 @@
   ],
   "packageRules": [
     {
+      "description": "Hold PostgreSQL major image updates for manual approval: major upgrades need a dump/restore data migration (16-to-18 incident of 2026-09)",
+      "matchDepNames": ["library/postgres"],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    },
+    {
       "description": "Built-in quadlet manager is disabled: custom managers map zot mirror paths to the upstream registries instead",
       "matchManagers": ["quadlet"],
       "enabled": false
