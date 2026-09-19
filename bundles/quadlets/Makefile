@@ -8,6 +8,7 @@ SUBDIRS := \
 	grafana \
 	network \
 	prometheus \
+	transmission \
 	zot
 
 include ../../common.mk

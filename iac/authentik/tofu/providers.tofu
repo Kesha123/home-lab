@@ -95,3 +95,12 @@ resource "authentik_provider_oauth2" "zot" {
     authentik_property_mapping_provider_scope.zot_groups.id,
   ])
 }
+
+resource "authentik_provider_proxy" "transmission" {
+  name                  = "transmission"
+  mode                  = "forward_single"
+  external_host         = "https://transmission.innokentii-kozlov.com"
+  authorization_flow    = data.authentik_flow.authorization_explicit_consent.id
+  invalidation_flow     = data.authentik_flow.invalidation.id
+  access_token_validity = "minutes=5"
+}

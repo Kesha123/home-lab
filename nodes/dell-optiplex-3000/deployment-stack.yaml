@@ -38,7 +38,7 @@ stacks:
         digest: sha256:b4ba4d3ceb0b2cf5f26ea1f1815f6fdf6f6184edd307edf54d9efb0f270a2755
       - name: zot.innokentii-kozlov.com/bundles/configs/caddy/dell-optiplex-3000
         version: 0.0.0
-        digest: sha256:47eea67d3a8383adfb6e692e71c9a861a2b05d1c8fa25b72e4306486c799ad48
+        digest: sha256:08574e5186472126d84d7c6e4ee388b461fe53eef025c466bd8583dee2d4c930
   - name: grafana
     description: Grafana dashboards
     bundles:
@@ -78,3 +78,9 @@ stacks:
       - name: zot.innokentii-kozlov.com/bundles/configs/forgejo-runner/dell-optiplex-3000
         version: 0.0.0
         digest: sha256:e5494159f98e100b593d5d55c9e62598c53859689947a2a9c478da8031589d16
+  - name: transmission
+    description: Transmission BitTorrent client
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/transmission
+        version: 0.0.0
+        digest: sha256:50fe6976493fb0791cddebf9b5bacf63d0bd99f870872ff30b66336b48cda8ca

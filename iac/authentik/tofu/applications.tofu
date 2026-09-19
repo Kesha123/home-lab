@@ -19,6 +19,25 @@ resource "authentik_application" "zot" {
   policy_engine_mode = "any"
 }
 
+resource "authentik_application" "transmission" {
+  name               = "transmission"
+  slug               = "transmission"
+  protocol_provider  = authentik_provider_proxy.transmission.id
+  policy_engine_mode = "any"
+}
+
+# Proxy providers are only served when explicitly attached to the outpost:
+# the outpost API filters by the service account's object permissions, so an
+# outpost with no attached providers fetches an empty provider list.
+data "authentik_outpost" "embedded" {
+  name = "authentik Embedded Outpost"
+}
+
+resource "authentik_outpost_provider_attachment" "transmission" {
+  outpost           = data.authentik_outpost.embedded.id
+  protocol_provider = authentik_provider_proxy.transmission.id
+}
+
 resource "authentik_application_entitlement" "forgejo_gituser" {
   name        = "gituser"
   application = authentik_application.forgejo.uuid
