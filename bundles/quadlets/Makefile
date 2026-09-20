@@ -1,5 +1,6 @@
 SUBDIRS := \
 	authentik \
+	bazarr \
 	blocky \
 	caddy \
 	exporters \
@@ -8,6 +9,9 @@ SUBDIRS := \
 	grafana \
 	network \
 	prometheus \
+	prowlarr \
+	radarr \
+	sonarr \
 	transmission \
 	zot
 
