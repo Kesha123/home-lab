@@ -119,7 +119,7 @@ stacks:
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/jellyfin
         version: 0.0.0
-        digest: sha256:8a0a38403c79f366b313a95ff8161076707bde61e747f9f3258f6a57582218ef
+        digest: sha256:28513b41bcff601c7bbc72a7fb01ef322a776b5f0202e46a6430085f6166a27b
   - name: seerr
     description: Seerr media request manager
     bundles:
