@@ -2,6 +2,7 @@ SUBDIRS := \
 	authentik \
 	bazarr \
 	blocky \
+	byparr \
 	caddy \
 	exporters \
 	forgejo \
