@@ -38,7 +38,9 @@ The apps are reached through Caddy at `https://<app>.innokentii-kozlov.com`:
 | `TF_VAR_transmission_username` | podman secret `transmission-USER` on the node |
 | `TF_VAR_transmission_password` | podman secret `transmission-PASS` on the node |
 
-Read secret values on the node with `podman secret inspect --showsecret <name>`.
+Read secret values on the node with
+`podman secret inspect --showsecret --format "{{.SecretData}}" <name>`
+(plain `--showsecret` prints the JSON envelope instead of the value).
 
 ## Usage
 
