@@ -13,7 +13,7 @@ Environment=TZ=Europe/Helsinki
 AddDevice=/dev/dri/renderD128
 Volume=jellyfin-config:/config:z
 Volume=jellyfin-cache:/cache:z
-Volume=transmission-downloads:/media:ro,z
+Volume=transmission-downloads:/media:z
 HealthCmd=curl -fsS http://localhost:8096/health
 HealthInterval=30s
 HealthRetries=3
