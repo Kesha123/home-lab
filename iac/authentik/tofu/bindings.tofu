@@ -23,6 +23,30 @@ resource "authentik_policy_binding" "transmission_access" {
   order  = 0
 }
 
+resource "authentik_policy_binding" "sonarr_access" {
+  target = authentik_application.sonarr.uuid
+  group  = authentik_group.admin.id
+  order  = 0
+}
+
+resource "authentik_policy_binding" "radarr_access" {
+  target = authentik_application.radarr.uuid
+  group  = authentik_group.admin.id
+  order  = 0
+}
+
+resource "authentik_policy_binding" "prowlarr_access" {
+  target = authentik_application.prowlarr.uuid
+  group  = authentik_group.admin.id
+  order  = 0
+}
+
+resource "authentik_policy_binding" "bazarr_access" {
+  target = authentik_application.bazarr.uuid
+  group  = authentik_group.admin.id
+  order  = 0
+}
+
 # Robot access: 'zot-ci' may use the zot app (identity for zot API keys);
 # 'forgejo-bots' may use the forgejo app with the 'gituser' entitlement only
 # (Forgejo 'user' role via the forgejo scope property mapping — not admin).

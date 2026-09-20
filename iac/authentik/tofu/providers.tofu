@@ -104,3 +104,39 @@ resource "authentik_provider_proxy" "transmission" {
   invalidation_flow     = data.authentik_flow.invalidation.id
   access_token_validity = "minutes=5"
 }
+
+resource "authentik_provider_proxy" "sonarr" {
+  name                  = "sonarr"
+  mode                  = "forward_single"
+  external_host         = "https://sonarr.innokentii-kozlov.com"
+  authorization_flow    = data.authentik_flow.authorization_explicit_consent.id
+  invalidation_flow     = data.authentik_flow.invalidation.id
+  access_token_validity = "minutes=5"
+}
+
+resource "authentik_provider_proxy" "radarr" {
+  name                  = "radarr"
+  mode                  = "forward_single"
+  external_host         = "https://radarr.innokentii-kozlov.com"
+  authorization_flow    = data.authentik_flow.authorization_explicit_consent.id
+  invalidation_flow     = data.authentik_flow.invalidation.id
+  access_token_validity = "minutes=5"
+}
+
+resource "authentik_provider_proxy" "prowlarr" {
+  name                  = "prowlarr"
+  mode                  = "forward_single"
+  external_host         = "https://prowlarr.innokentii-kozlov.com"
+  authorization_flow    = data.authentik_flow.authorization_explicit_consent.id
+  invalidation_flow     = data.authentik_flow.invalidation.id
+  access_token_validity = "minutes=5"
+}
+
+resource "authentik_provider_proxy" "bazarr" {
+  name                  = "bazarr"
+  mode                  = "forward_single"
+  external_host         = "https://bazarr.innokentii-kozlov.com"
+  authorization_flow    = data.authentik_flow.authorization_explicit_consent.id
+  invalidation_flow     = data.authentik_flow.invalidation.id
+  access_token_validity = "minutes=5"
+}
