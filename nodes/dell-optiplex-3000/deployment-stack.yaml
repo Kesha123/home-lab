@@ -84,6 +84,12 @@ stacks:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/transmission
         version: 0.0.0
         digest: sha256:9f244b187822cfd4fdbe37502690a22da8abc4f601b792840ca1273cbbdd5539
+  - name: byparr
+    description: Byparr cloudflare bypass proxy
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/byparr
+        version: 0.0.0
+        digest: sha256:d9831a7c8ff02c3767c67f921320513055331cdf4e36c998f045f6b03757cfc6
   - name: sonarr
     description: Sonarr TV series management
     bundles:
