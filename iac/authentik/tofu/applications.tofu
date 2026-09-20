@@ -54,6 +54,13 @@ resource "authentik_application" "bazarr" {
   policy_engine_mode = "any"
 }
 
+resource "authentik_application" "seerr" {
+  name               = "seerr"
+  slug               = "seerr"
+  protocol_provider  = authentik_provider_proxy.seerr.id
+  policy_engine_mode = "any"
+}
+
 # Proxy providers are only served when explicitly attached to the outpost:
 # the outpost API filters by the service account's object permissions, so an
 # outpost with no attached providers fetches an empty provider list.
@@ -84,6 +91,11 @@ resource "authentik_outpost_provider_attachment" "prowlarr" {
 resource "authentik_outpost_provider_attachment" "bazarr" {
   outpost           = data.authentik_outpost.embedded.id
   protocol_provider = authentik_provider_proxy.bazarr.id
+}
+
+resource "authentik_outpost_provider_attachment" "seerr" {
+  outpost           = data.authentik_outpost.embedded.id
+  protocol_provider = authentik_provider_proxy.seerr.id
 }
 
 resource "authentik_application_entitlement" "forgejo_gituser" {

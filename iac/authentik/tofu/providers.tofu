@@ -140,3 +140,12 @@ resource "authentik_provider_proxy" "bazarr" {
   invalidation_flow     = data.authentik_flow.invalidation.id
   access_token_validity = "minutes=5"
 }
+
+resource "authentik_provider_proxy" "seerr" {
+  name                  = "seerr"
+  mode                  = "forward_single"
+  external_host         = "https://seerr.innokentii-kozlov.com"
+  authorization_flow    = data.authentik_flow.authorization_explicit_consent.id
+  invalidation_flow     = data.authentik_flow.invalidation.id
+  access_token_validity = "minutes=5"
+}
