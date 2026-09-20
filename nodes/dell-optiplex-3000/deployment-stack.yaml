@@ -84,3 +84,27 @@ stacks:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/transmission
         version: 0.0.0
         digest: sha256:9f244b187822cfd4fdbe37502690a22da8abc4f601b792840ca1273cbbdd5539
+  - name: sonarr
+    description: Sonarr TV series management
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/sonarr
+        version: 0.0.0
+        digest: sha256:712caa30e2823a1e607c5fd3263d564033943d4502caaa600e097551950309b5
+  - name: radarr
+    description: Radarr movie management
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/radarr
+        version: 0.0.0
+        digest: sha256:ece50721160df4b1ac2eb501a24d57f3e422936e6241ba0cee36d7c979036fc4
+  - name: prowlarr
+    description: Prowlarr indexer manager
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/prowlarr
+        version: 0.0.0
+        digest: sha256:93c3b878e1459440d074c9dc8c359cbe0fb79b86ea3fc37464da938f8c579239
+  - name: bazarr
+    description: Bazarr subtitle management
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/bazarr
+        version: 0.0.0
+        digest: sha256:f09d13560a33e3a6e638d6ed8db323cbcb2b69cd3f6448d5685b16ef7a2501e3
