@@ -16,3 +16,17 @@ resource "prowlarr_application_radarr" "radarr" {
   prowlarr_url = "http://prowlarr:9696"
   api_key      = var.radarr_api_key
 }
+
+# FlareSolverr-compatible proxy backed by the Byparr container, for
+# Cloudflare-protected indexers (e.g. RuTracker). Indexers opt in by
+# carrying the same tag as the proxy.
+resource "prowlarr_tag" "cf_bypass" {
+  label = "cf-bypass"
+}
+
+resource "prowlarr_indexer_proxy_flaresolverr" "byparr" {
+  name            = "byparr"
+  host            = "http://byparr:8191"
+  request_timeout = 120
+  tags            = [prowlarr_tag.cf_bypass.id]
+}
