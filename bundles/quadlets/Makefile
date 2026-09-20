@@ -8,10 +8,12 @@ SUBDIRS := \
 	forgejo \
 	forgejo-runner \
 	grafana \
+	jellyfin \
 	network \
 	prometheus \
 	prowlarr \
 	radarr \
+	seerr \
 	sonarr \
 	transmission \
 	zot
