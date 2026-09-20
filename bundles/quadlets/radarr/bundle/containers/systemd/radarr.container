@@ -1,0 +1,29 @@
+[Unit]
+Description=Radarr
+After=backend-network.service
+Requires=radarr-config.volume transmission-downloads.volume
+
+[Container]
+Image=zot.innokentii-kozlov.com/docker/linuxserver/radarr:6.4.4
+ContainerName=radarr
+Network=backend.network
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=TZ=Europe/Helsinki
+Environment=RADARR__AUTH__METHOD=External
+Environment=RADARR__AUTH__REQUIRED=DisabledForLocalAddresses
+Environment=RADARR__APP__LAUNCHBROWSER=False
+Secret=radarr-RADARR__AUTH__APIKEY,type=env,target=RADARR__AUTH__APIKEY
+Volume=radarr-config:/config:z
+Volume=transmission-downloads:/downloads:z
+HealthCmd=curl -fsS http://localhost:7878/ping
+HealthInterval=30s
+HealthRetries=3
+HealthStartPeriod=2m
+HealthTimeout=10s
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
