@@ -21,4 +21,5 @@ publish:
 	cd $(abspath $(TARGET)) && \
 	oras push $(REGISTRY_PATH):$(BUILD_TAG) \
 		--artifact-type "application/vnd.podman.quadlet.v1+tar+gzip" \
+		--annotation "org.opencontainers.image.created=2020-01-01T00:00:00Z" \
 		$(NAME)-$(BUILD_TAG).tar.gz:application/vnd.oci.image.layer.v1.tar+gzip

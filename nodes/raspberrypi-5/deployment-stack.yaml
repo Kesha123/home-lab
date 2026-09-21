@@ -5,28 +5,28 @@ stacks:
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/network
         version: 0.0.0
-        digest: sha256:50a3ce406c97e400fa4a00b5b25902c9cd5a696c00769ff138351911bf7bb92a
+        digest: sha256:9473a241559249c8883c05073dde43d7ed20f4f3de4a359cf70ce9bd1ee69f0d
   - name: exporters
     description: Node and podman exporters
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/exporters
         version: 0.0.0
-        digest: sha256:a103655932e9bc95976289a5a840ddd526987ab973b37c9050a9155af08a2e49
+        digest: sha256:16d0346d6b46ea2044d67f2760343a34a59892f6304b41218faf6a08c7fe1495
   - name: caddy
     description: Caddy reverse proxy
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/caddy
         version: 0.0.0
-        digest: sha256:b4ba4d3ceb0b2cf5f26ea1f1815f6fdf6f6184edd307edf54d9efb0f270a2755
+        digest: sha256:9b6908c60ee6911997bb922a6c5a2b78d45822050e4bfeccec7a8ae16be28647
       - name: zot.innokentii-kozlov.com/bundles/configs/caddy/raspberrypi-5
         version: 0.0.0
-        digest: sha256:fcb032bbc2c1c750d4f7e616b85da6da8f5cf6d9ae5504a51a3baa65b699c3a9
+        digest: sha256:09c8f5994bfffd226fe87f41f8a89031c72ee27551619b8c6c86349b550692c7
   - name: forgejo-runner
     description: Forgejo Actions runner
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/forgejo-runner
         version: 0.0.0
-        digest: sha256:34077d314d262df2542e72bcf764e6b423913b16c967c854ef6183b0129b396d
+        digest: sha256:c3c93c6d2223aedd9830afe460515e9a59b47af788fa17a7d26e848776bc04a0
       - name: zot.innokentii-kozlov.com/bundles/configs/forgejo-runner/raspberrypi-5
         version: 0.0.0
-        digest: sha256:206ad443b8a783c19706715667e6fff8181262551d18fcba8052fe0a3514f1f4
+        digest: sha256:9dd96e2638182cfee38fb0e0351bddcefcee070d1a3bf0af0716646868451376

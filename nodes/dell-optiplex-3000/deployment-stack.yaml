@@ -5,76 +5,124 @@ stacks:
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/network
         version: 0.0.0
-        digest: sha256:50a3ce406c97e400fa4a00b5b25902c9cd5a696c00769ff138351911bf7bb92a
+        digest: sha256:9473a241559249c8883c05073dde43d7ed20f4f3de4a359cf70ce9bd1ee69f0d
   - name: authentik
     description: Authentik IAM
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/authentik
         version: 0.0.0
-        digest: sha256:6b337ac62ed50c97c61af60fad5b6888c0d2f7100a99b4f3c0d3b920fdb1e980
+        digest: sha256:6413ffd34de3c362df13a66071e8b758b031959cc36b7422c99ffce026af60fb
   - name: zot
     description: OCI registry
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/zot
         version: 0.0.0
-        digest: sha256:0660b9d613c236925b97d7a12076777e877ffd25cc6653d3fc24b7a879a9daa9
+        digest: sha256:6188aaeb81e7a9c51901995dd0191708ce008e1a101cd3260c13dfb09d6a2f05
       - name: zot.innokentii-kozlov.com/bundles/configs/zot
         version: 0.0.0
-        digest: sha256:a6fa2094181d5533e0f2f6d7c08b1aa24d580e076320252ef7678c9a1d4abe4f
+        digest: sha256:e6e2111ccf92eaad0b90b2a54837663fb7fab8c047dd9dbd42e80b82e6286b49
   - name: blocky
     description: DNS
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/blocky
         version: 0.0.0
-        digest: sha256:a8903402953cdc635384bd859cb086862b7eeab151c1b22e7a8bf5e96818240e
+        digest: sha256:a4cc59aa87158cbec80ad50fda4c02615d29d4113a01f7fbe72ab1f362f11c16
       - name: zot.innokentii-kozlov.com/bundles/configs/blocky
         version: 0.0.0
-        digest: sha256:f508394e87a4ccdc6908fbe1c679f6618587816624ed00ac51044b5e4a815d39
+        digest: sha256:79e8b8974f9cc7bb09bcf6f4f84208c9a0ed8f874ca329edc0cc5ec68baf60a8
   - name: caddy
     description: Caddy reverse proxy
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/caddy
         version: 0.0.0
-        digest: sha256:b4ba4d3ceb0b2cf5f26ea1f1815f6fdf6f6184edd307edf54d9efb0f270a2755
+        digest: sha256:9b6908c60ee6911997bb922a6c5a2b78d45822050e4bfeccec7a8ae16be28647
       - name: zot.innokentii-kozlov.com/bundles/configs/caddy/dell-optiplex-3000
         version: 0.0.0
-        digest: sha256:47eea67d3a8383adfb6e692e71c9a861a2b05d1c8fa25b72e4306486c799ad48
+        digest: sha256:bd1d1e799808c53babd1abef96cfcdcca63c8b7726da0d5ac1af2d298d3605e5
   - name: grafana
     description: Grafana dashboards
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/grafana
         version: 0.0.0
-        digest: sha256:abf66ef0c70c13c475b43bb8bae272c29e9904d90116c9ad2be3ea1b1da1b13c
+        digest: sha256:706fdb1640734c2a0bbc6b8da0e9cce23efcc4df33acc56ab94356ed9d1590ed
       - name: zot.innokentii-kozlov.com/bundles/configs/grafana
         version: 0.0.0
-        digest: sha256:64eff781049f943577c6eae77595f7cbe9759f7664bcb408a88cd54e15189f5d
+        digest: sha256:e22213d58b6449c9669fa39d99593dfbd54ef82c6d42950f3a68ec5d58a8bd09
   - name: prometheus
     description: Prometheus metrics
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/prometheus
         version: 0.0.0
-        digest: sha256:72967bb65bc2b076c837a5b3d7dc2645627f1e9edccf33c67cb5c534c6f6e103
+        digest: sha256:3b13b0348cac147777b748e9e7a81504e9aaf1db7ff7afc87cdbf4449048b00d
       - name: zot.innokentii-kozlov.com/bundles/configs/prometheus
         version: 0.0.0
-        digest: sha256:47db7e843bd03ae4fab8f528e13f9eb4607511a42f49463317295ddb18150158
+        digest: sha256:ba1d34f978b375229e16ec7672c311f961b7173dc0ecd6faf757432d540bc3c4
   - name: exporters
     description: Node and podman exporters
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/exporters
         version: 0.0.0
-        digest: sha256:a103655932e9bc95976289a5a840ddd526987ab973b37c9050a9155af08a2e49
+        digest: sha256:16d0346d6b46ea2044d67f2760343a34a59892f6304b41218faf6a08c7fe1495
   - name: forgejo
     description: Forgejo git hosting
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/forgejo
         version: 0.0.0
-        digest: sha256:c369e17095617d6ec72125b773239bb1e0f3c3f97bff7124c450468de98fc624
+        digest: sha256:f7c8eeef9eb26764bc3a3c6878578edaf84d5a5fb380da164387786952930dcc
   - name: forgejo-runner
     description: Forgejo Actions runner
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/forgejo-runner
         version: 0.0.0
-        digest: sha256:34077d314d262df2542e72bcf764e6b423913b16c967c854ef6183b0129b396d
+        digest: sha256:c3c93c6d2223aedd9830afe460515e9a59b47af788fa17a7d26e848776bc04a0
       - name: zot.innokentii-kozlov.com/bundles/configs/forgejo-runner/dell-optiplex-3000
         version: 0.0.0
-        digest: sha256:e5494159f98e100b593d5d55c9e62598c53859689947a2a9c478da8031589d16
+        digest: sha256:6ca7a4a592b06cf9c39dcbf065794b731d73c97e39fdfe24777d90d778ebc378
+  - name: transmission
+    description: Transmission BitTorrent client
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/transmission
+        version: 0.0.0
+        digest: sha256:9f244b187822cfd4fdbe37502690a22da8abc4f601b792840ca1273cbbdd5539
+  - name: byparr
+    description: Byparr cloudflare bypass proxy
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/byparr
+        version: 0.0.0
+        digest: sha256:d9831a7c8ff02c3767c67f921320513055331cdf4e36c998f045f6b03757cfc6
+  - name: sonarr
+    description: Sonarr TV series management
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/sonarr
+        version: 0.0.0
+        digest: sha256:712caa30e2823a1e607c5fd3263d564033943d4502caaa600e097551950309b5
+  - name: radarr
+    description: Radarr movie management
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/radarr
+        version: 0.0.0
+        digest: sha256:ece50721160df4b1ac2eb501a24d57f3e422936e6241ba0cee36d7c979036fc4
+  - name: prowlarr
+    description: Prowlarr indexer manager
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/prowlarr
+        version: 0.0.0
+        digest: sha256:93c3b878e1459440d074c9dc8c359cbe0fb79b86ea3fc37464da938f8c579239
+  - name: bazarr
+    description: Bazarr subtitle management
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/bazarr
+        version: 0.0.0
+        digest: sha256:f09d13560a33e3a6e638d6ed8db323cbcb2b69cd3f6448d5685b16ef7a2501e3
+  - name: jellyfin
+    description: Jellyfin media server
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/jellyfin
+        version: 0.0.0
+        digest: sha256:28513b41bcff601c7bbc72a7fb01ef322a776b5f0202e46a6430085f6166a27b
+  - name: seerr
+    description: Seerr media request manager
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/seerr
+        version: 0.0.0
+        digest: sha256:69261fd2d2df0ab9c7d9f1dfdca33bf18adaa33922756597a341926517d7c82f

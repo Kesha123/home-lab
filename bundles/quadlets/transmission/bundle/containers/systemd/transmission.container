@@ -1,0 +1,27 @@
+[Unit]
+Description=Transmission
+After=backend-network.service
+Requires=transmission-config.volume transmission-downloads.volume
+
+[Container]
+Image=zot.innokentii-kozlov.com/docker/linuxserver/transmission:4.1.3
+ContainerName=transmission
+Network=backend.network
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=TZ=Europe/Helsinki
+Secret=transmission-USER,type=env,target=USER
+Secret=transmission-PASS,type=env,target=PASS
+Volume=transmission-config:/config:z
+Volume=transmission-downloads:/downloads:z
+HealthCmd=curl -s -o /dev/null -w '%{http_code}' http://localhost:9091/transmission/rpc | grep -E '^(200|401)$'
+HealthInterval=30s
+HealthRetries=3
+HealthStartPeriod=2m
+HealthTimeout=10s
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

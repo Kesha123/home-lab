@@ -52,3 +52,126 @@ forgejo.innokentii-kozlov.com {
     }
     reverse_proxy forgejo:3000
 }
+
+transmission.innokentii-kozlov.com {
+    tls {
+        dns route53 {
+            hosted_zone_id Z07266063B6JW9NSLBQB
+        }
+        resolvers 8.8.8.8 1.1.1.1
+    }
+    route {
+        reverse_proxy /outpost.goauthentik.io/* http://authentik-server:9000
+        forward_auth http://authentik-server:9000 {
+            uri /outpost.goauthentik.io/auth/caddy
+            copy_headers X-Authentik-Username X-Authentik-Groups X-Authentik-Entitlements X-Authentik-Email X-Authentik-Name X-Authentik-Uid X-Authentik-Jwt X-Authentik-Meta-Jwks X-Authentik-Meta-Outpost X-Authentik-Meta-Provider X-Authentik-Meta-App X-Authentik-Meta-Version
+            trusted_proxies private_ranges
+        }
+        reverse_proxy transmission:9091
+    }
+}
+
+sonarr.innokentii-kozlov.com {
+    tls {
+        dns route53 {
+            hosted_zone_id Z07266063B6JW9NSLBQB
+        }
+        resolvers 8.8.8.8 1.1.1.1
+    }
+    route {
+        reverse_proxy /outpost.goauthentik.io/* http://authentik-server:9000
+        @notapi not path /api/*
+        forward_auth @notapi http://authentik-server:9000 {
+            uri /outpost.goauthentik.io/auth/caddy
+            copy_headers X-Authentik-Username X-Authentik-Groups X-Authentik-Entitlements X-Authentik-Email X-Authentik-Name X-Authentik-Uid X-Authentik-Jwt X-Authentik-Meta-Jwks X-Authentik-Meta-Outpost X-Authentik-Meta-Provider X-Authentik-Meta-App X-Authentik-Meta-Version
+            trusted_proxies private_ranges
+        }
+        reverse_proxy sonarr:8989
+    }
+}
+
+radarr.innokentii-kozlov.com {
+    tls {
+        dns route53 {
+            hosted_zone_id Z07266063B6JW9NSLBQB
+        }
+        resolvers 8.8.8.8 1.1.1.1
+    }
+    route {
+        reverse_proxy /outpost.goauthentik.io/* http://authentik-server:9000
+        @notapi not path /api/*
+        forward_auth @notapi http://authentik-server:9000 {
+            uri /outpost.goauthentik.io/auth/caddy
+            copy_headers X-Authentik-Username X-Authentik-Groups X-Authentik-Entitlements X-Authentik-Email X-Authentik-Name X-Authentik-Uid X-Authentik-Jwt X-Authentik-Meta-Jwks X-Authentik-Meta-Outpost X-Authentik-Meta-Provider X-Authentik-Meta-App X-Authentik-Meta-Version
+            trusted_proxies private_ranges
+        }
+        reverse_proxy radarr:7878
+    }
+}
+
+prowlarr.innokentii-kozlov.com {
+    tls {
+        dns route53 {
+            hosted_zone_id Z07266063B6JW9NSLBQB
+        }
+        resolvers 8.8.8.8 1.1.1.1
+    }
+    route {
+        reverse_proxy /outpost.goauthentik.io/* http://authentik-server:9000
+        @notapi not path /api/*
+        forward_auth @notapi http://authentik-server:9000 {
+            uri /outpost.goauthentik.io/auth/caddy
+            copy_headers X-Authentik-Username X-Authentik-Groups X-Authentik-Entitlements X-Authentik-Email X-Authentik-Name X-Authentik-Uid X-Authentik-Jwt X-Authentik-Meta-Jwks X-Authentik-Meta-Outpost X-Authentik-Meta-Provider X-Authentik-Meta-App X-Authentik-Meta-Version
+            trusted_proxies private_ranges
+        }
+        reverse_proxy prowlarr:9696
+    }
+}
+
+bazarr.innokentii-kozlov.com {
+    tls {
+        dns route53 {
+            hosted_zone_id Z07266063B6JW9NSLBQB
+        }
+        resolvers 8.8.8.8 1.1.1.1
+    }
+    route {
+        reverse_proxy /outpost.goauthentik.io/* http://authentik-server:9000
+        @notapi not path /api/*
+        forward_auth @notapi http://authentik-server:9000 {
+            uri /outpost.goauthentik.io/auth/caddy
+            copy_headers X-Authentik-Username X-Authentik-Groups X-Authentik-Entitlements X-Authentik-Email X-Authentik-Name X-Authentik-Uid X-Authentik-Jwt X-Authentik-Meta-Jwks X-Authentik-Meta-Outpost X-Authentik-Meta-Provider X-Authentik-Meta-App X-Authentik-Meta-Version
+            trusted_proxies private_ranges
+        }
+        reverse_proxy bazarr:6767
+    }
+}
+
+jellyfin.innokentii-kozlov.com {
+    tls {
+        dns route53 {
+            hosted_zone_id Z07266063B6JW9NSLBQB
+        }
+        resolvers 8.8.8.8 1.1.1.1
+    }
+    reverse_proxy jellyfin:8096
+}
+
+seerr.innokentii-kozlov.com {
+    tls {
+        dns route53 {
+            hosted_zone_id Z07266063B6JW9NSLBQB
+        }
+        resolvers 8.8.8.8 1.1.1.1
+    }
+    route {
+        reverse_proxy /outpost.goauthentik.io/* http://authentik-server:9000
+        @notapi not path /api/*
+        forward_auth @notapi http://authentik-server:9000 {
+            uri /outpost.goauthentik.io/auth/caddy
+            copy_headers X-Authentik-Username X-Authentik-Groups X-Authentik-Entitlements X-Authentik-Email X-Authentik-Name X-Authentik-Uid X-Authentik-Jwt X-Authentik-Meta-Jwks X-Authentik-Meta-Outpost X-Authentik-Meta-Provider X-Authentik-Meta-App X-Authentik-Meta-Version
+            trusted_proxies private_ranges
+        }
+        reverse_proxy seerr:5055
+    }
+}

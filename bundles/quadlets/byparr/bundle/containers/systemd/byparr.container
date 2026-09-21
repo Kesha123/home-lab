@@ -1,0 +1,21 @@
+[Unit]
+Description=Byparr
+After=backend-network.service
+
+[Container]
+Image=zot.innokentii-kozlov.com/ghcr/thephaseless/byparr:3.0.4
+ContainerName=byparr
+Network=backend.network
+Environment=TZ=Europe/Helsinki
+PodmanArgs=--shm-size=512mb
+HealthCmd=/app/.venv/bin/python -c "import urllib.request; urllib.request.urlopen('http://localhost:8191/docs', timeout=5)"
+HealthInterval=30s
+HealthRetries=3
+HealthStartPeriod=1m
+HealthTimeout=10s
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

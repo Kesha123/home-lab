@@ -1,0 +1,27 @@
+[Unit]
+Description=Jellyfin
+After=backend-network.service
+Requires=jellyfin-config.volume jellyfin-cache.volume
+
+[Container]
+Image=zot.innokentii-kozlov.com/docker/jellyfin/jellyfin:12.1.20260915-010956
+ContainerName=jellyfin
+Network=backend.network
+User=1000
+Group=1000
+Environment=TZ=Europe/Helsinki
+AddDevice=/dev/dri/renderD128
+Volume=jellyfin-config:/config:z
+Volume=jellyfin-cache:/cache:z
+Volume=transmission-downloads:/media:z
+HealthCmd=curl -fsS http://localhost:8096/health
+HealthInterval=30s
+HealthRetries=3
+HealthStartPeriod=2m
+HealthTimeout=10s
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

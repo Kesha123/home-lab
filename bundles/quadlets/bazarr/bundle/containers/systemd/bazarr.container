@@ -1,0 +1,26 @@
+[Unit]
+Description=Bazarr
+After=backend-network.service sonarr.service radarr.service prowlarr.service
+Requires=bazarr-config.volume transmission-downloads.volume
+Wants=sonarr.service radarr.service prowlarr.service
+
+[Container]
+Image=zot.innokentii-kozlov.com/docker/linuxserver/bazarr:1.6.1
+ContainerName=bazarr
+Network=backend.network
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=TZ=Europe/Helsinki
+Volume=bazarr-config:/config:z
+Volume=transmission-downloads:/downloads:z
+HealthCmd=curl -fsS http://localhost:6767/api/system/ping
+HealthInterval=30s
+HealthRetries=3
+HealthStartPeriod=2m
+HealthTimeout=10s
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
