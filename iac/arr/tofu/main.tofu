@@ -17,8 +17,6 @@ terraform {
   }
 }
 
-# The apps are reached through Caddy: UI paths are gated by authentik forward
-# auth, while /api/* is exempt and protected by the API keys themselves.
 provider "sonarr" {
   url     = "https://sonarr.innokentii-kozlov.com"
   api_key = var.sonarr_api_key

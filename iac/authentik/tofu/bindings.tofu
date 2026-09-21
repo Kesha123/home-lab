@@ -47,9 +47,6 @@ resource "authentik_policy_binding" "bazarr_access" {
   order  = 0
 }
 
-# Robot access: 'zot-ci' may use the zot app (identity for zot API keys);
-# 'forgejo-bots' may use the forgejo app with the 'gituser' entitlement only
-# (Forgejo 'user' role via the forgejo scope property mapping — not admin).
 resource "authentik_policy_binding" "zot_ci_access" {
   target = authentik_application.zot.uuid
   group  = authentik_group.zot_ci.id
@@ -68,9 +65,6 @@ resource "authentik_policy_binding" "forgejo_gituser_bots" {
   order  = 1
 }
 
-# Entitlement bindings: the 'admin' group receives the admin-tier entitlements.
-# forgejo 'gitadmin' => forgejo admin role; 'gituser' => 'forgejo-bots' robots;
-# 'gitrestricted' is left unbound for future assignment (e.g. to 'family').
 resource "authentik_policy_binding" "forgejo_gitadmin" {
   target = authentik_application_entitlement.forgejo_gitadmin.id
   group  = authentik_group.admin.id

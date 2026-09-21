@@ -1,6 +1,3 @@
-# Registering Sonarr/Radarr as applications makes Prowlarr full-sync its
-# indexers into them and keep them up to date (synced indexers authenticate
-# with Prowlarr's own API key).
 resource "prowlarr_application_sonarr" "sonarr" {
   name         = "Sonarr"
   sync_level   = "fullSync"
@@ -17,9 +14,6 @@ resource "prowlarr_application_radarr" "radarr" {
   api_key      = var.radarr_api_key
 }
 
-# FlareSolverr-compatible proxy backed by the Byparr container, for
-# Cloudflare-protected indexers (e.g. RuTracker). Indexers opt in by
-# carrying the same tag as the proxy.
 resource "prowlarr_tag" "cf_bypass" {
   label = "cf-bypass"
 }

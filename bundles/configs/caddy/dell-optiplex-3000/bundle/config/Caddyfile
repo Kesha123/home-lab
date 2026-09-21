@@ -71,8 +71,6 @@ transmission.innokentii-kozlov.com {
     }
 }
 
-# The *arr apps enforce X-Api-Key on /api/* themselves, so those paths skip
-# forward auth and can be driven by tofu/scripts; UI paths stay authentik-only.
 sonarr.innokentii-kozlov.com {
     tls {
         dns route53 {
@@ -149,7 +147,6 @@ bazarr.innokentii-kozlov.com {
     }
 }
 
-# Jellyfin keeps its own user accounts; authentik is not involved.
 jellyfin.innokentii-kozlov.com {
     tls {
         dns route53 {

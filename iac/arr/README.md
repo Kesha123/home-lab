@@ -27,6 +27,13 @@ The apps are reached through Caddy at `https://<app>.innokentii-kozlov.com`:
 - UI paths: authentik forward auth (admin group only).
 - `/api/*`: exempt from forward auth in Caddy and protected by the apps'
   `X-Api-Key` enforcement — this is what the providers use.
+  The *arr apps enforce X-Api-Key on /api/* themselves, so those paths skip
+  forward auth and can be driven by tofu/scripts; UI paths stay authentik-only.
+
+## Prowlarr & Byparr
+
+  FlareSolverr-compatible proxy backed by the [Byparr](https://github.com/ThePhaseless/Byparr/) container, for Cloudflare-protected indexers.
+  Indexers opt in by carrying the same tag as the proxy.
 
 ## Required environment variables
 

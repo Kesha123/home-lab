@@ -61,9 +61,6 @@ resource "authentik_application" "seerr" {
   policy_engine_mode = "any"
 }
 
-# Proxy providers are only served when explicitly attached to the outpost:
-# the outpost API filters by the service account's object permissions, so an
-# outpost with no attached providers fetches an empty provider list.
 data "authentik_outpost" "embedded" {
   name = "authentik Embedded Outpost"
 }
