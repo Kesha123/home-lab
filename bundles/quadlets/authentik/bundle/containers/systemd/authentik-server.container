@@ -3,7 +3,7 @@ Description=Authentik Server
 After=backend-network.service authentik-postgresql.service
 
 [Container]
-Image=zot.innokentii-kozlov.com/ghcr/goauthentik/server:2026.8.2
+Image=zot.innokentii-kozlov.com/ghcr/goauthentik/server:2026.8.3
 ContainerName=authentik-server
 Network=frontend.network
 Network=backend.network
