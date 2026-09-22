@@ -33,3 +33,16 @@ groups = [
 return {"groups": groups}
 EOF
 }
+
+resource "authentik_property_mapping_provider_scope" "jellyfin_groups" {
+  name        = "authentik jellyfin OAuth Mapping: OpenID 'groups'"
+  scope_name  = "groups"
+  description = "Group memberships for JellyfinSecurity SSO allowlists"
+  expression  = <<EOF
+groups = [
+    group.name
+    for group in request.user.groups.all()
+]
+return {"groups": groups}
+EOF
+}

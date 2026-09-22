@@ -175,3 +175,22 @@ seerr.innokentii-kozlov.com {
         reverse_proxy seerr:5055
     }
 }
+
+suggestarr.innokentii-kozlov.com {
+    tls {
+        dns route53 {
+            hosted_zone_id Z07266063B6JW9NSLBQB
+        }
+        resolvers 8.8.8.8 1.1.1.1
+    }
+    route {
+        reverse_proxy /outpost.goauthentik.io/* http://authentik-server:9000
+        @notapi not path /api/*
+        forward_auth @notapi http://authentik-server:9000 {
+            uri /outpost.goauthentik.io/auth/caddy
+            copy_headers X-Authentik-Username X-Authentik-Groups X-Authentik-Entitlements X-Authentik-Email X-Authentik-Name X-Authentik-Uid X-Authentik-Jwt X-Authentik-Meta-Jwks X-Authentik-Meta-Outpost X-Authentik-Meta-Provider X-Authentik-Meta-App X-Authentik-Meta-Version
+            trusted_proxies private_ranges
+        }
+        reverse_proxy suggestarr:5000
+    }
+}

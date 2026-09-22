@@ -30,6 +30,18 @@ jobs:
             | tar -xz -C /usr/local/bin oras
           oras version
 
+      - name: Install yq
+        run: |
+          case "$(uname -m)" in
+            x86_64) arch=amd64 ;;
+            aarch64) arch=arm64 ;;
+            *) echo "unsupported architecture: $(uname -m)" >&2; exit 1 ;;
+          esac
+          curl -sSfL "https://github.com/mikefarah/yq/releases/download/v4.53.3/yq_linux_${arch}" \
+            -o /usr/local/bin/yq
+          chmod +x /usr/local/bin/yq
+          yq --version
+
       - name: Log in to zot
         env:
           ZOT_USERNAME: ${{ secrets.ZOT_USERNAME }}

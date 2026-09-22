@@ -25,6 +25,15 @@ output "zot_client_secret" {
   sensitive = true
 }
 
+output "jellyfin_client_id" {
+  value = authentik_provider_oauth2.jellyfin.client_id
+}
+
+output "jellyfin_client_secret" {
+  value     = authentik_provider_oauth2.jellyfin.client_secret
+  sensitive = true
+}
+
 # Robot bootstrap passwords: needed once for interactive logins (zot UI to mint
 # an API key as svc-zot-ci, Forgejo to link svc-renovate and mint a PAT).
 output "svc_zot_ci_password" {

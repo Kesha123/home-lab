@@ -11,7 +11,7 @@ stacks:
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/authentik
         version: 0.0.0
-        digest: sha256:6413ffd34de3c362df13a66071e8b758b031959cc36b7422c99ffce026af60fb
+        digest: sha256:0297b68845447ba90c492dd5562da882047f85ad32eb28e37c37af5475beb7ff
   - name: zot
     description: OCI registry
     bundles:
@@ -38,7 +38,7 @@ stacks:
         digest: sha256:9b6908c60ee6911997bb922a6c5a2b78d45822050e4bfeccec7a8ae16be28647
       - name: zot.innokentii-kozlov.com/bundles/configs/caddy/dell-optiplex-3000
         version: 0.0.0
-        digest: sha256:bd1d1e799808c53babd1abef96cfcdcca63c8b7726da0d5ac1af2d298d3605e5
+        digest: sha256:2a67c796306c234612b5f6f9780dd4750023912b247cc1ad4bbadacd48189492
   - name: grafana
     description: Grafana dashboards
     bundles:
@@ -68,7 +68,7 @@ stacks:
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/forgejo
         version: 0.0.0
-        digest: sha256:f7c8eeef9eb26764bc3a3c6878578edaf84d5a5fb380da164387786952930dcc
+        digest: sha256:66f0b807f418ef670978f1191d38b6d88b005a9d02c76a7df5576646f0263041
   - name: forgejo-runner
     description: Forgejo Actions runner
     bundles:
@@ -119,10 +119,19 @@ stacks:
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/jellyfin
         version: 0.0.0
-        digest: sha256:28513b41bcff601c7bbc72a7fb01ef322a776b5f0202e46a6430085f6166a27b
+        digest: sha256:18355630acc6d6acdd9aaece39fe7b3d2dee4f7b1b58863ab94c8664e0596c5b
+      - name: zot.innokentii-kozlov.com/bundles/configs/jellyfin
+        version: 0.0.0
+        digest: sha256:12dbc87851d4f05f8a2a58e0553e799a95b0c5370a6cf11bad097273618be63a
   - name: seerr
     description: Seerr media request manager
     bundles:
       - name: zot.innokentii-kozlov.com/bundles/quadlets/seerr
         version: 0.0.0
         digest: sha256:69261fd2d2df0ab9c7d9f1dfdca33bf18adaa33922756597a341926517d7c82f
+  - name: suggestarr
+    description: SuggestArr media recommendation automation
+    bundles:
+      - name: zot.innokentii-kozlov.com/bundles/quadlets/suggestarr
+        version: 0.0.0
+        digest: sha256:d5199bf1332b43088c95f2f04614e3cdd5ed43dd65d9c30eb689974562e0aece

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BrandingOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <CustomCss>@import url('https://cdn.jsdelivr.net/gh/AumGupta/abyss-jellyfin@v1.2.3/abyss.css');
+@import url('https://cdn.jsdelivr.net/gh/AumGupta/abyss-jellyfin@v1.2.3/styles/abyss-je.css');
+#searchPage .scrollSlider { overflow: visible !important; }</CustomCss>
+</BrandingOptions>

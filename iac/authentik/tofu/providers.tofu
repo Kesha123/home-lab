@@ -1,7 +1,8 @@
 locals {
-  forgejo_redirect = "https://forgejo.innokentii-kozlov.com/user/oauth2/authentik/callback"
-  grafana_redirect = "https://grafana.innokentii-kozlov.com/login/generic_oauth"
-  zot_redirect     = "https://zot.innokentii-kozlov.com/zot/auth/callback/oidc"
+  forgejo_redirect  = "https://forgejo.innokentii-kozlov.com/user/oauth2/authentik/callback"
+  grafana_redirect  = "https://grafana.innokentii-kozlov.com/login/generic_oauth"
+  zot_redirect      = "https://zot.innokentii-kozlov.com/zot/auth/callback/oidc"
+  jellyfin_redirect = "https://jellyfin.innokentii-kozlov.com/TwoFactorAuth/Oidc/Callback/authentik"
 
   base_scopes = [
     data.authentik_property_mapping_provider_scope.openid.id,
@@ -96,6 +97,33 @@ resource "authentik_provider_oauth2" "zot" {
   ])
 }
 
+resource "authentik_provider_oauth2" "jellyfin" {
+  name                       = "jellyfin"
+  client_id                  = "jellyfin"
+  client_type                = "confidential"
+  authorization_flow         = data.authentik_flow.authorization_explicit_consent.id
+  invalidation_flow          = data.authentik_flow.invalidation.id
+  signing_key                = data.authentik_certificate_key_pair.self_signed.id
+  access_code_validity       = "minutes=1"
+  access_token_validity      = "minutes=5"
+  refresh_token_validity     = "days=30"
+  sub_mode                   = "hashed_user_id"
+  issuer_mode                = "per_provider"
+  include_claims_in_id_token = true
+  grant_types                = ["authorization_code", "refresh_token"]
+
+  allowed_redirect_uris = [
+    {
+      matching_mode = "strict"
+      url           = local.jellyfin_redirect
+    }
+  ]
+
+  property_mappings = concat(local.base_scopes, [
+    authentik_property_mapping_provider_scope.jellyfin_groups.id,
+  ])
+}
+
 resource "authentik_provider_proxy" "transmission" {
   name                  = "transmission"
   mode                  = "forward_single"
@@ -145,6 +173,15 @@ resource "authentik_provider_proxy" "seerr" {
   name                  = "seerr"
   mode                  = "forward_single"
   external_host         = "https://seerr.innokentii-kozlov.com"
+  authorization_flow    = data.authentik_flow.authorization_explicit_consent.id
+  invalidation_flow     = data.authentik_flow.invalidation.id
+  access_token_validity = "minutes=5"
+}
+
+resource "authentik_provider_proxy" "suggestarr" {
+  name                  = "suggestarr"
+  mode                  = "forward_single"
+  external_host         = "https://suggestarr.innokentii-kozlov.com"
   authorization_flow    = data.authentik_flow.authorization_explicit_consent.id
   invalidation_flow     = data.authentik_flow.invalidation.id
   access_token_validity = "minutes=5"

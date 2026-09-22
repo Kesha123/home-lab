@@ -1,0 +1,24 @@
+[Unit]
+Description=SuggestArr media recommendation automation
+After=backend-network.service
+Requires=suggestarr-config.volume
+
+[Container]
+Image=zot.innokentii-kozlov.com/docker/ciuse99/suggestarr:v2.15.0
+ContainerName=suggestarr
+Network=backend.network
+Environment=TZ=Europe/Helsinki
+Environment=LOG_LEVEL=info
+Environment=SUGGESTARR_ALLOWED_ORIGINS=https://suggestarr.innokentii-kozlov.com
+Volume=suggestarr-config:/app/config/config_files:z
+HealthCmd=wget --no-verbose --tries=1 --spider http://127.0.0.1:5000/api/health/live
+HealthInterval=30s
+HealthRetries=3
+HealthStartPeriod=2m
+HealthTimeout=10s
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

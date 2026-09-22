@@ -47,6 +47,30 @@ resource "authentik_policy_binding" "bazarr_access" {
   order  = 0
 }
 
+resource "authentik_policy_binding" "seerr_access" {
+  target = authentik_application.seerr.uuid
+  group  = authentik_group.admin.id
+  order  = 0
+}
+
+resource "authentik_policy_binding" "suggestarr_access" {
+  target = authentik_application.suggestarr.uuid
+  group  = authentik_group.admin.id
+  order  = 0
+}
+
+resource "authentik_policy_binding" "jellyfin_access" {
+  target = authentik_application.jellyfin.uuid
+  group  = authentik_group.admin.id
+  order  = 0
+}
+
+resource "authentik_policy_binding" "jellyfin_family_access" {
+  target = authentik_application.jellyfin.uuid
+  group  = authentik_group.family.id
+  order  = 1
+}
+
 resource "authentik_policy_binding" "zot_ci_access" {
   target = authentik_application.zot.uuid
   group  = authentik_group.zot_ci.id

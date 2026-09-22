@@ -61,6 +61,20 @@ resource "authentik_application" "seerr" {
   policy_engine_mode = "any"
 }
 
+resource "authentik_application" "suggestarr" {
+  name               = "suggestarr"
+  slug               = "suggestarr"
+  protocol_provider  = authentik_provider_proxy.suggestarr.id
+  policy_engine_mode = "any"
+}
+
+resource "authentik_application" "jellyfin" {
+  name               = "jellyfin"
+  slug               = "jellyfin"
+  protocol_provider  = authentik_provider_oauth2.jellyfin.id
+  policy_engine_mode = "any"
+}
+
 data "authentik_outpost" "embedded" {
   name = "authentik Embedded Outpost"
 }
@@ -93,6 +107,11 @@ resource "authentik_outpost_provider_attachment" "bazarr" {
 resource "authentik_outpost_provider_attachment" "seerr" {
   outpost           = data.authentik_outpost.embedded.id
   protocol_provider = authentik_provider_proxy.seerr.id
+}
+
+resource "authentik_outpost_provider_attachment" "suggestarr" {
+  outpost           = data.authentik_outpost.embedded.id
+  protocol_provider = authentik_provider_proxy.suggestarr.id
 }
 
 resource "authentik_application_entitlement" "forgejo_gituser" {

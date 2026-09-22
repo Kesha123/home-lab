@@ -5,6 +5,8 @@ BUILD_TAG			?= $(BUILD_TAG_MAJOR).$(BUILD_TAG_MINOR).$(BUILD_TAG_PATCH)
 
 TARGET	:= target
 
+PRE_BUILD	?=
+
 .PHONY: build publish
 
 _prepare:
@@ -14,7 +16,7 @@ _prepare:
 	@sed -i 's/__NAME__/$(NAME)/g' $(TARGET)/bundle/metadata
 	@sed -i 's/__VERSION__/$(BUILD_TAG)/g' $(TARGET)/bundle/metadata
 
-build: _prepare
+build: _prepare $(PRE_BUILD)
 	tar --transform='s,^\./,,' --sort=name --mtime='UTC 2020-01-01' --owner=0 --group=0 --numeric-owner --pax-option=delete=atime,delete=ctime -czf $(TARGET)/$(NAME)-$(BUILD_TAG).tar.gz -C ./$(TARGET)/bundle/ .
 
 publish:

@@ -3,6 +3,7 @@ SUBDIRS := \
 	caddy \
 	forgejo-runner \
 	grafana \
+	jellyfin \
 	prometheus \
 	zot
 
